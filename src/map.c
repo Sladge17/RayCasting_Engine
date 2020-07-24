@@ -18,12 +18,12 @@ void	load_map(t_level *level)
 	int j;
 
 	level->number = 1;
-	level->roof.r = 200;
-	level->roof.g = 200;
-	level->roof.b = 200;
-	level->floor.r = 100;
-	level->floor.g = 100;
-	level->floor.b = 100;
+	level->roof.r = 255;
+	level->roof.g = 55;
+	level->roof.b = 55;
+	level->floor.r = 155;
+	level->floor.g = 155;
+	level->floor.b = 255;
 	if (!(level->map = (t_map *)ft_memalloc(sizeof(t_map) * 100)))
 		ft_exit("Failed to alloc t_map");
 	j = -1;
@@ -41,7 +41,8 @@ void	load_map(t_level *level)
 				level->map[j * 10 + i].elem->lock = 1;
 				level->map[j * 10 + i].elem->number = j;
 			}
-			printf("init map x=%d y=%d number=%d\n", i, j, level->map[j * 10 + i].elem->number);
 		}		
-	}	
+	}
+	level->map[33].elem->lock = 1;
+	level->map[33].elem->number = 4;
 }

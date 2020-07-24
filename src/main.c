@@ -12,6 +12,50 @@
 
 #include "wolf.h"
 
+int		clamp_col(int col)
+{
+	if(col < 0)
+		return (0);
+	if(col > 255)
+		return (255);
+	return col;
+}
+
+void		set_col_by_num(SDL_Color *col, int number)
+{
+	if(number == 1)
+		set_color(col, 255, 0, 0);
+	else if(number == 2)
+		set_color(col, 255, 255, 0);
+	else if(number == 3)
+		set_color(col, 0, 255, 255);
+	else if(number == 4)
+		set_color(col, 0, 0, 255);
+	else if(number == 5)
+		set_color(col, 255, 0, 255);
+	else if(number == 6)
+		set_color(col, 255, 128, 0);
+	else if(number == 7)
+		set_color(col, 0, 128, 255);
+	else if(number == 8)
+		set_color(col, 128, 128, 0);
+	else if(number == 9)
+		set_color(col, 255, 0, 128);
+	else
+		set_color(col, 255, 255, 255);
+}
+
+void		draw_part(t_game *game, int y, int x, int max_y, SDL_Color *col)
+{
+	y = y - 1;
+	while (++y <= max_y)
+	{
+		game->data[(H_H + y) * S_W + x] =
+		((clamp_col(col->r - 100 + y * 100 / H_H)) << 16) + 
+		((clamp_col(col->g - 100 + y * 100 / H_H)) << 8) + 
+		clamp_col(col->b - 100 + y * 100 / H_H);
+	}
+}
 
 
 
@@ -22,7 +66,6 @@ void		*draw_line(void *g)
 	SDL_Color	*roof;
 	t_game	*game;
 	int		x;
-	int		y;
 
 	game = (t_game*)g;
 	roof = &(game->level.roof);
@@ -30,19 +73,25 @@ void		*draw_line(void *g)
 	x = -H_W + game->thread * S_W / THREADS - 1;
 	while (++x < -H_W + (game->thread + 1) * S_W / THREADS)
 	{
+
 		engine(game, &isec, x);
-		y = -H_H - 1;
-		while (++y < -isec.height)
-			game->data[(S_H - y - H_H - 1) * S_W + x + H_W] =
-		(roof->r << 16) + (roof->g << 8) + roof->b;
-		while (++y < isec.height)
-			game->data[(S_H - y - H_H - 1) * S_W + x + H_W] =
-		(255 << 16) + (255 << 8) + 255;
-		while (++y < H_H)
-			game->data[(S_H - y - H_H - 1) * S_W + x + H_W] =
-		(floor->r << 16) + (floor->g << 8) + floor->b;
-		
+		if (isec.height > H_H)
+			isec.height = H_H;
+		set_col_by_num(&(isec.col), isec.number);
+		int x_index = x + H_W;
+		draw_part(game, -H_H, x_index, -isec.height, floor);
+		draw_part(game, -isec.height, x_index, isec.height, &(isec.col));
+		draw_part(game, isec.height, x_index, H_H, roof);
+		if (x_index < game->athlas->w)
+		{
+			for (int i = 0; i < 64; i++)
+			{
+				game->data[(S_H - 64 + i) * S_W + x_index] = 
+				game->data_img[i*(game->athlas->w) + x_index];
+			}
+		}
 	}
+	
 	return (0);
 }
 
@@ -59,12 +108,15 @@ void		run(t_game *game)
 	game->thread= -1;
 	while (++(game->thread) < THREADS)
 	{
+		//write(1,"in->",4);
 		ft_memcpy((void*)&data[game->thread], (void *)game, sizeof(t_game));
 		rc = pthread_create(&threads[game->thread],
 			NULL, draw_line, (void *)(&data[game->thread]));
+		//write(1,"out\n",4);
 	}
 	pthread_attr_destroy(&attr);
 	game->thread = -1;
+	
 	while (++(game->thread) < THREADS)
 		rc = pthread_join(threads[game->thread], &status);
 }
@@ -82,7 +134,7 @@ int			main(int ac, char *av[])
 	load_map(&(game->level));
 	if (!init_sdl(game))
 			return (free_init_sdl(game));
-	ft_putstr("Hello wolf\n");
+	//ft_putstr("Hello wolf\n");
 	sdl_cycle(game);
 	close_sdl(game);
 	return (0);
