@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 15:59:16 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/07/27 14:33:06 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		init_sdl(t_game *game)
 {
 	SDL_PixelFormat *fmt;
 
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0)
+	if (SDL_Init(SDL_INIT_VIDEO) != 0) //|SDL_INIT_AUDIO
 		return (ERROR);
 	
 	if (TTF_Init() == -1)

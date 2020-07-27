@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 19:30:22 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/07/27 15:47:35 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 1920
-# define S_H 1080
-# define H_W 960
-# define H_H 540
+# define S_W 1200
+# define S_H 800
+# define H_W 600
+# define H_H 400
 # define RATIO 1.78f
-# define THREADS 1
+# define THREADS 16
 
 # define OK 1
 # define ERROR 0
@@ -48,6 +48,7 @@
 # include <SDL.h>
 # include <SDL_image.h>
 # include <SDL_ttf.h>
+# include <SDL_mixer.h>
 
 typedef struct		s_vec2
 {
@@ -66,10 +67,7 @@ typedef struct		s_isec
 
 typedef	struct		s_map_elem
 {
-	int				top;
-	int				right;
-	int				bottom;
-	int				left;
+	int				side[4];
 	int				lock;
 	int				number;
 }					t_map_elem;
@@ -78,13 +76,14 @@ typedef struct		s_map
 {
 	int				width;
 	int				height;
+	int				max;
 	t_map_elem		*elem;
 }					t_map;
 
 typedef struct		s_level
 {
 	int				number;
-	t_map			*map;
+	t_map			map;
 	SDL_Color		floor;
 	SDL_Color		roof;
 }					t_level;
@@ -94,8 +93,9 @@ typedef struct		s_game_obj
 	t_vec2			pos;
 	t_vec2			dir;
 	float			rot;
-	int				speed;
+	float				speed;
 	int				rot_speed;
+	float				border;
 	int				status;
 }					t_game_obj;
 
@@ -117,8 +117,13 @@ typedef struct		s_game
 {
 	SDL_Window		*win;
 	SDL_Surface		*surf;
+	SDL_Surface		*athlas;
 	int				*data;
+	int				*data_img;
 	int				status;
+	int				fps;
+	unsigned int	f_time;
+	unsigned int	last_time;
 	int				cheat;
 	int				dummy;
 	int				thread;
@@ -148,15 +153,17 @@ void		sdl_cycle(t_game *game);
 void		run(t_game *game);
 
 //game object
-void		move_forward(t_game_obj *obj);
-void		move_back(t_game_obj *obj);
+void		move_forward(t_game_obj *obj, t_map *map);
+void		move_back(t_game_obj *obj, t_map *map);
+void		move_left(t_game_obj *obj, t_map *map);
+void		move_right(t_game_obj *obj, t_map *map);
 void		turn_left(t_game_obj *obj);
 void		turn_right(t_game_obj *obj);
-void		init_object(t_game_obj *obj, t_vec2 pos, int rot, int speed,
+void		init_object(t_game_obj *obj, t_vec2 pos, int rot, float speed,
 		int rot_speed);
 
 //map
-void		load_map(t_level *level);
+void		load_map(t_level *level, t_player *pl);
 
 //player
 void		init_player(t_game *game);
@@ -165,7 +172,10 @@ void		init_player(t_game *game);
 void		engine(t_game *game, t_isec *isec, int x);
 
 //create color
-SDL_Color	create_color(int r, int g, int b);
+void 		set_color(SDL_Color *col, int r, int g, int b);
+
+//music
+void	load_music(t_game *game);
 
 /*
 typedef struct		s_tag
