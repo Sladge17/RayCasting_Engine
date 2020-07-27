@@ -3,35 +3,39 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
+#    By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/07/20 19:38:30 by vkaron           ###   ########.fr        #
+#    Updated: 2020/07/27 15:46:54 by jthuy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all, clean, fclean, re, libr
 
-FLAGS = -Wall -Wextra -Werror -Ofast -g
-#FLAGS = -g
+#FLAGS = -Wall -Wextra -Werror -Ofast -g
+FLAGS = -g
 
 C_FILES =	main.c service_stuff.c init.c act_sdl.c key_events.c mouse_events.c\
-			game_object.c map.c player.c engine.c
+			game_object.c map.c player.c engine.c music.c
 
 
 O_FILES =	$(C_FILES:.c=.o)
 
 H_DIR =		-I libft -I usr/L -I include -I ./ \
-            -I src/ \
-            -I Frameworks/SDL2.framework/Headers -I Frameworks/SDL2_image.framework/Headers -I Frameworks/SDL2_ttf.framework/Headers -F Frameworks/
+			-I src/ \
+			-I Frameworks/SDL2.framework/Headers\
+			-I Frameworks/SDL2_image.framework/Headers\
+			-I Frameworks/SDL2_ttf.framework/Headers\
+			-I Frameworks/SDL2_mixer.framework/Headers\
+			-F Frameworks/
 
 
-LIBS =		-Llibft -lft
+#LIBS =		-Llibft -lft
 #-Llib -lSDL2 -lSDL2_image -lSDL2_ttf
 #-dynamiclib -o lib/libSDL2.dylib -o lib/libSDL2_image.dylib
 
 FRAME =		-F ./Frameworks/ -framework SDL2 -framework SDL2_image\
-			-framework SDL2_ttf -rpath Frameworks/
+			-framework SDL2_ttf -framework SDL2_mixer -rpath Frameworks/
 
 LIBS = -Llibft -lft 
 #-Llib 

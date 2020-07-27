@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 19:33:59 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/07/27 15:48:41 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,12 @@ void		*draw_line(void *g)
 	while (++x < -H_W + (game->thread + 1) * S_W / THREADS)
 	{
 		engine(game, &isec, x);
-		set_col_by_num(&(isec.col), isec.number);
+		//set_col_by_num(&(isec.col), isec.number);
 		x_index = x + H_W;
 		draw_part(game, -H_H, x_index, -isec.height,
 			&(game->level.floor));
 		draw_part(game, isec.height, x_index, H_H - 1,
-			&(game->level.roof));
+			 &(game->level.roof));
 		draw_walls(game, x_index, &(isec));
 		draw_gui(game, x_index);
 	}
@@ -175,7 +175,7 @@ int			main(int ac, char *av[])
 	init_player(game);
 	load_map(&(game->level), &(game->player));
 	if (!init_sdl(game))
-			return (free_init_sdl(game));
+		return (free_init_sdl(game));
 	sdl_cycle(game);
 	close_sdl(game);
 	return (0);
