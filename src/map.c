@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 19:43:59 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/07/27 17:41:56 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,9 @@ void	load_map(t_level *level, t_player *pl)
 	int j;
 
 	level->number = 1;
-	level->roof.r = 255;
-	level->roof.g = 255;
-	level->roof.b = 55;
 	
-	level->floor.r = 15;
-	level->floor.g = 255;
-	level->floor.b = 255;
-	
-	
+	set_color(&level->roof, 55, 55, 55);
+	set_color(&level->floor, 120, 120, 120);
 	
 	level->map.width = 11;
 	level->map.height = 18;
@@ -126,7 +120,7 @@ void	load_map(t_level *level, t_player *pl)
 		if (n == 9)
 			n = 10;
 		else
-			n = n + 13;
+			n = n - 1;
 		level->map.elem[k].number = n;
 		level->map.elem[k].side[0] = n;
 		level->map.elem[k].side[1] = n;

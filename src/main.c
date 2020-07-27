@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 15:48:41 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/07/27 18:20:52 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,33 @@ void		set_col_by_num(SDL_Color *col, int number)
 		set_color(col, 255, 255, 255);
 }
 
-void		draw_part(t_game *game, int y, int x, int max_y, SDL_Color *col)
+void		draw_roof(t_game *game, int y, int x, int max_y)
 {
+	int g;
+
+	g = 0;
 	y = y - 1;
 	while (++y <= max_y)
 	{
 		game->data[(H_H + y) * S_W + x] =
-		((clamp_col(col->r - 100 + y * 100 / H_H)) << 16) + 
-		((clamp_col(col->g - 100 + y * 100 / H_H)) << 8) + 
-		clamp_col(col->b - 100 + y * 100 / H_H);
+		((clamp_col(game->level.roof.r - (H_H + y) * g / H_H)) << 16) + 
+		((clamp_col(game->level.roof.g - (H_H + y) * g / H_H)) << 8) + 
+		clamp_col(game->level.roof.b - (H_H + y) * g / H_H);
+	}
+}
+
+void		draw_floor(t_game *game, int y, int x, int max_y)
+{
+	int g;
+
+	g = 0;
+	y = y - 1;
+	while (++y <= max_y)
+	{
+		game->data[(H_H + y) * S_W + x] =
+		((clamp_col(game->level.floor.r - (H_H - y) * g / H_H)) << 16) + 
+		((clamp_col(game->level.floor.g - (H_H - y) * g / H_H)) << 8) + 
+		clamp_col(game->level.floor.b - (H_H - y) * g / H_H);
 	}
 }
 
@@ -116,18 +134,18 @@ void		*draw_line(void *g)
 	t_game	*game;
 	int		x;
 	int		x_index;
+	int		max_x;
 
 	game = (t_game*)g;
 	x = -H_W + game->thread * S_W / THREADS - 1;
-	while (++x < -H_W + (game->thread + 1) * S_W / THREADS)
+	max_x = -H_W + (game->thread + 1) * S_W / THREADS;
+	while (++x < max_x)
 	{
 		engine(game, &isec, x);
-		//set_col_by_num(&(isec.col), isec.number);
+		set_col_by_num(&(isec.col), isec.number);
 		x_index = x + H_W;
-		draw_part(game, -H_H, x_index, -isec.height,
-			&(game->level.floor));
-		draw_part(game, isec.height, x_index, H_H - 1,
-			 &(game->level.roof));
+		draw_roof(game, -H_H, x_index, -isec.height);
+		draw_floor(game, isec.height, x_index, H_H - 1);
 		draw_walls(game, x_index, &(isec));
 		draw_gui(game, x_index);
 	}

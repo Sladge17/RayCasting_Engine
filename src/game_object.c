@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 14:38:28 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/07/27 18:14:25 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,26 @@ void	check_y(t_game_obj *obj, t_map *map, t_vec2 *test)
 		test->y = (int)(test->y + obj->border) - obj->border;
 }
 
-void	move_forward(t_game_obj *obj, t_map *map)
+void	move_forward(t_game_obj *obj, t_map *map, float koeff)
 {
 	t_vec2	test;
 	
-	test.x = obj->pos.x + obj->speed * obj->dir.x;
-	test.y = obj->pos.y + obj->speed * obj->dir.y;
+	koeff *= obj->speed;
+	test.x = obj->pos.x + koeff * obj->dir.x;
+	test.y = obj->pos.y + koeff * obj->dir.y;
 	check_x(obj, map, &(test));
 	check_y(obj, map, &(test));
 	obj->pos.x = test.x;
 	obj->pos.y = test.y;
 }
 
-void	move_back(t_game_obj *obj, t_map *map)
+void	move_back(t_game_obj *obj, t_map *map, float koeff)
 {
 	t_vec2	test;
-	
-	test.x = obj->pos.x - obj->speed * obj->dir.x;
-	test.y = obj->pos.y - obj->speed * obj->dir.y;
+
+	koeff *= obj->speed;
+	test.x = obj->pos.x - koeff* obj->dir.x;
+	test.y = obj->pos.y - koeff * obj->dir.y;
 	check_x(obj, map, &(test));
 	check_y(obj, map, &(test));
 	obj->pos.x = test.x;
@@ -65,49 +67,51 @@ void	move_back(t_game_obj *obj, t_map *map)
 	//obj->pos.y -= obj->speed * (obj->dir.y);// - obj->pos.y);
 }
 
-void	move_left(t_game_obj *obj, t_map *map)
+void	move_left(t_game_obj *obj, t_map *map, float koeff)
 {
 	float rad;
 	t_vec2	test;
 
+	koeff *= obj->speed;
 	rad = (obj->rot - 90) * M_PI / 180;
-	test.x = obj->pos.x + obj->speed * sin(rad);
-	test.y = obj->pos.y + obj->speed * cos(rad);
+	test.x = obj->pos.x + koeff * sin(rad);
+	test.y = obj->pos.y + koeff * cos(rad);
 	check_x(obj, map, &(test));
 	check_y(obj, map, &(test));
 	obj->pos.x = test.x;
 	obj->pos.y = test.y;	
 }
 
-void	move_right(t_game_obj *obj, t_map *map)
+void	move_right(t_game_obj *obj, t_map *map, float koeff)
 {
 	float rad;
 	t_vec2	test;
 
+	koeff *= obj->speed;
 	rad = (obj->rot + 90) * M_PI / 180;
-	test.x = obj->pos.x + obj->speed * sin(rad);
-	test.y = obj->pos.y + obj->speed * cos(rad);
+	test.x = obj->pos.x + koeff * sin(rad);
+	test.y = obj->pos.y + koeff * cos(rad);
 	check_x(obj, map, &(test));
 	check_y(obj, map, &(test));
 	obj->pos.x = test.x;
 	obj->pos.y = test.y;	
 }
 
-void	turn_left(t_game_obj *obj)
+void	turn_left(t_game_obj *obj, float koeff)
 {
 	float rad;
 
-	obj->rot -= obj->rot_speed;
+	obj->rot -= obj->rot_speed * koeff;
 	rad = obj->rot * M_PI / 180;
 	obj->dir.x = sin(rad);
 	obj->dir.y = cos(rad);
 }
 
-void	turn_right(t_game_obj *obj)
+void	turn_right(t_game_obj *obj, float koeff)
 {
 	float rad;
 
-	obj->rot += obj->rot_speed;
+	obj->rot += obj->rot_speed * koeff;
 	rad = obj->rot * M_PI / 180;
 	obj->dir.x = sin(rad);
 	obj->dir.y = cos(rad);

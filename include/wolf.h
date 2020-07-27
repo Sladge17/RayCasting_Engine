@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 15:47:35 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/07/27 18:14:55 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,12 +153,12 @@ void		sdl_cycle(t_game *game);
 void		run(t_game *game);
 
 //game object
-void		move_forward(t_game_obj *obj, t_map *map);
-void		move_back(t_game_obj *obj, t_map *map);
-void		move_left(t_game_obj *obj, t_map *map);
-void		move_right(t_game_obj *obj, t_map *map);
-void		turn_left(t_game_obj *obj);
-void		turn_right(t_game_obj *obj);
+void		move_forward(t_game_obj *obj, t_map *map, float koeff);
+void		move_back(t_game_obj *obj, t_map *map, float koeff);
+void		move_left(t_game_obj *obj, t_map *map, float koeff);
+void		move_right(t_game_obj *obj, t_map *map, float koeff);
+void		turn_left(t_game_obj *obj, float koeff);
+void		turn_right(t_game_obj *obj, float koeff);
 void		init_object(t_game_obj *obj, t_vec2 pos, int rot, float speed,
 		int rot_speed);
 
