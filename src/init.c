@@ -12,22 +12,37 @@
 
 #include "wolf.h"
 
+void		reformat(t_game *game, SDL_PixelFormat *fmt)
+{
+	int	i;
+	int	j;
+	int	index;
+	SDL_Color	col;
+	
+	j = -1;
+	while (++j < game->athlas->h)
+	{
+		i = -1;
+		while (++i < game->athlas->w)
+		{
+			index = j * game->athlas->w + i;
+			col.r = (game->data_img[index] & 0xFF0000)>>16;
+			col.g = (game->data_img[index] & 0xFF00)>>8;
+			col.b = (game->data_img[index] & 0xFF);
+			game->data_img[index] = (col.b << fmt->Bshift) | (col.g << fmt->Gshift) | (col.r << fmt->Rshift);
+		}
+	}
+}
+
 int		init_sdl(t_game *game)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	SDL_PixelFormat *fmt;
+
+	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0)
 		return (ERROR);
+	
 	if (TTF_Init() == -1)
 		return (ERROR);
-		
-	// load support for the JPG and PNG image formats
-	//int flags=IMG_INIT_JPG|IMG_INIT_PNG;
-	//int initted=IMG_Init(IMG_INIT_PNG);//flags);
-	//printf("inited img=%d\n"+initted);
-	//if((initted) != 1)
-	//{
-		
-	//	return (ERROR);
-	//}
 	game->win = 0;
 	game->win = SDL_CreateWindow("WOLF", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, S_W, S_H, SDL_WINDOW_SHOWN);
@@ -45,5 +60,13 @@ int		init_sdl(t_game *game)
 	if (!game->athlas)
 		return (ERROR);
 	game->data_img = (int *)game->athlas->pixels;
+	fmt = game->athlas->format;
+	reformat(game, fmt);
+	
+
+//printf("Pixel Color -> R: %d,  G: %d,  B: %d,  A: %d\n", fmt->Rshift, fmt->Gshift, fmt->Bshift, fmt->Ashift);
+
+
+	
 	return (OK);
 }

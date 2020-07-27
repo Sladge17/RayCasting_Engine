@@ -18,8 +18,8 @@ void	init_player(t_game *game)
 	float rad;
 
 	pos.x = 4.5f;
-	pos.y = 4.5f;
-	init_object(&(game->player.obj),  pos, 0, 0.05, 2);
+	pos.y = 3.5f;
+	init_object(&(game->player.obj),  pos, 0, 0.1, 2);
 	game->player.sec.fov = 60;
 	game->player.sec.ang_step = game->player.sec.fov / S_W;
 	rad = (game->player.obj.rot + (game->player.sec.fov / 2.0f)) * M_PI / 180;

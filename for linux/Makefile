@@ -16,7 +16,7 @@
 FLAGS = -g
 
 C_FILES =	main.c service_stuff.c init.c act_sdl.c key_events.c mouse_events.c\
-			game_object.c map.c player.c engine.c
+			game_object.c map.c player.c engine.c music.c
 
 
 O_FILES =	$(C_FILES:.c=.o)

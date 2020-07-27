@@ -46,6 +46,7 @@
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
 # include <SDL2/SDL_ttf.h>
+# include <SDL2/SDL_mixer.h>
 
 typedef struct		s_vec2
 {
@@ -64,10 +65,7 @@ typedef struct		s_isec
 
 typedef	struct		s_map_elem
 {
-	int				top;
-	int				right;
-	int				bottom;
-	int				left;
+	int				side[4];
 	int				lock;
 	int				number;
 }					t_map_elem;
@@ -76,13 +74,14 @@ typedef struct		s_map
 {
 	int				width;
 	int				height;
+	int				max;
 	t_map_elem		*elem;
 }					t_map;
 
 typedef struct		s_level
 {
 	int				number;
-	t_map			*map;
+	t_map			map;
 	SDL_Color		floor;
 	SDL_Color		roof;
 }					t_level;
@@ -94,6 +93,7 @@ typedef struct		s_game_obj
 	float			rot;
 	float				speed;
 	int				rot_speed;
+	float				border;
 	int				status;
 }					t_game_obj;
 
@@ -151,15 +151,17 @@ void		sdl_cycle(t_game *game);
 void		run(t_game *game);
 
 //game object
-void		move_forward(t_game_obj *obj);
-void		move_back(t_game_obj *obj);
+void		move_forward(t_game_obj *obj, t_map *map);
+void		move_back(t_game_obj *obj, t_map *map);
+void		move_left(t_game_obj *obj, t_map *map);
+void		move_right(t_game_obj *obj, t_map *map);
 void		turn_left(t_game_obj *obj);
 void		turn_right(t_game_obj *obj);
 void		init_object(t_game_obj *obj, t_vec2 pos, int rot, float speed,
 		int rot_speed);
 
 //map
-void		load_map(t_level *level);
+void		load_map(t_level *level, t_player *pl);
 
 //player
 void		init_player(t_game *game);
@@ -169,6 +171,9 @@ void		engine(t_game *game, t_isec *isec, int x);
 
 //create color
 void 		set_color(SDL_Color *col, int r, int g, int b);
+
+//music
+void	load_music(t_game *game);
 
 /*
 typedef struct		s_tag

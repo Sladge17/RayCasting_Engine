@@ -33,14 +33,14 @@ int			key_press2(SDL_Keycode key, t_game *game)
 		turn_left(&(game->player.obj));
 	else if (key == SDLK_RIGHT)
 		turn_right(&(game->player.obj));
-	if (key == SDLK_UP)
-		move_forward(&(game->player.obj));
+	else if (key == SDLK_UP)
+		move_forward(&(game->player.obj), &game->level.map);
 	else if (key == SDLK_DOWN)
-		move_back(&(game->player.obj));
-	if (key == SDLK_i)
-		game->dummy = 5;
-	else if (key == SDLK_o)
-		game->dummy = 6;
+		move_back(&(game->player.obj), &game->level.map);
+	else if (key == SDLK_a)
+		move_left(&(game->player.obj), &game->level.map);
+	else if (key == SDLK_d)
+		move_right(&(game->player.obj), &game->level.map);
 	else if (key == SDLK_k)
 		game->dummy = 7;
 	return (key_press3(key, game));

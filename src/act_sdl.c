@@ -93,10 +93,7 @@ void	sdl_cycle(t_game *game)
 			sld_events2(game, e, &repaint);
 			if (repaint || first)
 			{
-			//write(1,"in->",4);
 				run(game);
-			//write(1,"out\n",4);
-				printf("x=%f,y=%f dx=%f dy=%f sp=%f\n", game->player.obj.pos.x, game->player.obj.pos.y, game->player.obj.dir.x, game->player.obj.dir.y, game->player.obj.speed);
 				SDL_UpdateWindowSurface(game->win);
 				SDL_FlushEvent(SDL_KEYDOWN);				
 				first = 0;
