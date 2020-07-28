@@ -30,6 +30,8 @@ void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
 	{
 		if (e.key.keysym.sym == SDLK_ESCAPE)
 			*quit = 1;
+		else
+			key_press(e.key.keysym.sym, game);
 	}
 	else if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -54,7 +56,7 @@ void	check_keyboard(t_game *game)
 	const	Uint8 *state = SDL_GetKeyboardState(NULL);
 	float	d_time;
 
-	d_time = (float)(SDL_GetTicks() - game->last_time) / 10000.0;
+	d_time = (float)(SDL_GetTicks() - game->last_time) / 5000.0;
 	if (state[SDL_SCANCODE_UP] || state[SDL_SCANCODE_W])
 		move_forward(&(game->player.obj), &game->level.map, d_time);
 	else if (state[SDL_SCANCODE_DOWN] || state[SDL_SCANCODE_S])
@@ -76,7 +78,7 @@ void	redraw(t_game *game)
 	cur_time = SDL_GetTicks();
 	if (cur_time > game->last_time + game->f_time)
 	{
-		run(game);
+		draw_game(game);
 		SDL_UpdateWindowSurface(game->win);
 		SDL_FlushEvent(SDL_KEYDOWN);
 		game->last_time = SDL_GetTicks();

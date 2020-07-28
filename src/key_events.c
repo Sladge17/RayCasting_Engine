@@ -29,7 +29,13 @@ int		key_press3(SDL_Keycode key, t_game *game)
 
 int			key_press2(SDL_Keycode key, t_game *game)
 {
-	//if (key == SDLK_LEFT)
+	if (key == SDLK_m)
+	{
+		if (game->draw_map)
+			game->draw_map = 0;
+		else
+			game->draw_map = 1;
+	}
 	//	turn_left(&(game->player.obj));
 	//else if (key == SDLK_RIGHT)
 	//	turn_right(&(game->player.obj));

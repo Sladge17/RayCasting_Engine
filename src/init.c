@@ -52,6 +52,7 @@ int		init_sdl(t_game *game)
 	if (!game->surf)
 		return (ERROR);
 	game->data = (int *)game->surf->pixels;
+	game->draw_map = 0;
 	game->fps = 50;
 	game->f_time = 1000 / game->fps;
 	game->last_time = SDL_GetTicks();

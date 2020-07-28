@@ -1,34 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   service_stuff.c                                    :+:      :+:    :+:   */
+/*   draw_gui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 19:29:09 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/07/27 18:29:03 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	ft_exit(char *line)
+void		draw_gui(t_game *game)
 {
-	ft_putstr(line);
-	ft_putchar('\n');
-	exit(-1);
-}
+	int i;
+	int x;
+	int index0;
+	int	index1;
+	SDL_Color col;
 
-void	free_l(t_game *game)
-{
-	free(game);
+	x = -1;
+	while (++x < game->surf->w)
+	{
+		if (x < game->athlas->w)
+		{
+			i = -1;
+			while (++i < 64)
+			{
+				index0 = (S_H - 64 + i) * S_W + x;
+				index1 = i*(game->athlas->w) + x;
+				if (index0 < 0)
+					index0 = 0;
+				if (index1 < 0)
+					index1 = 0;
+				if (index0 > (S_W * S_H) - 1)
+					index0 = (S_W * S_H) - 1;
+				if (index1 > (game->athlas->w * game->athlas->h) - 1)
+					index1 = (game->athlas->w * game->athlas->h) - 1;
+				game->data[index0] = game->data_img[index1];	
+			}
+		}
+	}
 }
-
-int		free_init_sdl(t_game *game)
-{
-	close_sdl(game);
-	free_l(game);
-	ft_exit("BAD THINGS HAPPENING TO SDL");
-	return (-1);
-}
-

@@ -16,11 +16,12 @@ void	check_x(t_game_obj *obj, t_map *map, t_vec2 *test)
 {
 	int index1;
 	int index2;
+	
 
 	index1 = (int)(test->y) * map->width + (int)(test->x - obj->border);
 	index2 = (int)(test->y) * map->width + (int)(test->x + obj->border);
 	if (index1 > 0 && index1 < map->max && map->elem[index1].lock == 1)
-		test->x = (int)(test->x - obj->border + 1) + obj->border;
+		test->x = (int)(test->x - obj->border) + obj->border + 1.0;
 	else if (index2 > 0 && index2 < map->max && map->elem[index2].lock == 1)
 		test->x = (int)(test->x + obj->border) - obj->border;
 }
@@ -33,7 +34,7 @@ void	check_y(t_game_obj *obj, t_map *map, t_vec2 *test)
 	index1 = (int)(test->y - obj->border) * map->width + (int)(test->x);
 	index2 = (int)(test->y + obj->border) * map->width + (int)(test->x);
 	if (index1 > 0 && index1 < map->max && map->elem[index1].lock == 1)
-		test->y = (int)(test->y - obj->border + 1) + obj->border;
+		test->y = (int)(test->y - obj->border) + obj->border + 1.0;
 	else if (index2 > 0 && index2 < map->max && map->elem[index2].lock == 1)
 		test->y = (int)(test->y + obj->border) - obj->border;
 }
@@ -73,7 +74,7 @@ void	move_left(t_game_obj *obj, t_map *map, float koeff)
 	t_vec2	test;
 
 	koeff *= obj->speed;
-	rad = (obj->rot - 90) * M_PI / 180;
+	rad = (obj->rot + 90) * M_PI / 180;
 	test.x = obj->pos.x + koeff * sin(rad);
 	test.y = obj->pos.y + koeff * cos(rad);
 	check_x(obj, map, &(test));
@@ -88,7 +89,7 @@ void	move_right(t_game_obj *obj, t_map *map, float koeff)
 	t_vec2	test;
 
 	koeff *= obj->speed;
-	rad = (obj->rot + 90) * M_PI / 180;
+	rad = (obj->rot - 90) * M_PI / 180;
 	test.x = obj->pos.x + koeff * sin(rad);
 	test.y = obj->pos.y + koeff * cos(rad);
 	check_x(obj, map, &(test));
@@ -101,7 +102,7 @@ void	turn_left(t_game_obj *obj, float koeff)
 {
 	float rad;
 
-	obj->rot -= obj->rot_speed * koeff;
+	obj->rot += obj->rot_speed * koeff;
 	rad = obj->rot * M_PI / 180;
 	obj->dir.x = sin(rad);
 	obj->dir.y = cos(rad);
@@ -111,7 +112,7 @@ void	turn_right(t_game_obj *obj, float koeff)
 {
 	float rad;
 
-	obj->rot += obj->rot_speed * koeff;
+	obj->rot -= obj->rot_speed * koeff;
 	rad = obj->rot * M_PI / 180;
 	obj->dir.x = sin(rad);
 	obj->dir.y = cos(rad);

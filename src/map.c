@@ -19,8 +19,11 @@ void	load_map(t_level *level, t_player *pl)
 
 	level->number = 1;
 	
-	set_color(&level->roof, 55, 55, 55);
-	set_color(&level->floor, 120, 120, 120);
+	//set_color(&level->roof, 55, 55, 55);
+	//set_color(&level->floor, 120, 120, 120);
+	
+	set_color(&level->roof, 100,150,250);
+	set_color(&level->floor, 250,250,100);
 	
 	level->map.width = 11;
 	level->map.height = 18;
@@ -36,20 +39,20 @@ void	load_map(t_level *level, t_player *pl)
 		i = -1;
 		while (++i < level->map.width)
 		{
-			level->map.elem[j * 10 + i].lock = 0;
-			level->map.elem[j * 10 + i].number = 0;
-			level->map.elem[j * 10 + i].side[0] = -1;
-			level->map.elem[j * 10 + i].side[1] = -1;
-			level->map.elem[j * 10 + i].side[2] = -1;
-			level->map.elem[j * 10 + i].side[3] = -1;
-			if (i == 0 || i == 9 || j == 0 || j == 9)
+			level->map.elem[j * level->map.width + i].lock = 0;
+			level->map.elem[j * level->map.width + i].number = 0;
+			level->map.elem[j * level->map.width + i].side[0] = -1;
+			level->map.elem[j * level->map.width + i].side[1] = -1;
+			level->map.elem[j * level->map.width + i].side[2] = -1;
+			level->map.elem[j * level->map.width + i].side[3] = -1;
+			if (i == 0 || i == level->map.width - 1 || j == 0 || j == level->map.height - 1)
 			{
-				level->map.elem[j * 10 + i].lock = 1;
-				level->map.elem[j * 10 + i].number = 0;
-				level->map.elem[j * 10 + i].side[0] = 0;
-				level->map.elem[j * 10 + i].side[1] = 0;
-				level->map.elem[j * 10 + i].side[2] = 0;
-				level->map.elem[j * 10 + i].side[3] = 0;
+				level->map.elem[j * level->map.width + i].lock = 1;
+				level->map.elem[j * level->map.width + i].number = 0;
+				level->map.elem[j * level->map.width + i].side[0] = 0;
+				level->map.elem[j * level->map.width + i].side[1] = 0;
+				level->map.elem[j * level->map.width + i].side[2] = 0;
+				level->map.elem[j * level->map.width + i].side[3] = 0;
 			}
 		}		
 	}
@@ -63,7 +66,7 @@ void	load_map(t_level *level, t_player *pl)
 					"21000000012"\
 					"20000000002"\
 					"20000000002"\
-					"22000000012"\
+					"21000000012"\
 					"21000000012"\
 					"20000000002"\
 					"20000000002"\
@@ -72,6 +75,57 @@ void	load_map(t_level *level, t_player *pl)
 					"20010001002"\
 					"20010901002"\
 					"21010000012"\
+					"22222222222";
+					
+	const char m3[] ="22222222222"\
+					"21001001012"\
+					"20000+00002"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"22000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"22000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"22000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000000002"\
+					"21000000012"\
+					"21000000012"\
+					"20000000002"\
+					"20000900002"\
+					"21000000012"\
+					"20000000002"\
+					"21000000012"\
 					"22222222212";
 					
 	const char m2[] ="11111111111"\
@@ -120,7 +174,8 @@ void	load_map(t_level *level, t_player *pl)
 		if (n == 9)
 			n = 10;
 		else
-			n = n - 1;
+			//n = n - 1;
+			n = n+13;
 		level->map.elem[k].number = n;
 		level->map.elem[k].side[0] = n;
 		level->map.elem[k].side[1] = n;
@@ -134,9 +189,9 @@ void	load_map(t_level *level, t_player *pl)
 	n = 3;
 	level->map.elem[k].lock = 1;
 	level->map.elem[k].number = n;
-	level->map.elem[k].side[0] = n;
-	level->map.elem[k].side[1] = n+1;
-	level->map.elem[k].side[2] = n+2;
-	level->map.elem[k].side[3] = n+3;
+	level->map.elem[k].side[0] = 6;
+	level->map.elem[k].side[1] = 7;
+	level->map.elem[k].side[2] = 11;
+	level->map.elem[k].side[3] = 10;
 		
 }

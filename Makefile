@@ -3,68 +3,96 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+         #
+#    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/07/27 15:46:54 by jthuy            ###   ########.fr        #
+#    Updated: 2020/07/20 19:38:30 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all, clean, fclean, re, libr
 
-#FLAGS = -Wall -Wextra -Werror -Ofast -g
-FLAGS = -g
+PROGRAM_NAME = WOLF
 
-C_FILES =	main.c service_stuff.c init.c act_sdl.c key_events.c mouse_events.c\
-			game_object.c map.c player.c engine.c music.c
+#FLAGS =	#-Wall -Wextra -Werror -Ofast -g
+FLAGS =		-g
 
+FILES =		act_sdl \
+			color \
+			draw_3d \
+			draw_gui \
+			draw_map \
+			engine \
+			game_object \
+			init \
+			key_events \
+			main \
+			map \
+			mouse_events \
+			music \
+			player \
+			service_stuff
 
-O_FILES =	$(C_FILES:.c=.o)
+S_DIR =		src
 
-H_DIR =		-I libft -I usr/L -I include -I ./ \
-			-I src/ \
+O_DIR =		obj
+
+H_DIR =		include
+
+O_FILES =	$(addprefix $(O_DIR)/, $(addsuffix .o, $(FILES)))
+
+H_FILE =	$(H_DIR)/wolf.h
+
+LIBS = 		-Llibft -lft \
+			-lm \
+			-lpthread
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	H_FIND =-I libft \
+			-I $(H_DIR) \
+			-I $(shell sdl2-config --prefix)/include/SDL2
+
+	FRAME =	-lSDL2 \
+			-lSDL2_mixer \
+			-lSDL2_image \
+			-lSDL2_ttf
+endif
+ifeq ($(UNAME_S),Darwin)
+	H_FIND =-I libft \
+			-I include \
 			-I Frameworks/SDL2.framework/Headers\
 			-I Frameworks/SDL2_image.framework/Headers\
 			-I Frameworks/SDL2_ttf.framework/Headers\
 			-I Frameworks/SDL2_mixer.framework/Headers\
 			-F Frameworks/
 
+	FRAME =	-F ./Frameworks/ \
+			-framework SDL2 \
+			-framework SDL2_image \
+			-framework SDL2_ttf \
+			-framework SDL2_mixer \
+			-rpath Frameworks/
+endif	
 
-#LIBS =		-Llibft -lft
-#-Llib -lSDL2 -lSDL2_image -lSDL2_ttf
-#-dynamiclib -o lib/libSDL2.dylib -o lib/libSDL2_image.dylib
-
-FRAME =		-F ./Frameworks/ -framework SDL2 -framework SDL2_image\
-			-framework SDL2_ttf -framework SDL2_mixer -rpath Frameworks/
-
-LIBS = -Llibft -lft 
-#-Llib 
-#-lSDL2 -lSDL2_image -lSDL2_ttf
-#-dynamiclib -o libSDL2.dylib -o libSDL2_image.dylib
-
-S_DIR = src
-
-OBJ = $(addprefix $(S_DIR)/, $(O_FILES))
-
-NAME = WOLF
-
-all: libr $(NAME)
+all: libr $(PROGRAM_NAME)
 
 libr:
 	make -C libft/ all
 
-$(NAME): $(OBJ)
-	gcc -v $(FLAGS) -o $@ $^ $(H_DIR) $(LIBS) $(FRAME)
+$(PROGRAM_NAME): $(O_FILES)
+	gcc $(FLAGS) -o $@ $^ $(LIBS) $(FRAME)
 
-$(S_DIR)/%.o: $(S_DIR)/%.c include/wolf.h
-	gcc $(FLAGS) -c $< -o $@ $(H_DIR)
+$(O_DIR)/%.o: $(S_DIR)/%.c $(H_FILE)
+	@mkdir $(O_DIR) -p
+	gcc $(FLAGS) -c $< -o $@ $(H_FIND)
 
 clean:
 	make -C libft/ clean
-	rm -f $(OBJ)
+	rm -f $(O_FILES)
 
 fclean : clean
 	make -C libft/ fclean
-	rm -f $(NAME)
+	rm -f $(PROGRAM_NAME)
 
 re: fclean all

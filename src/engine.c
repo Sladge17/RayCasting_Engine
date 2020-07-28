@@ -46,14 +46,14 @@ void	set_col_num(t_vec2 *isc_pos, t_isec *isec, t_game *game, int index)
 	{
 		isec->colum = (int)((isc_pos->x - (int)(isc_pos->x)) * 64);
 		isec->number = game->level.map.elem[index].side[number];
-		if (number == 2)
+		if (number == 0)
 			isec->colum = 63 - isec->colum;
 	}
 	else
 	{
 		isec->colum = (int)((isc_pos->y - (int)(isc_pos->y)) * 64);
 		isec->number = game->level.map.elem[index].side[number2];
-		if (number2 == 3)
+		if (number2 == 1)
 			isec->colum = 63 - isec->colum;
 	}
 	//return (res);
@@ -107,8 +107,9 @@ void	engine(t_game *game, t_isec *isec, int x)
 	target.y = cos(ang);
 	ang = (game->player.sec.ang_step * x) * M_PI / 180;
 	step = 0;
-	isec->height = 0;
+	isec->height = 1;
 	isec->number = 0;
+	isec->dist = 100;
 	while (step < 50)
 	{
 		step += 0.01;
