@@ -6,7 +6,7 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/07/20 19:38:30 by vkaron           ###   ########.fr        #
+#    Updated: 2020/08/08 22:21:29 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,15 @@ FILES =		act_sdl \
 			music \
 			player \
 			service_stuff \
-			editor
+			editor \
+			editor_file \
+			editor_mouse_events \
+			editor_events \
+			editor_draw_select_color \
+			editor_service \
+			editor_draw_menu \
+			editor_init \
+			editor_check_frame
 
 S_DIR =		src
 

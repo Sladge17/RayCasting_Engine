@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 18:29:03 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/08 23:21:28 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void		draw_roof(t_game *game, int y, int x, int max_y)
 	y = y - 1;
 	while (++y <= max_y)
 	{
-		game->data[(H_H + y) * S_W + x] =
-		((clamp_col((game->level.map.roof & 0xFF0000 >> 16) - (H_H + y) * g / H_H)) << 16) + 
-		((clamp_col((game->level.map.roof & 0xFF00 >> 8) - (H_H + y) * g / H_H)) << 8) + 
-		clamp_col((game->level.map.roof & 0xFF) - (H_H + y) * g / H_H);
+		game->data[(H_H + y) * S_W + x] = game->level.map.roof;
+		//((clamp_col((game->level.map.roof & 0xFF0000 >> 16) - (H_H + y) * g / H_H)) << 16) + 
+		//((clamp_col((game->level.map.roof & 0xFF00 >> 8) - (H_H + y) * g / H_H)) << 8) + 
+		//clamp_col((game->level.map.roof & 0xFF) - (H_H + y) * g / H_H);
 	}
 }
 
@@ -35,10 +35,10 @@ void		draw_floor(t_game *game, int y, int x, int max_y)
 	y = y - 1;
 	while (++y <= max_y)
 	{
-		game->data[(H_H + y) * S_W + x] =
-		((clamp_col((game->level.map.floor & 0xFF0000 >> 16) - (H_H - y) * g / H_H)) << 16) + 
-		((clamp_col((game->level.map.floor & 0xFF00 >> 8) - (H_H - y) * g / H_H)) << 8) + 
-		clamp_col((game->level.map.floor & 0xFF) - (H_H - y) * g / H_H);
+		game->data[(H_H + y) * S_W + x] = game->level.map.floor;
+		//((clamp_col((game->level.map.floor & 0xFF0000 >> 16) - (H_H - y) * g / H_H)) << 16) + 
+		//((clamp_col((game->level.map.floor & 0xFF00 >> 8) - (H_H - y) * g / H_H)) << 8) + 
+		//clamp_col((game->level.map.floor & 0xFF) - (H_H - y) * g / H_H);
 	}
 }
 

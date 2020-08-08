@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 17:41:56 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/08 18:29:31 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	load_map(t_level *level, t_player *pl)
 					"20000000003"\
 					"20000000003"\
 					"11111111111";
-	///*
+	
 	//const char m2[] = "
 	
 	int k = 0;
@@ -185,7 +185,7 @@ void	load_map(t_level *level, t_player *pl)
 	//ft_putchar(c);
 	n = c - '0';
 	printf("n=%d\n",n);
-	//*
+	
 	while (c)
 	{
 		//b = i + '0';

@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 18:29:03 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/08 18:27:47 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		draw_line(t_game *game, t_vec2 *start, t_vec2 *end, int d)
 	max = game->surf->w * game->surf->h;
 	len.x = (end->x - start->x) * d;
 	len.y = (end->y - start->y) * d;
-	steps = abs(len.x) > abs(len.y) ? (int)abs(len.x) : (int)abs(len.y);
+	steps = fabs(len.x) > fabs(len.y) ? (int)fabs(len.x) : (int)fabs(len.y);
 	i = -1;
 	while (++i < steps)
 	{

@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 19:30:22 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/08 23:26:53 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,10 @@ typedef struct		s_editor
 	int				click_time;
 	int				press_l;
 	int				press_r;
-	SDL_Color		floor;
-	SDL_Color		roof;
+	Uint32			sel_col;
 	int				status;
 	int				cur_elem;
+	
 }					t_editor;
 
 typedef struct		s_game
@@ -186,8 +186,8 @@ typedef struct		s_game
 	int				status;
 	int				draw_map;
 	int				fps;
-	unsigned int				f_time;
-	unsigned int			last_time;
+	unsigned int	f_time;
+	unsigned int	last_time;
 	int				cheat;
 	int				dummy;
 	int				thread;
@@ -254,4 +254,20 @@ void		set_col_by_num(SDL_Color *col, int number);
 
 //map editor
 void		map_editor(t_game *game);
+void		save_ed_map(t_editor *ed);
+void		load_ed_map(t_editor *ed);
+void		mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed);
+void		mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
+void		mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed);
+void		mouse_weel_editor(Sint32 y, t_editor *ed);
+void		sld_events_editor(t_game *game, t_editor *ed, SDL_Event e, SDL_Point *flags);
+void		draw_select_col(t_game *game, t_editor *ed);
+void		draw_frame(t_game *game);
+void		print_ttf(SDL_Surface *sdest, const char *text, int size, SDL_Rect *dest);
+Uint32		get_img_color(t_game *game, int x, int y, int number);
+void		draw_box(t_game *game, int index, int number, t_editor *ed);
+void		init_editor(t_editor *ed);
+void		draw_frame(t_game *game);
+void		draw_menu(t_game *game, t_editor *ed);
+int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 #endif
