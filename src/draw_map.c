@@ -96,18 +96,18 @@ void		draw_map(t_game *game)
 	int max;
 	SDL_Point p;
 
-	d = 20;
+	d = 10;
 	max = game->surf->w * game->surf->h;
 	p.y = -1;
-	while (++p.y < game->level.map.height)
+	while (++p.y < 64)//game->level.map.height)
 	{
-		y_index = p.y * game->level.map.width;
+		//y_index = p.y * game->level.map.width;
 		p.x = -1;
-		while (++p.x < game->level.map.width)
+		while (++p.x < 64)//game->level.map.width)
 		{
-			if (game->level.map.elem[y_index + p.x].lock == 1)
+			if (game->level.map.elem[p.y][p.x].lock == 1)
 				draw_rect(game, p, d, 
-					game->level.map.elem[y_index + p.x].number);
+					game->level.map.elem[p.y][p.x].number);
 		}
 	}
 	draw_player(game, d);

@@ -51,12 +51,12 @@ void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
 	}
 }
 
-void	check_keyboard(t_game *game)
+void	check_keyboard(t_game *game, float d_time)
 {
 	const	Uint8 *state = SDL_GetKeyboardState(NULL);
-	float	d_time;
+	//float	d_time;
 
-	d_time = (float)(SDL_GetTicks() - game->last_time) / 5000.0;
+	//d_time = (float)(SDL_GetTicks() - game->last_time) / 10.0;
 	if (state[SDL_SCANCODE_UP] || state[SDL_SCANCODE_W])
 		move_forward(&(game->player.obj), &game->level.map, d_time);
 	else if (state[SDL_SCANCODE_DOWN] || state[SDL_SCANCODE_S])
@@ -71,7 +71,7 @@ void	check_keyboard(t_game *game)
 		move_right(&(game->player.obj), &game->level.map, d_time);
 }
 
-void	redraw(t_game *game)
+void	redraw(t_game *game, int *fps)
 {
 	unsigned int	cur_time;
 
@@ -81,7 +81,8 @@ void	redraw(t_game *game)
 		draw_game(game);
 		SDL_UpdateWindowSurface(game->win);
 		SDL_FlushEvent(SDL_KEYDOWN);
-		game->last_time = SDL_GetTicks();
+		game->last_time = cur_time;//SDL_GetTicks();
+		*fps += 1;
 	}
 }
 
@@ -91,15 +92,31 @@ void	sdl_cycle(t_game *game)
 	SDL_Event	e;
 	int			repaint;
 	int			first;
+	int			fps;
+	int			lastTime;
+	int			curTime;
+	float		d_time;
 
 	quit = 0;
 	first = 1;
+	fps = 0;
+	lastTime = SDL_GetTicks();
 	while (!quit)
 	{
+		d_time = (float)(SDL_GetTicks() - curTime)/1000.0;
+		curTime = SDL_GetTicks();
+		if (curTime > lastTime + 1000) {
+			lastTime = curTime;
+			write(1, "FPS=", 4);
+			ft_putnbr_fd(fps,1);
+			write(1, "\n", 1);
+			fps = 0;
+		}
 		repaint = 0;
-		check_keyboard(game);
-		redraw(game);
+		check_keyboard(game, d_time);
+		redraw(game, &fps);
 		if (SDL_PollEvent(&e) != 0 || repaint)
 			sld_events(game, e, &quit, &repaint);
 	}
+	game->status = 3;
 }

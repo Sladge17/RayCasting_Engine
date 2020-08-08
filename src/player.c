@@ -19,8 +19,8 @@ void	init_player(t_game *game)
 
 	pos.x = 4.5f;
 	pos.y = 3.5f;
-	init_object(&(game->player.obj),  pos, 0, 0.05, 1);
-	game->player.sec.fov = 60;
+	init_object(&(game->player.obj),  pos, 0, 5, 120);
+	game->player.sec.fov = 70;
 	game->player.sec.ang_step = game->player.sec.fov / S_W;
 	rad = (game->player.obj.rot + (game->player.sec.fov / 2.0f)) * M_PI / 180;
 	game->player.sec.r_ang.x = sin(rad);

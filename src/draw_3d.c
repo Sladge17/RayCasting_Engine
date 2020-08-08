@@ -21,9 +21,9 @@ void		draw_roof(t_game *game, int y, int x, int max_y)
 	while (++y <= max_y)
 	{
 		game->data[(H_H + y) * S_W + x] =
-		((clamp_col(game->level.roof.r - (H_H + y) * g / H_H)) << 16) + 
-		((clamp_col(game->level.roof.g - (H_H + y) * g / H_H)) << 8) + 
-		clamp_col(game->level.roof.b - (H_H + y) * g / H_H);
+		((clamp_col((game->level.map.roof & 0xFF0000 >> 16) - (H_H + y) * g / H_H)) << 16) + 
+		((clamp_col((game->level.map.roof & 0xFF00 >> 8) - (H_H + y) * g / H_H)) << 8) + 
+		clamp_col((game->level.map.roof & 0xFF) - (H_H + y) * g / H_H);
 	}
 }
 
@@ -36,9 +36,9 @@ void		draw_floor(t_game *game, int y, int x, int max_y)
 	while (++y <= max_y)
 	{
 		game->data[(H_H + y) * S_W + x] =
-		((clamp_col(game->level.floor.r - (H_H - y) * g / H_H)) << 16) + 
-		((clamp_col(game->level.floor.g - (H_H - y) * g / H_H)) << 8) + 
-		clamp_col(game->level.floor.b - (H_H - y) * g / H_H);
+		((clamp_col((game->level.map.floor & 0xFF0000 >> 16) - (H_H - y) * g / H_H)) << 16) + 
+		((clamp_col((game->level.map.floor & 0xFF00 >> 8) - (H_H - y) * g / H_H)) << 8) + 
+		clamp_col((game->level.map.floor & 0xFF) - (H_H - y) * g / H_H);
 	}
 }
 
@@ -54,8 +54,13 @@ void		draw_walls(t_game *game, int x, t_isec *isec)
 	while (++y <= isec->height * 2)
 	{
 		index[0] = (H_H - isec->height + y) * S_W + x;
-		index[1] = (y * 32 / isec->height ) * game->athlas->w +
-			isec->colum + (isec->number * 64) + isec->number;
+		
+		int im_y = isec->number / 16;
+		int im_x = isec->number - im_y * 16;
+		
+		index[1] = ((y * 32 / isec->height) + im_y * 65) * game->athlas->w +
+			isec->colum + (im_x * 65);
+		
 		if (index[0] < 0)
 			index[0] = 0;
 		if (index[1] < 0)

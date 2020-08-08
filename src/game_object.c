@@ -14,40 +14,53 @@
 
 void	check_x(t_game_obj *obj, t_map *map, t_vec2 *test)
 {
-	int index1;
-	int index2;
+	int x1;
+	int x2;
+	int y;
 	
-
-	index1 = (int)(test->y) * map->width + (int)(test->x - obj->border);
-	index2 = (int)(test->y) * map->width + (int)(test->x + obj->border);
-	if (index1 > 0 && index1 < map->max && map->elem[index1].lock == 1)
+	y = (int)test->y;
+	x1 = (int)(test->x - obj->border);
+	x2 = (int)(test->x + obj->border);
+	if (x1 >= 0 && x1 < 64 && y >= 0 && y < 64 && map->elem[y][x1].lock == 1)
 		test->x = (int)(test->x - obj->border) + obj->border + 1.0;
-	else if (index2 > 0 && index2 < map->max && map->elem[index2].lock == 1)
+	else if (x2 >= 0 && x2 < 64 && y >= 0 && y < 64 && map->elem[y][x2].lock == 1)
 		test->x = (int)(test->x + obj->border) - obj->border;
 }
 
 void	check_y(t_game_obj *obj, t_map *map, t_vec2 *test)
 {
-	int index1;
-	int index2;
+	int y1;
+	int y2;
+	int x;
 
-	index1 = (int)(test->y - obj->border) * map->width + (int)(test->x);
-	index2 = (int)(test->y + obj->border) * map->width + (int)(test->x);
-	if (index1 > 0 && index1 < map->max && map->elem[index1].lock == 1)
+	x = (int)test->x;
+	y1 = (int)(test->y - obj->border);// * map->width + (int)(test->x);
+	y2 = (int)(test->y + obj->border);// * map->width + (int)(test->x);
+	if (y1 >= 0 && y1 < 64 && x >= 0 && x < 64 && map->elem[y1][x].lock == 1)
 		test->y = (int)(test->y - obj->border) + obj->border + 1.0;
-	else if (index2 > 0 && index2 < map->max && map->elem[index2].lock == 1)
+	else if (y2 >= 0 && y2 < 64 && x >= 0 && x < 64 && map->elem[y2][x].lock == 1)
 		test->y = (int)(test->y + obj->border) - obj->border;
 }
 
 void	move_forward(t_game_obj *obj, t_map *map, float koeff)
 {
 	t_vec2	test;
+	float	step;
 	
 	koeff *= obj->speed;
-	test.x = obj->pos.x + koeff * obj->dir.x;
-	test.y = obj->pos.y + koeff * obj->dir.y;
-	check_x(obj, map, &(test));
-	check_y(obj, map, &(test));
+	test.x = obj->pos.x;
+	test.y = obj->pos.y;
+	step = obj->border;
+	while (koeff > 0)
+	{
+		if (step > koeff)
+			step = koeff;
+		test.x += step * obj->dir.x;
+		test.y += step * obj->dir.y;
+		check_x(obj, map, &(test));
+		check_y(obj, map, &(test));
+		koeff -= step;
+	}
 	obj->pos.x = test.x;
 	obj->pos.y = test.y;
 }
@@ -57,7 +70,7 @@ void	move_back(t_game_obj *obj, t_map *map, float koeff)
 	t_vec2	test;
 
 	koeff *= obj->speed;
-	test.x = obj->pos.x - koeff* obj->dir.x;
+	test.x = obj->pos.x - koeff * obj->dir.x;
 	test.y = obj->pos.y - koeff * obj->dir.y;
 	check_x(obj, map, &(test));
 	check_y(obj, map, &(test));

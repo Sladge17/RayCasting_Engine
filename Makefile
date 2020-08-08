@@ -31,7 +31,8 @@ FILES =		act_sdl \
 			mouse_events \
 			music \
 			player \
-			service_stuff
+			service_stuff \
+			editor
 
 S_DIR =		src
 
@@ -84,7 +85,7 @@ $(PROGRAM_NAME): $(O_FILES)
 	gcc $(FLAGS) -o $@ $^ $(LIBS) $(FRAME)
 
 $(O_DIR)/%.o: $(S_DIR)/%.c $(H_FILE)
-	@mkdir $(O_DIR) -p
+	@mkdir -p $(O_DIR)
 	gcc $(FLAGS) -c $< -o $@ $(H_FIND)
 
 clean:

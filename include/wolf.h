@@ -63,28 +63,15 @@ typedef struct		s_isec
 	int				colum;
 }					t_isec;
 
-typedef	struct		s_map_elem
+typedef enum		e_type
 {
-	int				side[4];
-	int				lock;
-	int				number;
-}					t_map_elem;
-
-typedef struct		s_map
-{
-	int				width;
-	int				height;
-	int				max;
-	t_map_elem		*elem;
-}					t_map;
-
-typedef struct		s_level
-{
-	int				number;
-	t_map			map;
-	SDL_Color		floor;
-	SDL_Color		roof;
-}					t_level;
+	WALL,
+	DOOR,
+	ENEMY,
+	ACHIEV,
+	BARIER,
+	ENTOURAGE
+}					t_type;
 
 typedef struct		s_game_obj
 {
@@ -96,6 +83,58 @@ typedef struct		s_game_obj
 	float				border;
 	int				status;
 }					t_game_obj;
+
+typedef struct		s_sprt
+{
+}					t_sprt;
+
+typedef struct		s_enm
+{
+	t_game_obj		obj;
+	t_sprt			*sprt;
+}					t_enm;
+
+typedef struct		s_ach
+{
+	t_vec2			pos;
+	float			border;
+	t_sprt			*sprt;
+}					t_ach;
+
+typedef struct		s_bar
+{
+	t_vec2			pos;
+	float			border;
+	t_sprt			*sprt;
+}					t_bar;
+
+typedef struct		s_antrg
+{
+	t_vec2			pos;
+	t_sprt			*sprt;
+}					t_acntrg;
+
+typedef	struct		s_map_elem
+{
+	int				side[4];
+	int				lock;
+	int				number;
+	t_type			type;
+}					t_map_elem;
+
+typedef struct		s_map
+{
+	Uint32			floor;
+	Uint32			roof;
+	t_map_elem		elem[64][64];
+	t_enm			enm[128];
+}					t_map;
+
+typedef struct		s_level
+{
+	int				number;
+	t_map			map;
+}					t_level;
 
 typedef struct		s_sector
 {
@@ -110,6 +149,32 @@ typedef struct		s_player
 	t_game_obj		obj;
 	t_sector		sec;
 }					t_player;
+
+typedef struct		s_message
+{
+	char *			text;
+	SDL_Color		color;
+	int				size;
+}					t_message;
+
+typedef struct		s_editor
+{
+	SDL_Point		offset;
+	SDL_Point		cursor;
+	t_map			map;
+	SDL_Point		panel;
+	int				cur_wall;
+	int				put;
+	int				scale;
+	SDL_Point		mouse_pos;
+	int				click_time;
+	int				press_l;
+	int				press_r;
+	SDL_Color		floor;
+	SDL_Color		roof;
+	int				status;
+	int				cur_elem;
+}					t_editor;
 
 typedef struct		s_game
 {
@@ -187,4 +252,6 @@ void 		set_color(SDL_Color *col, int r, int g, int b);
 int			clamp_col(int col);
 void		set_col_by_num(SDL_Color *col, int number);
 
+//map editor
+void		map_editor(t_game *game);
 #endif
