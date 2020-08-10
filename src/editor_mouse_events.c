@@ -103,9 +103,10 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 	}
 	else if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
 	{
-		if ((ed->cur_elem = (ed->mouse_pos.y - 5) / 35) < 9)
-			ed->status = ed->cur_elem;
-		check_button_menu(ed);
+		//if ((ed->cur_elem = (ed->mouse_pos.y - 5) / 35) < 9)
+		//	ed->status = ed->cur_elem;
+		ed->cur_elem = (ed->mouse_pos.y - 5) / 35;
+		
 			
 	}
 	if (e->button == SDL_BUTTON_LEFT)
@@ -117,7 +118,12 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 
 void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 {
-	printf("dbl_click [%d;%d]\n", e->x, e->y);
+	//printf("dbl_click [%d;%d]\n", e->x, e->y);
+	if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
+	{
+			ed->status = ed->cur_elem;
+			check_button_menu(ed);			
+	}
 }
 
 void	mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed)

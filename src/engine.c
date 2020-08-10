@@ -110,7 +110,7 @@ void	engine(t_game *game, t_isec *isec, int x)
 	isec->height = 1;
 	isec->number = 0;
 	isec->dist = 100;
-	while (step < 64)
+	while (step < 91)
 	{
 		step += 0.01;
 		check_pos.x = (game->player.obj.pos.x + target.x * step);

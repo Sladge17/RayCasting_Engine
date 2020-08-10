@@ -14,6 +14,8 @@
 
 void	set_grad(t_game *game, int index, SDL_Rect tmp, SDL_Color *col)
 {
+	if (tmp.x > 512)
+		tmp.w = tmp.h;
 	game->data[index] = (clamp_col(col->r + tmp.w) << 16) |
 		(clamp_col(col->g + tmp.w) << 8) | (clamp_col(col->b + tmp.w));
 	if (tmp.x < 85)
@@ -52,6 +54,7 @@ void	draw_grad(t_game *game, int px, int py)
 	SDL_Color	col;
 
 	tmp.w = 256;
+	tmp.h = 256;
 	tmp.y = 0;
 	while (tmp.y < 256)
 	{
@@ -64,6 +67,7 @@ void	draw_grad(t_game *game, int px, int py)
 			set_grad(game, (py + tmp.y) * S_W + tmp.x + px, tmp, &col);
 			++tmp.x;
 		}
+		--tmp.h;
 		tmp.w -= 2;
 		++tmp.y;
 	}
