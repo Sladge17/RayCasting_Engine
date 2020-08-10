@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 23:09:19 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/10 20:07:30 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,21 @@ void	draw_select_col(t_game *game, t_editor *ed)
 {
 	SDL_Rect rect;
 
-	draw_frame(game);
+	if (ed->status == 1)
+		draw_frame(game, "Select ceil color");
+	else
+		draw_frame(game, "Select floor color");
 	draw_grad(game, H_W - 256, H_H - 100);
 	rect.h = 50;
 	rect.w = 100;
 	rect.y = H_H - 180;
 	rect.x = H_W - 50;
 	SDL_FillRect(game->surf, &rect, ed->sel_col);
-	rect.y -= 40;
-	rect.x -= 40;
-	if (ed->status == 1)
-		print_ttf(game->surf, "Select ceil color", 18, &rect);
-	else
-		print_ttf(game->surf, "Select floor color", 18, &rect);
+	//rect.y -= 40;
+	//rect.x -= 40;
+	//if (ed->status == 1)
+	//	print_ttf(game->surf, "Select ceil color", 18, &rect);
+	//else
+	//	print_ttf(game->surf, "Select floor color", 18, &rect);
+
 }

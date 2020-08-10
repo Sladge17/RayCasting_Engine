@@ -6,17 +6,17 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 23:26:53 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/10 20:33:47 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 1200
-# define S_H 800
-# define H_W 600
-# define H_H 400
+# define S_W 2400
+# define S_H 1200
+# define H_W 1200
+# define H_H 600
 # define RATIO 1.78f
 # define THREADS 16
 
@@ -128,6 +128,7 @@ typedef struct		s_map
 	Uint32			roof;
 	t_map_elem		elem[64][64];
 	t_enm			enm[128];
+	t_game_obj		player;
 }					t_map;
 
 typedef struct		s_level
@@ -262,12 +263,11 @@ void		mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed);
 void		mouse_weel_editor(Sint32 y, t_editor *ed);
 void		sld_events_editor(t_game *game, t_editor *ed, SDL_Event e, SDL_Point *flags);
 void		draw_select_col(t_game *game, t_editor *ed);
-void		draw_frame(t_game *game);
 void		print_ttf(SDL_Surface *sdest, const char *text, int size, SDL_Rect *dest);
 Uint32		get_img_color(t_game *game, int x, int y, int number);
 void		draw_box(t_game *game, int index, int number, t_editor *ed);
 void		init_editor(t_editor *ed);
-void		draw_frame(t_game *game);
+void		draw_frame(t_game *game, const char *message);
 void		draw_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 #endif

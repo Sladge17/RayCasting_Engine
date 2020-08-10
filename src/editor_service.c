@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 22:51:48 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/10 20:17:46 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_ttf(SDL_Surface *sdest, const char *text,
 	TTF_CloseFont(fnt);
 }
 
-void	draw_frame(t_game *game)
+void	draw_frame(t_game *game, const char *message)
 {
 	SDL_Rect rect;
 
@@ -78,4 +78,15 @@ void	draw_frame(t_game *game)
 	rect.y = H_H - 240;
 	rect.x = H_W - 320;
 	SDL_FillRect(game->surf, &rect, 0xFF606060);
+	rect.x += 200;
+	rect.y += 10;
+	print_ttf(game->surf, message, 18, &rect);
+	rect.x = H_W - 40;
+	rect.y = H_H + 180;
+	rect.h = 50;
+	rect.w = 80;
+	SDL_FillRect(game->surf, &rect, 0xFF505050);
+	rect.x += 30;
+	rect.y += 15;
+	print_ttf(game->surf, "OK", 18, &rect);
 }

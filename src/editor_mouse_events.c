@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 22:35:36 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/10 20:45:39 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,23 @@ void	mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed)
 	ed->mouse_pos.y = e->y;
 	if (ed->mouse_pos.x <= ed->panel.x && ed->mouse_pos.y <= ed->panel.y)
 	{
-		if (ed->press_l == 1)
+		if (ed->cur_elem == 3)
 		{
-			pos.x = e->x / ed->scale + ed->offset.x;
-			pos.y = e->y / ed->scale + ed->offset.y;
-			if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
+			if (ed->press_l == 1)
 			{
-				ed->cursor = pos;
-				ed->map.elem[ed->cursor.y][ed->cursor.x].number = ed->cur_wall;	
+				pos.x = e->x / ed->scale + ed->offset.x;
+				pos.y = e->y / ed->scale + ed->offset.y;
+				if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
+				{
+					ed->cursor = pos;
+					ed->map.elem[ed->cursor.y][ed->cursor.x].number = ed->cur_wall;	
+				}
 			}
-		}
-		else if (ed->press_r == 1)
-		{
-			ed->offset.x = ed->cursor.x - e->x / ed->scale;
-			ed->offset.y = ed->cursor.y - e->y / ed->scale;
+			else if (ed->press_r == 1)
+			{
+				ed->offset.x = ed->cursor.x - e->x / ed->scale;
+				ed->offset.y = ed->cursor.y - e->y / ed->scale;
+			}
 		}
 	}
 }
