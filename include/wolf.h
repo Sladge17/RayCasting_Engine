@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 15:22:05 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 20:54:55 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct		s_game_obj
 
 typedef struct		s_sprt
 {
+	t_vec2			pos;
+	int				number;
 }					t_sprt;
 
 typedef struct		s_enm

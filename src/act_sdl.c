@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   act_sdl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 18:29:03 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 18:12:50 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	redraw(t_game *game, int *fps)
 	cur_time = SDL_GetTicks();
 	if (cur_time > game->last_time + game->f_time)
 	{
+		for (int i = 0; i < S_W * S_H; i++)
+			game->z_buffer[i] = 100;
 		draw_game(game);
 		SDL_UpdateWindowSurface(game->win);
 		SDL_FlushEvent(SDL_KEYDOWN);
@@ -107,9 +109,9 @@ void	sdl_cycle(t_game *game)
 		curTime = SDL_GetTicks();
 		if (curTime > lastTime + 1000) {
 			lastTime = curTime;
-			write(1, "FPS=", 4);
-			ft_putnbr_fd(fps,1);
-			write(1, "\n", 1);
+			//write(1, "FPS=", 4);
+			//ft_putnbr_fd(fps,1);
+			//write(1, "\n", 1);
 			fps = 0;
 		}
 		repaint = 0;

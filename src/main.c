@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/27 18:20:52 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 17:59:50 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int			main(int ac, char *av[])
 	}
 	if (!(game = (t_game *)ft_memalloc(sizeof(t_game))))
 		ft_exit("Failed to alloc t_game");
+	if (!(game->z_buffer = (double *)ft_memalloc(sizeof(double) * S_W * S_H)))
+		ft_exit("Failed to alloc z_buff ");
+	
 	
 	init_player(game);
 	load_map(&(game->level), &(game->player));
@@ -49,6 +52,8 @@ int			main(int ac, char *av[])
 		return (free_init_sdl(game));
 	game->status = status;
 	main_selector(game);
+	free(game->z_buffer);
+	free(game);
 	close_sdl(game);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 16:16:56 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 20:57:11 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		draw_walls(t_game *game, int x, t_isec *isec)
 			clamp_col(((game->data_img[index[1]] & 0xff00)>>8) - k),
 			clamp_col(((game->data_img[index[1]] & 0xff0000)>>16) - k));
 		game->data[index[0]] = (col.b << 16) | (col.g << 8) | col.r;
+		game->z_buffer[index[0]] = isec->dist;
 		//game->data_img[index[1]];
 	}
 }
@@ -126,5 +127,6 @@ void		draw_game(t_game *game)
 		rc = pthread_join(threads[game->thread], &status);
 	if (game->draw_map)
 		draw_map(game);
-	draw_gui(game);
+	draw_sprites(game);
+	//draw_gui(game);
 }
