@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/10 20:17:46 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 16:30:59 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	draw_box(t_game *game, int index, int number, t_editor *ed)
 					ofs.y * 64 / ed->scale, number);
 			else
 				col = ed->map.floor;
+			if (col == 0x980088)
+				col = ed->map.floor;
 			game->data[index + y_index + ofs.x] = col;
+			
 		}
 	}
 }
@@ -89,4 +92,22 @@ void	draw_frame(t_game *game, const char *message)
 	rect.x += 30;
 	rect.y += 15;
 	print_ttf(game->surf, "OK", 18, &rect);
+}
+
+void	select_cursor_sprite(t_editor *ed)
+{
+	if (ed->cur_elem == 0)
+		ed->cursor.en = &ed->player;
+	else if (ed->cur_elem == 3)
+		ed->cursor.en = &ed->wall;
+	else if (ed->cur_elem == 4)
+		ed->cursor.en = &ed->door;
+	else if (ed->cur_elem == 5)
+		ed->cursor.en = &ed->enemy;
+	else if (ed->cur_elem == 6)
+		ed->cursor.en = &ed->achiv;
+	else if (ed->cur_elem == 7)
+		ed->cursor.en = &ed->barier;
+	else if (ed->cur_elem == 8)
+		ed->cursor.en = &ed->entourage;
 }

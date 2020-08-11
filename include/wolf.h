@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/10 20:33:47 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 15:22:05 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,13 +158,33 @@ typedef struct		s_message
 	int				size;
 }					t_message;
 
+typedef struct		s_entity
+{
+	int				it[64];
+	int				cur;
+	int				max;
+}					t_entity;
+
+typedef struct		s_cursor
+{
+	SDL_Point		pos;
+	t_entity		*en;
+}					t_cursor;
+
 typedef struct		s_editor
 {
 	SDL_Point		offset;
-	SDL_Point		cursor;
+	t_cursor		cursor;
 	t_map			map;
 	SDL_Point		panel;
-	int				cur_wall;
+	
+	t_entity		wall;
+	t_entity		player;
+	t_entity		door;
+	t_entity		enemy;
+	t_entity		barier;
+	t_entity		entourage;
+	t_entity		achiv;
 	int				put;
 	int				scale;
 	SDL_Point		mouse_pos;
@@ -174,7 +194,6 @@ typedef struct		s_editor
 	Uint32			sel_col;
 	int				status;
 	int				cur_elem;
-	
 }					t_editor;
 
 typedef struct		s_game
@@ -270,4 +289,5 @@ void		init_editor(t_editor *ed);
 void		draw_frame(t_game *game, const char *message);
 void		draw_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
+void		select_cursor_sprite(t_editor *ed);
 #endif

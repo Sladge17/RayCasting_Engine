@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/10 20:45:39 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 15:38:03 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	mouse_weel_editor(Sint32 y, t_editor *ed)
 			ed->scale = 128;
 		pos.x = ed->mouse_pos.x / ed->scale;
 		pos.y = ed->mouse_pos.y / ed->scale;
-		ed->offset.x = ed->cursor.x - pos.x;
-		ed->offset.y = ed->cursor.y - pos.y;
+		ed->offset.x = ed->cursor.pos.x - pos.x;
+		ed->offset.y = ed->cursor.pos.y - pos.y;
 	}
 }
 
@@ -49,14 +49,14 @@ void	mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed)
 				pos.y = e->y / ed->scale + ed->offset.y;
 				if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
 				{
-					ed->cursor = pos;
-					ed->map.elem[ed->cursor.y][ed->cursor.x].number = ed->cur_wall;	
+					ed->cursor.pos = pos;
+					ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = ed->wall.it[ed->wall.cur];	
 				}
 			}
 			else if (ed->press_r == 1)
 			{
-				ed->offset.x = ed->cursor.x - e->x / ed->scale;
-				ed->offset.y = ed->cursor.y - e->y / ed->scale;
+				ed->offset.x = ed->cursor.pos.x - e->x / ed->scale;
+				ed->offset.y = ed->cursor.pos.y - e->y / ed->scale;
 			}
 		}
 	}
@@ -99,9 +99,9 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 		pos.y = e->y / ed->scale + ed->offset.y;
 		if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
 		{
-			ed->cursor = pos;
+			ed->cursor.pos = pos;
 			if (e->button == SDL_BUTTON_LEFT)
-				ed->map.elem[ed->cursor.y][ed->cursor.x].number = ed->cur_wall;
+				ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = ed->cursor.en->it[ed->cursor.en->cur];//ed->wall[ed->cur_wall];
 		}
 	}
 	else if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
@@ -109,6 +109,7 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 		//if ((ed->cur_elem = (ed->mouse_pos.y - 5) / 35) < 9)
 		//	ed->status = ed->cur_elem;
 		ed->cur_elem = (ed->mouse_pos.y - 5) / 35;
+		select_cursor_sprite(ed);
 		
 			
 	}

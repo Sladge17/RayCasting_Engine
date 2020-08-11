@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 22:52:16 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 15:26:37 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	draw_cursor(t_game *game, t_editor *ed)
 	int y;
 	int	y_index;
 
-	index = ((ed->cursor.y - ed->offset.y) * S_W +
-		(ed->cursor.x - ed->offset.x)) * ed->scale;
-	draw_box(game, index, ed->cur_wall, ed);
+	index = ((ed->cursor.pos.y - ed->offset.y) * S_W +
+		(ed->cursor.pos.x - ed->offset.x)) * ed->scale;
+	draw_box(game, index, ed->cursor.en->it[ed->cursor.en->cur], ed);
 	y = -1;
 	while (++y < ed->scale)
 	{

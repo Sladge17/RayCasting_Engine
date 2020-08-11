@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 23:21:28 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 16:16:56 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void		draw_walls(t_game *game, int x, t_isec *isec)
 			index[0] = (S_W * S_H) - 1;
 		if (index[1] > (game->athlas->w * game->athlas->h) - 1)
 			index[1] = (game->athlas->w * game->athlas->h) - 1;
+		//if (game->data_img[index[1]] == 0x980088)
+		//	return ;
 		set_color(&col, 
 			clamp_col(((game->data_img[index[1]] & 0xff)) - k), 
 			clamp_col(((game->data_img[index[1]] & 0xff00)>>8) - k),

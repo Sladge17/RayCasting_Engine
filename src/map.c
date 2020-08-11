@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 18:29:31 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 16:12:41 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	load_map(t_level *level, t_player *pl)
 				level->map.elem[j][i].lock = 0;
 			//level->map.elem[j][i].number = number;
 			level->map.elem[j][i].side[0] = number;
-			level->map.elem[j][i].side[1] = number;
+			level->map.elem[j][i].side[1] = number + 1;
 			level->map.elem[j][i].side[2] = number;
-			level->map.elem[j][i].side[3] = number;
+			level->map.elem[j][i].side[3] = number + 1;
 		}
 	}
 		
