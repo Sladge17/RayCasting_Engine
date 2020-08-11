@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-void	set_col_num(t_vec2 *isc_pos, t_isec *isec, t_game *game, int index)
+void	set_col_num(t_vec2 *isc_pos, t_isec *isec, t_game *game, SDL_Point index)
 {
 	//float		colum;
 	t_vec2		delta;
@@ -45,15 +45,15 @@ void	set_col_num(t_vec2 *isc_pos, t_isec *isec, t_game *game, int index)
 	if (delta.x > delta.y)
 	{
 		isec->colum = (int)((isc_pos->x - (int)(isc_pos->x)) * 64);
-		isec->number = game->level.map.elem[index].side[number];
-		if (number == 2)
+		isec->number = game->level.map.elem[index.y][index.x].side[number];
+		if (number == 0)
 			isec->colum = 63 - isec->colum;
 	}
 	else
 	{
 		isec->colum = (int)((isc_pos->y - (int)(isc_pos->y)) * 64);
-		isec->number = game->level.map.elem[index].side[number2];
-		if (number2 == 3)
+		isec->number = game->level.map.elem[index.y][index.x].side[number2];
+		if (number2 == 1)
 			isec->colum = 63 - isec->colum;
 	}
 	//return (res);
@@ -100,24 +100,27 @@ void	engine(t_game *game, t_isec *isec, int x)
 	t_vec2	target;
 	float	step;
 	t_vec2	check_pos;
-	int index;
+	SDL_Point index;
 
 	ang = (game->player.obj.rot + game->player.sec.ang_step * x) * M_PI / 180;
 	target.x = sin(ang);
 	target.y = cos(ang);
 	ang = (game->player.sec.ang_step * x) * M_PI / 180;
 	step = 0;
-	isec->height = 0;
+	isec->height = 1;
 	isec->number = 0;
-	while (step < 50)
+	isec->dist = 100;
+	while (step < 91)
 	{
 		step += 0.01;
 		check_pos.x = (game->player.obj.pos.x + target.x * step);
 		check_pos.y = (game->player.obj.pos.y + target.y * step);
-		index = (int)check_pos.y * game->level.map.width + (int)check_pos.x;
-		if (index >= 0 && index < game->level.map.max)
+		//index = (int)check_pos.y * game->level.map.width + (int)check_pos.x;
+		index.y = (int)check_pos.y;
+		index.x = (int)check_pos.x;
+		if (index.x >= 0 && index.x < 64 && index.y >= 0 && index.y < 64)//index >= 0 && index < game->level.map.max)
 		{		
-			if (game->level.map.elem[index].lock) {
+			if (game->level.map.elem[index.y][index.x].lock) {
 				//isec->number = game->level.map[index].elem->number;
 				isec->dist = step;
 				isec->height = H_H / (isec->dist * cos(ang));

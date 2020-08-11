@@ -32,10 +32,3 @@ int		free_init_sdl(t_game *game)
 	return (-1);
 }
 
-void 	set_color(SDL_Color *col, int r, int g, int b)
-{
-
-	col->r = r;
-	col->g = g;
-	col->b = b;
-}
