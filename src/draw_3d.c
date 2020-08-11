@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_3d.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 16:16:56 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 18:36:39 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		draw_walls(t_game *game, int x, t_isec *isec)
 			clamp_col(((game->data_img[index[1]] & 0xff00)>>8) - k),
 			clamp_col(((game->data_img[index[1]] & 0xff0000)>>16) - k));
 		game->data[index[0]] = (col.b << 16) | (col.g << 8) | col.r;
+		game->z_buffer[index[0]] = isec->dist;
 		//game->data_img[index[1]];
 	}
 }
@@ -96,9 +97,9 @@ void		*draw_block_3d(void *g)
 		engine(game, &isec, x);
 		set_col_by_num(&(isec.col), isec.number);
 		x_index =  (H_W - x);
-		draw_roof(game, -H_H, x_index, -isec.height);
-		draw_floor(game, isec.height, x_index, H_H - 1);
-		draw_walls(game, x_index, &(isec));
+		draw_roof(game, -H_H, x_index, 0);//-isec.height);
+		draw_floor(game, 0, x_index, H_H - 1);//isec.height
+		//draw_walls(game, x_index, &(isec));
 	}
 	return (0);
 }
@@ -126,5 +127,6 @@ void		draw_game(t_game *game)
 		rc = pthread_join(threads[game->thread], &status);
 	if (game->draw_map)
 		draw_map(game);
-	draw_gui(game);
+	draw_sprites(game);
+	//draw_gui(game);
 }

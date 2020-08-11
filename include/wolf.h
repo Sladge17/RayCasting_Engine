@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 15:22:05 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/11 17:56:51 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,16 @@ typedef struct		s_game_obj
 	t_vec2			pos;
 	t_vec2			dir;
 	float			rot;
-	float				speed;
+	float			speed;
 	int				rot_speed;
-	float				border;
+	float			border;
 	int				status;
 }					t_game_obj;
 
 typedef struct		s_sprt
 {
+	t_vec2			pos;
+	int				number;
 }					t_sprt;
 
 typedef struct		s_enm
@@ -203,6 +205,7 @@ typedef struct		s_game
 	SDL_Surface		*athlas;
 	int				*data;
 	int				*data_img;
+	double			*z_buffer;//[S_W * S_H];
 	int				status;
 	int				draw_map;
 	int				fps;
@@ -290,4 +293,8 @@ void		draw_frame(t_game *game, const char *message);
 void		draw_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 void		select_cursor_sprite(t_editor *ed);
+
+//draw sprites
+void		draw_sprites(t_game *game);
+
 #endif

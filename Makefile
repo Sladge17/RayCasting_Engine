@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
+#    By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/08/08 22:21:29 by vkaron           ###   ########.fr        #
+#    Updated: 2020/08/11 17:40:42 by jthuy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ FILES =		act_sdl \
 			editor_service \
 			editor_draw_menu \
 			editor_init \
-			editor_check_frame
+			editor_check_frame \
+			sprite
 
 S_DIR =		src
 
