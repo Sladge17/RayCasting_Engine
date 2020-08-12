@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 18:36:39 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/08/11 19:57:27 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void		*draw_block_3d(void *g)
 		engine(game, &isec, x);
 		set_col_by_num(&(isec.col), isec.number);
 		x_index =  (H_W - x);
-		draw_roof(game, -H_H, x_index, 0);//-isec.height);
-		draw_floor(game, 0, x_index, H_H - 1);//isec.height
-		//draw_walls(game, x_index, &(isec));
+		draw_roof(game, -H_H, x_index, -isec.height);
+		draw_floor(game, isec.height, x_index, H_H - 1);
+		draw_walls(game, x_index, &(isec));
 	}
 	return (0);
 }

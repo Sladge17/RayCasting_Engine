@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 17:56:51 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/08/12 16:54:15 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,18 @@ typedef struct		s_game_obj
 typedef struct		s_sprt
 {
 	t_vec2			pos;
-	int				number;
+	int				numb;
+	double			dist2[2];
+	double			rot;
+	double			dist;
+	int				size;
+	double 			dir;
+	int				offset[2];
+	int				cursor[2];
+	int				tile;
+	int				pix_pos[2];
+	int				pix_win;
+	int				pix_img;
 }					t_sprt;
 
 typedef struct		s_enm
@@ -296,5 +307,7 @@ void		select_cursor_sprite(t_editor *ed);
 
 //draw sprites
 void		draw_sprites(t_game *game);
+void		def_spriteparam(t_game *game, t_sprt *sprite);
+void		draw_vertline(t_game *game, t_sprt *sprite);
 
 #endif
