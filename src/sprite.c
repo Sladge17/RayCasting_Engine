@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
-/*   Updated: 2020/08/12 17:51:31 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/08/13 20:21:35 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ void	def_spriteparam(t_game *game, t_sprt *sprite)
 		sprite->rot += 2 * M_PI;
 	sprite->dir = sprite->rot - (game->player.obj.rot * M_PI / 180);
 	sprite->dist = sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
-	sprite->size = (int)(S_H * 2 / sprite->dist);
-	if (sprite->size > 4000) // dont need if exist collision
-		sprite->size = 4000;
+	sprite->size = (int)(S_H / sprite->dist);
+	
+	if (sprite->size > S_H * 4) // dont need if exist collision
+		sprite->size = S_H * 4;
 	sprite->offset[0] = S_W / 2 - sprite->size / 2 -
 		(sprite->dir * (S_W) / (game->player.sec.fov * M_PI / 180));
 	sprite->offset[1] = S_H / 2 - sprite->size / 2;
@@ -77,6 +78,7 @@ void	draw_vertline(t_game *game, t_sprt *sprite)
 	}
 }
 
+//*
 void	draw_sprites(t_game *game)
 {
 	// t_sprt s[3];
@@ -116,3 +118,4 @@ void	draw_sprites(t_game *game)
 	s.pos.y = 12.5;
 	draw_sprite(game, &s);
 }
+//*

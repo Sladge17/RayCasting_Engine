@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 16:12:41 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/13 20:20:38 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void	load_map(t_level *level, t_player *pl)
 	}
 		
 	pl->obj.pos.x = (float)29 + 0.5;
-	pl->obj.pos.y = (float)50 + 0.5;	
+	pl->obj.pos.y = (float)50 + 0.5;
+	
+	level->map.floor = 0x646464;	
 	
 	//if (!(level->map.elem = (t_map_elem *)ft_memalloc(
 	//	sizeof(t_map_elem) * level->map.max)))

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/12 16:54:15 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/08/13 19:59:45 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 2400
+# define S_W 1200
 # define S_H 1200
-# define H_W 1200
+# define H_W 600
 # define H_H 600
 # define RATIO 1.78f
 # define THREADS 16
