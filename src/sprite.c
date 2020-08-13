@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
-/*   Updated: 2020/08/13 20:21:35 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/13 20:29:50 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,14 @@ void	def_spriteparam(t_game *game, t_sprt *sprite)
 	sprite->dist2[0] = sprite->pos.x - game->player.obj.pos.x;
 	sprite->dist2[1] = sprite->pos.y - game->player.obj.pos.y;
 	sprite->rot = atan2(sprite->dist2[0], sprite->dist2[1]);
-	while (sprite->rot - (game->player.obj.rot * M_PI / 180)  > M_PI)
-		sprite->rot -= 2 * M_PI; 
+	while (sprite->rot - (game->player.obj.rot * M_PI / 180) > M_PI)
+		sprite->rot -= 2 * M_PI;
 	while (sprite->rot - (game->player.obj.rot * M_PI / 180) < -M_PI)
 		sprite->rot += 2 * M_PI;
 	sprite->dir = sprite->rot - (game->player.obj.rot * M_PI / 180);
 	sprite->dist = sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
 	sprite->size = (int)(S_H / sprite->dist);
-	
-	if (sprite->size > S_H * 4) // dont need if exist collision
+	if (sprite->size > S_H * 4)
 		sprite->size = S_H * 4;
 	sprite->offset[0] = S_W / 2 - sprite->size / 2 -
 		(sprite->dir * (S_W) / (game->player.sec.fov * M_PI / 180));
@@ -78,44 +77,20 @@ void	draw_vertline(t_game *game, t_sprt *sprite)
 	}
 }
 
-//*
 void	draw_sprites(t_game *game)
 {
-	// t_sprt s[3];
-
-	// s[0].numb = 156;
-	// s[0].pos.x = 8.5;
-	// s[0].pos.y = 9.5;
-
-	// s[1].numb = 115;
-	// s[1].pos.x = 10.5;
-	// s[1].pos.y = 10.5;
-	
-	// s[2].numb = 116;
-	// s[2].pos.x = 15.5;
-	// s[2].pos.y = 12.5;
-	
-	// int i = -1;
-	// while (++i < 3)
-	// {
-	// 	draw_sprite(game, &s[i]);
-	// }
-
 	t_sprt s;
-	
+
 	s.numb = 156;
 	s.pos.x = 8.5;
 	s.pos.y = 9.5;
 	draw_sprite(game, &s);
-
 	s.numb = 115;
 	s.pos.x = 10.5;
 	s.pos.y = 10.5;
 	draw_sprite(game, &s);
-
 	s.numb = 116;
 	s.pos.x = 15.5;
 	s.pos.y = 12.5;
 	draw_sprite(game, &s);
 }
-//*
