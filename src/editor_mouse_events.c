@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 15:38:03 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/17 19:02:37 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,26 @@ void	mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed)
 	ed->mouse_pos.y = e->y;
 	if (ed->mouse_pos.x <= ed->panel.x && ed->mouse_pos.y <= ed->panel.y)
 	{
-		if (ed->cur_elem == 3)
+		if (ed->press_l == 1 && ed->cur_elem == 3)
 		{
-			if (ed->press_l == 1)
+			pos.x = e->x / ed->scale + ed->offset.x;
+			pos.y = e->y / ed->scale + ed->offset.y;
+			if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
 			{
-				pos.x = e->x / ed->scale + ed->offset.x;
-				pos.y = e->y / ed->scale + ed->offset.y;
-				if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
-				{
-					ed->cursor.pos = pos;
-					ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = ed->wall.it[ed->wall.cur];	
-				}
+				ed->cursor.pos = pos;
+				editor_set_cell(ed);	
 			}
-			else if (ed->press_r == 1)
-			{
-				ed->offset.x = ed->cursor.pos.x - e->x / ed->scale;
-				ed->offset.y = ed->cursor.pos.y - e->y / ed->scale;
-			}
+		}
+		else if (ed->press_r == 1)
+		{
+			ed->offset.x = ed->cursor.pos.x - e->x / ed->scale;
+			ed->offset.y = ed->cursor.pos.y - e->y / ed->scale;
 		}
 	}
 }
 
 void	check_button_menu(t_editor *ed)
 {
-	//printf("mouse [%d,%d]\n",ed->mouse_pos.x,ed->mouse_pos.y);
 	if (ed->mouse_pos.y >= 325 && ed->mouse_pos.y < 355)
 	{
 		if (ed->mouse_pos.x >= S_W - 300 && ed->mouse_pos.x < S_W - 200)
@@ -101,17 +97,13 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 		{
 			ed->cursor.pos = pos;
 			if (e->button == SDL_BUTTON_LEFT)
-				ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = ed->cursor.en->it[ed->cursor.en->cur];//ed->wall[ed->cur_wall];
+				editor_set_cell(ed);
 		}
 	}
 	else if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
 	{
-		//if ((ed->cur_elem = (ed->mouse_pos.y - 5) / 35) < 9)
-		//	ed->status = ed->cur_elem;
 		ed->cur_elem = (ed->mouse_pos.y - 5) / 35;
 		select_cursor_sprite(ed);
-		
-			
 	}
 	if (e->button == SDL_BUTTON_LEFT)
 		ed->press_l = 1;
@@ -122,7 +114,6 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 
 void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 {
-	//printf("dbl_click [%d;%d]\n", e->x, e->y);
 	if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
 	{
 			ed->status = ed->cur_elem;

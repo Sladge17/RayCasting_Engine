@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 16:35:24 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/17 20:46:17 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,18 @@ void	init_editor_map(t_editor *ed)
 
 void	init_editor_wall(t_editor *ed)
 {
+	const int wall[] = {-1, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28,
+	30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66,
+	68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 558, 560, 562,
+	564, 566, 568, 570, 572, 574, 576, 578, 580, 582, 584};
 	int i;
-	int d;
 
-	i = 0;
-	d = -2;
-	ed->wall.it[0] = -1;
-	while(++i < 64)
-	{
-		if (i == 49)
-			d = 444;
-		ed->wall.it[i] = i * 2 + d;
-	}
+	i = -1;
 	ed->wall.max = 62;
+	while(++i < ed->wall.max + 1)
+		ed->wall.it[i] = wall[i];
 	ed->wall.cur = 0;
+	ed->wall.type = WALL;
 }
 
 void	init_editor_door(t_editor *ed)
@@ -56,6 +54,7 @@ void	init_editor_door(t_editor *ed)
 	ed->door.it[2] = 104;
 	ed->door.max = 2;
 	ed->door.cur = 0;
+	ed->door.type = DOOR;
 }
 
 void	init_editor_player(t_editor *ed)
@@ -63,6 +62,7 @@ void	init_editor_player(t_editor *ed)
 	ed->player.it[0] = 514;
 	ed->player.max = 0;
 	ed->player.cur = 0;
+	ed->player.type = PLAYER;
 }
 
 void	init_editor_enemy(t_editor *ed)
@@ -91,8 +91,8 @@ void	init_editor_enemy(t_editor *ed)
 	ed->enemy.it[21] = 659;
 	ed->enemy.max = 21;
 	ed->enemy.cur = 0;
+	ed->enemy.type = ENEMY;
 }
-
 
 void	init_editor_achiv(t_editor *ed)
 {
@@ -106,6 +106,22 @@ void	init_editor_achiv(t_editor *ed)
 		ed->achiv.it[i] = i + 129;
 	ed->achiv.max = 12;
 	ed->achiv.cur = 0;
+	ed->achiv.type = ACHIV;
+}
+
+void	init_editor_barier(t_editor *ed)
+{
+	const int barier[] = {109, 110, 113, 115, 116, 118, 119, 120, 121, 124, 
+		125, 126, 130, 143, 144, 145, 147, 153, 154, 155, 570, 571, 572,
+		574, 575, 576, 577, 578, 579, 580};
+	int i;
+
+	ed->barier.max = 29;
+	i = -1;
+	while (++i <= ed->barier.max)
+		ed->barier.it[i] = barier[i];
+	ed->barier.cur = 0;
+	ed->barier.type = BARIER;
 }
 
 void	init_editor(t_editor *ed)
@@ -132,6 +148,6 @@ void	init_editor(t_editor *ed)
 	init_editor_door(ed);
 	init_editor_enemy(ed);
 	init_editor_achiv(ed);
-	
+	init_editor_barier(ed);
 	select_cursor_sprite(ed);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+         #
+#    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/08/11 17:40:42 by jthuy            ###   ########.fr        #
+#    Updated: 2020/08/17 18:34:57 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@
 
 PROGRAM_NAME = WOLF
 
-#FLAGS =	#-Wall -Wextra -Werror -Ofast -g
-FLAGS =		-g
+FLAGS =	-Wall -Wextra #-Werror -Ofast -g
+#FLAGS =		-g
 
 FILES =		act_sdl \
 			color \
@@ -41,7 +41,9 @@ FILES =		act_sdl \
 			editor_draw_menu \
 			editor_init \
 			editor_check_frame \
-			sprite
+			editor_pick_map \
+			sprite \
+			
 
 S_DIR =		src
 

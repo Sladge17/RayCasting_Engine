@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   editor_pick_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/13 20:11:21 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/17 18:59:10 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	init_player(t_game *game)
+void	editor_set_cell(t_editor *ed)
 {
-	t_vec2 pos;
-	float rad;
-
-	pos.x = 4.5f;
-	pos.y = 3.5f;
-	init_object(&(game->player.obj),  pos, 0, 10, 120);
-	game->player.sec.fov = 40;
-	game->player.sec.ang_step = game->player.sec.fov / S_W;
-	rad = (game->player.obj.rot + (game->player.sec.fov / 2.0f)) * M_PI / 180;
-	game->player.sec.r_ang.x = sin(rad);
-	game->player.sec.r_ang.y = cos(rad);
-	rad = (game->player.obj.rot - (game->player.sec.fov / 2.0f)) * M_PI / 180;
-	game->player.sec.l_ang.x = sin(rad);
-	game->player.sec.l_ang.y = cos(rad);
+	ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = 
+		ed->cursor.en->it[ed->cursor.en->cur];
+	
+//	ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].type = 
+	//if (ed->cursor.pos.y > 0)
+//	{
+		//if ()
+//	}
 }

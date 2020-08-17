@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   act_sdl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 18:12:50 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/08/17 19:41:09 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void	sdl_cycle(t_game *game)
 		redraw(game, &fps);
 		if (SDL_PollEvent(&e) != 0 || repaint)
 			sld_events(game, e, &quit, &repaint);
+		SDL_Delay(10);
 	}
 	game->status = 3;
 }

@@ -6,16 +6,16 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 20:54:55 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/17 20:05:24 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 2400
+# define S_W 1200
 # define S_H 1200
-# define H_W 1200
+# define H_W 600
 # define H_H 600
 # define RATIO 1.78f
 # define THREADS 16
@@ -65,10 +65,11 @@ typedef struct		s_isec
 
 typedef enum		e_type
 {
+	PLAYER,
 	WALL,
 	DOOR,
 	ENEMY,
-	ACHIEV,
+	ACHIV,
 	BARIER,
 	ENTOURAGE
 }					t_type;
@@ -78,16 +79,27 @@ typedef struct		s_game_obj
 	t_vec2			pos;
 	t_vec2			dir;
 	float			rot;
-	float				speed;
+	float			speed;
 	int				rot_speed;
-	float				border;
+	float			border;
 	int				status;
 }					t_game_obj;
 
 typedef struct		s_sprt
 {
 	t_vec2			pos;
-	int				number;
+	int				numb;
+	double			dist2[2];
+	double			rot;
+	double			dist;
+	int				size;
+	double 			dir;
+	int				offset[2];
+	int				cursor[2];
+	int				tile;
+	int				pix_pos[2];
+	int				pix_win;
+	int				pix_img;
 }					t_sprt;
 
 typedef struct		s_enm
@@ -165,6 +177,7 @@ typedef struct		s_entity
 	int				it[64];
 	int				cur;
 	int				max;
+	t_type			type;
 }					t_entity;
 
 typedef struct		s_cursor
@@ -205,6 +218,7 @@ typedef struct		s_game
 	SDL_Surface		*athlas;
 	int				*data;
 	int				*data_img;
+	double			*z_buffer;//[S_W * S_H];
 	int				status;
 	int				draw_map;
 	int				fps;
@@ -292,4 +306,11 @@ void		draw_frame(t_game *game, const char *message);
 void		draw_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 void		select_cursor_sprite(t_editor *ed);
+void		editor_set_cell(t_editor *ed);
+
+//draw sprites
+void		draw_sprites(t_game *game);
+void		def_spriteparam(t_game *game, t_sprt *sprite);
+void		draw_vertline(t_game *game, t_sprt *sprite);
+
 #endif

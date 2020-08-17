@@ -5,100 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/11 16:24:05 by jthuy             #+#    #+#             */
-/*   Updated: 2020/08/11 21:06:04 by vkaron           ###   ########.fr       */
+/*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
+/*   Updated: 2020/08/13 20:29:50 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	draw_sprite(t_game *game, t_sprt *sprite)//t_map *map, t_player *player, int *pixel, int *img, int sprite_poz, int tile_numb, double *z_buff)
+void	draw_sprite(t_game *game, t_sprt *sprite)
 {
-	t_player *player = &game->player;
-	int *pixel = game->data;
-	int *img = game->data_img;
-	double *z_buff = game->z_buffer;
-	
-	
-	//t_sprite sprite;
-
-	//sprite.x = sprite_poz % map->width + 0.5;
-	//sprite.y = sprite_poz / map->width + 0.5;
-	double rad = player->obj.rot * M_PI / 180;
-	double fov_rad = player->sec.fov * M_PI / 180;
-	// printf("%f\n", player->sec.fov);
-	
-	double	sprite_dir = atan2(sprite->pos.x - player->obj.pos.x, sprite->pos.y - player->obj.pos.y);
-	//printf("d_alp=%.2f\n", sprite_dir * 180.0 / M_PI);
-	while (sprite_dir - rad  > M_PI)
-	 	sprite_dir -= 2 * M_PI; 
-	while (sprite_dir - rad < -M_PI)
-	 	sprite_dir += 2 * M_PI;
-	
-	double	sprite_dist = sqrt(pow(sprite->pos.x - player->obj.pos.x, 2) + pow(sprite->pos.y - player->obj.pos.y, 2));
-	int		sprite_screen_size = (int)(S_H / sprite_dist) < 2000 ? (int)(S_H * 2 / sprite_dist) : 2000;
-	
-	sprite_screen_size /= 2;
-	
-	double sp_dir_pl = sprite_dir - rad;
-	int shift_x = S_W / 2 - (sp_dir_pl * (S_W) / (fov_rad));
-	int h_offset = shift_x - sprite_screen_size / 2;
-
-	int v_offset = S_H / 2 - sprite_screen_size / 2;
-
-	int		cursor_x;
-	int		cursor_y;
-	cursor_x = 0;
-
-	while (cursor_x < sprite_screen_size)
+	def_spriteparam(game, sprite);
+	sprite->cursor[0] = 0;
+	while (sprite->cursor[0] < sprite->size)
 	{
-		if (h_offset + cursor_x < 0 || h_offset + cursor_x >= S_W)
+		if (sprite->offset[0] + sprite->cursor[0] < 0 ||
+			sprite->offset[0] + sprite->cursor[0] >= S_W)
 		{
-			cursor_x += 1;
+			sprite->cursor[0] += 1;
 			continue;
 		}
-		cursor_y = 0;
-		while (cursor_y < sprite_screen_size)
+		sprite->pix_pos[0] = (65 * (sprite->cursor[0] / (double)sprite->size));
+		draw_vertline(game, sprite);
+		sprite->cursor[0] += 1;
+	}
+}
+
+void	def_spriteparam(t_game *game, t_sprt *sprite)
+{
+	sprite->dist2[0] = sprite->pos.x - game->player.obj.pos.x;
+	sprite->dist2[1] = sprite->pos.y - game->player.obj.pos.y;
+	sprite->rot = atan2(sprite->dist2[0], sprite->dist2[1]);
+	while (sprite->rot - (game->player.obj.rot * M_PI / 180) > M_PI)
+		sprite->rot -= 2 * M_PI;
+	while (sprite->rot - (game->player.obj.rot * M_PI / 180) < -M_PI)
+		sprite->rot += 2 * M_PI;
+	sprite->dir = sprite->rot - (game->player.obj.rot * M_PI / 180);
+	sprite->dist = sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
+	sprite->size = (int)(S_H / sprite->dist);
+	if (sprite->size > S_H * 4)
+		sprite->size = S_H * 4;
+	sprite->offset[0] = S_W / 2 - sprite->size / 2 -
+		(sprite->dir * (S_W) / (game->player.sec.fov * M_PI / 180));
+	sprite->offset[1] = S_H / 2 - sprite->size / 2;
+	sprite->tile = 65 * (sprite->numb % 16 + sprite->numb / 16 * 1039);
+}
+
+void	draw_vertline(t_game *game, t_sprt *sprite)
+{
+	sprite->cursor[1] = 0;
+	while (sprite->cursor[1] < sprite->size)
+	{
+		if (sprite->offset[1] + sprite->cursor[1] < 0 ||
+			sprite->offset[1] + sprite->cursor[1] >= S_H)
 		{
-			if (v_offset + cursor_y < 0 || v_offset + cursor_y >= S_H)
-			{
-				cursor_y += 1;
-				continue;
-			}
-			if (img[(int)(65 * (cursor_x / (double)sprite_screen_size)) + 1039 * (int)(65 * (cursor_y / (double)sprite_screen_size)) + sprite->number % 16 * 65 + sprite->number / 16 * 1039 * 65] != 0x980088 &&
-				(int)(65 * (cursor_x / (double)sprite_screen_size)) != 64 && (int)(65 * (cursor_y / (double)sprite_screen_size)) != 64 &&
-				sprite_dist < z_buff[h_offset + cursor_x + S_W * (v_offset + cursor_y)])
-			{
-				pixel[h_offset + cursor_x + S_W * (v_offset + cursor_y)] = img[(int)(65 * (cursor_x / (double)sprite_screen_size)) + 1039 * (int)(65 * (cursor_y / (double)sprite_screen_size)) + sprite->number % 16 * 65 + sprite->number / 16 * 1039 * 65];
-				z_buff[h_offset + cursor_x + S_W * (v_offset + cursor_y)] = sprite_dist;
-			}
-			cursor_y += 1;
+			sprite->cursor[1] += 1;
+			continue;
 		}
-		cursor_x += 1;
+		sprite->pix_pos[1] = (65 * (sprite->cursor[1] / (double)sprite->size));
+		sprite->pix_win = sprite->offset[0] + sprite->cursor[0] +
+			S_W * (sprite->offset[1] + sprite->cursor[1]);
+		sprite->pix_img = sprite->tile + sprite->pix_pos[0] +
+			1039 * sprite->pix_pos[1];
+		if (game->data_img[sprite->pix_img] != 0x980088 &&
+			sprite->pix_pos[0] != 64 && sprite->pix_pos[1] != 64 &&
+			sprite->dist < game->z_buffer[sprite->pix_win])
+		{
+			game->data[sprite->pix_win] = game->data_img[sprite->pix_img];
+			game->z_buffer[sprite->pix_win] = sprite->dist;
+		}
+		sprite->cursor[1] += 1;
 	}
 }
 
 void	draw_sprites(t_game *game)
 {
-	t_sprt s[3];
+	t_sprt s;
 
-	s[0].number = 156;
-	s[0].pos.x = 8.5;
-	s[0].pos.y = 9.5;
-
-	s[1].number = 115;
-	s[1].pos.x = 10.5;
-	s[1].pos.y = 10.5;
-	
-	s[2].number = 122;
-	s[2].pos.x = 15.5;
-	s[2].pos.y = 12.5;
-	
-	int i = -1;
-	while (++i < 3)//sprite_pos < map->width * map->height)
-	{
-		//if (map->field[sprite_pos] == 'B')
-		draw_sprite(game, &s[i]);//map, player, pixel, img, sprite_pos, 156, z_buffdr);
-		//sprite_pos += 1;
-	}
+	s.numb = 156;
+	s.pos.x = 8.5;
+	s.pos.y = 9.5;
+	draw_sprite(game, &s);
+	s.numb = 115;
+	s.pos.x = 10.5;
+	s.pos.y = 10.5;
+	draw_sprite(game, &s);
+	s.numb = 116;
+	s.pos.x = 15.5;
+	s.pos.y = 12.5;
+	draw_sprite(game, &s);
 }
