@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/17 20:05:24 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/24 22:37:32 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct		s_isec
 
 typedef enum		e_type
 {
+	NONE,
 	PLAYER,
 	WALL,
 	DOOR,
@@ -200,6 +201,11 @@ typedef struct		s_editor
 	t_entity		barier;
 	t_entity		entourage;
 	t_entity		achiv;
+	t_type			type_map[64][64];
+	Uint8			enemies;
+	Uint8			bariers;
+	Uint8			achivs;
+	Uint8			entours;		
 	int				put;
 	int				scale;
 	SDL_Point		mouse_pos;
