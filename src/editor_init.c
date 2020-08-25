@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/24 23:08:25 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/25 16:49:23 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	init_type_map(t_editor *ed)
 				ed->type_map[j][i] = WALL;
 			else
 				ed->type_map[j][i] = NONE;
+			ed->map.elem[i][j].modify = 0;
 		}
 	}
 	ed->map.player.pos.x = 1.5;

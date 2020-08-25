@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/17 19:02:37 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/25 23:12:25 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	mouse_weel_editor(Sint32 y, t_editor *ed)
 
 	if (ed->mouse_pos.x <= ed->panel.x && ed->mouse_pos.y <= ed->panel.y)
 	{
-		if (y < 0) 
+		if (y < 0)
 			ed->scale -= 1;
 		if (y > 0)
 			ed->scale += 1;
@@ -36,7 +36,7 @@ void	mouse_weel_editor(Sint32 y, t_editor *ed)
 void	mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed)
 {
 	SDL_Point pos;
-	
+
 	ed->mouse_pos.x = e->x;
 	ed->mouse_pos.y = e->y;
 	if (ed->mouse_pos.x <= ed->panel.x && ed->mouse_pos.y <= ed->panel.y)
@@ -48,7 +48,7 @@ void	mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed)
 			if (pos.x >= 0 && pos.x < 64 && pos.y >= 0 && pos.y < 64)
 			{
 				ed->cursor.pos = pos;
-				editor_set_cell(ed);	
+				editor_set_cell(ed);
 			}
 		}
 		else if (ed->press_r == 1)
@@ -68,7 +68,7 @@ void	check_button_menu(t_editor *ed)
 		else if (ed->mouse_pos.x >= S_W - 200 && ed->mouse_pos.x < S_W - 100)
 			ed->status = 10;
 		else if (ed->mouse_pos.x >= S_W - 100 && ed->mouse_pos.x < S_W)
-			ed->status = 11;		
+			ed->status = 11;
 	}
 	else if (ed->mouse_pos.y >= 355 && ed->mouse_pos.y < 390)
 	{
@@ -77,7 +77,7 @@ void	check_button_menu(t_editor *ed)
 		else if (ed->mouse_pos.x >= S_W - 200 && ed->mouse_pos.x < S_W - 100)
 			ed->status = 13;
 		else if (ed->mouse_pos.x >= S_W - 100 && ed->mouse_pos.x < S_W)
-			ed->status = 14;		
+			ed->status = 14;
 	}
 	if (ed->cur_elem > 10)
 		ed->cur_elem = 0;
@@ -86,7 +86,7 @@ void	check_button_menu(t_editor *ed)
 void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 {
 	SDL_Point pos;
-	
+
 	if (check_frame(e, game, ed))
 		return ;
 	if (ed->mouse_pos.x <= ed->panel.x && ed->mouse_pos.y <= ed->panel.y)
@@ -109,22 +109,29 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 		ed->press_l = 1;
 	else if (e->button == SDL_BUTTON_RIGHT)
 		ed->press_r = 1;
-	printf("ed-status=%d\n", ed->status);
+	//printf("ed-status=%d\n", ed->status);
 }
 
 void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 {
 	if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
 	{
-			ed->status = ed->cur_elem;
-			check_button_menu(ed);			
+		ed->status = ed->cur_elem;
+		check_button_menu(ed);
 	}
+	if (ed->status == 12)
+		save_ed_map(ed);
+	else if (ed->status == 13)
+		load_ed_map(ed);
+	if (ed->status != 11 && ed->status > 8 && ed->status < 14)
+		ed->status = 0;
+	printf("ed-status=%d\n", ed->status);
 }
 
 void	mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 {
 	Uint32 cur_time;
-	
+
 	if (e->button == SDL_BUTTON_LEFT)
 	{
 		ed->press_l = 0;
@@ -133,10 +140,9 @@ void	mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 		{
 			mouse_dbl_editor(e, ed);
 			return ;
-		}	
+		}
 		ed->click_time = cur_time;
 	}
 	else if (e->button == SDL_BUTTON_RIGHT)
 		ed->press_r = 0;
-	
 }

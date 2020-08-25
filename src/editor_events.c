@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 15:33:13 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/25 20:29:55 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int		key_press_editor(SDL_Keycode key, t_editor *ed)
 		ed->cursor.pos.x += 1;
 		if ((ed->cursor.pos.x - ed->offset.x) * ed->scale >= ed->panel.x)
 			ed->offset.x += 1;
-		
 	}
 	else if (key == SDLK_a)
 	{
@@ -69,7 +68,8 @@ int		key_press_editor(SDL_Keycode key, t_editor *ed)
 	return (1);
 }
 
-void	sld_events_editor(t_game *game, t_editor *ed, SDL_Event e, SDL_Point *flags)
+void	sld_events_editor(t_game *game, t_editor *ed, SDL_Event e,
+	SDL_Point *flags)
 {
 	if (e.type == SDL_QUIT)
 		flags->x = 1;
@@ -81,7 +81,11 @@ void	sld_events_editor(t_game *game, t_editor *ed, SDL_Event e, SDL_Point *flags
 		{
 			key_press_editor(e.key.keysym.sym, ed);
 			if (ed->put == 1)
-				ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = ed->cursor.en->it[ed->cursor.en->cur];
+			{
+				editor_set_cell(ed);
+				if (ed->cursor.en->type != WALL)
+					ed->put = 0;
+			}
 			flags->y = 1;
 		}
 	}

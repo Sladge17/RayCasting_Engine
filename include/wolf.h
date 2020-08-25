@@ -6,17 +6,17 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/24 22:37:32 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/25 23:26:15 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 1200
-# define S_H 1200
-# define H_W 600
-# define H_H 600
+# define S_W 640
+# define S_H 480
+# define H_W 320
+# define H_H 240
 # define RATIO 1.78f
 # define THREADS 16
 
@@ -134,6 +134,7 @@ typedef	struct		s_map_elem
 	int				side[4];
 	int				lock;
 	int				number;
+	int				modify;
 	t_type			type;
 }					t_map_elem;
 
@@ -313,6 +314,9 @@ void		draw_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 void		select_cursor_sprite(t_editor *ed);
 void		editor_set_cell(t_editor *ed);
+void		draw_editor_help(t_game *game);
+void		draw_editor_select(t_game *game, t_editor *ed);
+void		draw_editor_modify_wall(t_game *game, t_editor *ed);
 
 //draw sprites
 void		draw_sprites(t_game *game);

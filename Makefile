@@ -6,7 +6,7 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/08/24 23:30:42 by vkaron           ###   ########.fr        #
+#    Updated: 2020/08/25 23:27:37 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ FILES =		act_sdl \
 			editor_init \
 			editor_check_frame \
 			editor_pick_map \
+			editor_help \
+			editor_select \
 			sprite \
 			
 

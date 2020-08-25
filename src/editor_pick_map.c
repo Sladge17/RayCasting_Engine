@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/24 23:16:47 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/08/25 16:28:35 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int		check_door(t_editor *ed)
 {
-	if (ed->cursor.pos.y > 0 && ed->cursor.pos.y < 63 && 
+	if (ed->cursor.pos.y > 0 && ed->cursor.pos.y < 63 &&
 		ed->type_map[ed->cursor.pos.y + 1][ed->cursor.pos.x] == WALL &&
 		ed->type_map[ed->cursor.pos.y - 1][ed->cursor.pos.x] == WALL)
 		return (1);
-	if (ed->cursor.pos.x > 0 && ed->cursor.pos.x < 63 && 
+	if (ed->cursor.pos.x > 0 && ed->cursor.pos.x < 63 &&
 		ed->type_map[ed->cursor.pos.y][ed->cursor.pos.x + 1] == WALL &&
 		ed->type_map[ed->cursor.pos.y][ed->cursor.pos.x - 1] == WALL)
 		return (1);
@@ -45,13 +45,13 @@ int		check_cell(t_editor *ed)
 	else if (cell == NONE || cell == WALL || cell == DOOR)
 		return (1);
 	else if (cell == ENEMY && ed->enemies < 128)
-			ed->enemies += 1;
+		ed->enemies += 1;
 	else if (cell == BARIER && ed->bariers < 64)
-			ed->bariers += 1;
+		ed->bariers += 1;
 	else if (cell == ACHIV && ed->achivs < 64)
-			ed->achivs += 1;
+		ed->achivs += 1;
 	else if (cell == ENTOURAGE && ed->entours < 64)
-			ed->entours += 1;
+		ed->entours += 1;
 	else
 		return (0);
 	return (1);
