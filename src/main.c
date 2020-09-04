@@ -36,7 +36,6 @@ int			main(int ac, char *av[])
 	status = 1;
 	if (ac == 2) {
 		cheat = ft_strcmp(av[1], "cheat");
-		//printf("cheat = %d\n", cheat);
 		if (!ft_strcmp(av[1], "editor"))
 			status = 2;
 	}
@@ -44,17 +43,15 @@ int			main(int ac, char *av[])
 		ft_exit("Failed to alloc t_game");
 	if (!(game->z_buffer = (double *)ft_memalloc(sizeof(double) * S_W * S_H)))
 		ft_exit("Failed to alloc z_buff ");
-	
-	
 	init_player(game);
 	load_map(&(game->level), &(game->player));
 	if (!init_sdl(game))
 		return (free_init_sdl(game));
 	game->status = status;
 	main_selector(game);
+	close_sdl(game);
 	free(game->z_buffer);
 	free(game);
-	close_sdl(game);
 	return (0);
 }
 

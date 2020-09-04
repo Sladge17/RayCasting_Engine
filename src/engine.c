@@ -115,16 +115,13 @@ void	engine(t_game *game, t_isec *isec, int x)
 		step += 0.01;
 		check_pos.x = (game->player.obj.pos.x + target.x * step);
 		check_pos.y = (game->player.obj.pos.y + target.y * step);
-		//index = (int)check_pos.y * game->level.map.width + (int)check_pos.x;
 		index.y = (int)check_pos.y;
 		index.x = (int)check_pos.x;
-		if (index.x >= 0 && index.x < 64 && index.y >= 0 && index.y < 64)//index >= 0 && index < game->level.map.max)
+		if (index.x >= 0 && index.x < 64 && index.y >= 0 && index.y < 64)
 		{		
 			if (game->level.map.elem[index.y][index.x].lock) {
-				//isec->number = game->level.map[index].elem->number;
 				isec->dist = step;
-				isec->height = H_H / (isec->dist * cos(ang));
-				//isec->colum = 
+				isec->height = H_W / (isec->dist * cos(ang));
 				set_col_num(&check_pos, isec, game, index);
 				return ;
 			}

@@ -13,10 +13,10 @@
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 640
-# define S_H 480
-# define H_W 320
-# define H_H 240
+# define S_W 1400
+# define S_H 700
+# define H_W 700
+# define H_H 350
 # define RATIO 1.78f
 # define THREADS 16
 
@@ -135,7 +135,7 @@ typedef	struct		s_map_elem
 	int				lock;
 	int				number;
 	int				modify;
-	t_type			type;
+	//t_type			type;
 }					t_map_elem;
 
 typedef struct		s_map
@@ -194,7 +194,6 @@ typedef struct		s_editor
 	t_cursor		cursor;
 	t_map			map;
 	SDL_Point		panel;
-	
 	t_entity		wall;
 	t_entity		player;
 	t_entity		door;
@@ -233,12 +232,16 @@ typedef struct		s_game
 	unsigned int	last_time;
 	int				cheat;
 	int				dummy;
-	int				thread;
+//	int				thread;
 	t_level			level;
 	t_player		player;
 }					t_game;
 
-
+typedef struct		s_thread
+{
+	t_game			*game;
+	int				thread;
+}					t_thread;
 
 //events
 int			key_press(SDL_Keycode key, t_game *game);
@@ -249,6 +252,8 @@ void		mouse_press(SDL_MouseButtonEvent *e, t_game *game);
 
 //init
 int			init_sdl(t_game *game);
+void		check_segv(char *file);
+int			free_word_line(char **line, char **word);
 
 //exit
 void		ft_exit(char *line);
@@ -297,7 +302,7 @@ void		set_col_by_num(SDL_Color *col, int number);
 
 //map editor
 void		map_editor(t_game *game);
-void		save_ed_map(t_editor *ed);
+void		save_ed_map(t_editor *ed, char number);
 void		load_ed_map(t_editor *ed);
 void		mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed);
 void		mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
@@ -317,6 +322,7 @@ void		editor_set_cell(t_editor *ed);
 void		draw_editor_help(t_game *game);
 void		draw_editor_select(t_game *game, t_editor *ed);
 void		draw_editor_modify_wall(t_game *game, t_editor *ed);
+void		draw_editor_side_wall(t_game *game, t_editor *ed, int side);
 
 //draw sprites
 void		draw_sprites(t_game *game);

@@ -88,10 +88,12 @@ void		*draw_block_3d(void *g)
 	int		x;
 	int		x_index;
 	int		max_x;
+	t_thread	*t;
 
-	game = (t_game*)g;
-	x = -H_W + game->thread * S_W / THREADS - 1;
-	max_x = -H_W + (game->thread + 1) * S_W / THREADS;
+	t = (t_thread*)g;
+	game = t->game;
+	x = -H_W + t->thread * S_W / THREADS - 1;
+	max_x = -H_W + (t->thread + 1) * S_W / THREADS;
 	while (++x < max_x)
 	{
 		engine(game, &isec, x);
@@ -105,6 +107,35 @@ void		*draw_block_3d(void *g)
 }
 
 void		draw_game(t_game *game)
+{
+	t_thread		data[THREADS];
+	pthread_t		threads[THREADS];
+	pthread_attr_t	attr;
+	int				thread;
+	void			*status;
+
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	thread= -1;
+	while (++thread < THREADS)
+	{
+		//ft_memcpy((void*)&data[game->thread], (void *)game, sizeof(t_game));
+		data[thread].game = game;
+		data[thread].thread = thread;
+		pthread_create(&threads[thread],
+			NULL, draw_block_3d, (void *)(&data[thread]));
+	}
+	pthread_attr_destroy(&attr);
+	thread = -1;
+	while (++thread < THREADS)
+		pthread_join(threads[thread], &status);
+	if (game->draw_map)
+		draw_map(game);
+	draw_sprites(game);
+	//draw_gui(game);
+}
+/*
+void		draw_game2(t_game *game)
 {
 	t_game			data[THREADS];
 	pthread_t		threads[THREADS];
@@ -130,3 +161,4 @@ void		draw_game(t_game *game)
 	draw_sprites(game);
 	//draw_gui(game);
 }
+//*/

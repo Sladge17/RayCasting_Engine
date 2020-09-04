@@ -120,7 +120,7 @@ void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 		check_button_menu(ed);
 	}
 	if (ed->status == 12)
-		save_ed_map(ed);
+		save_ed_map(ed, 1);
 	else if (ed->status == 13)
 		load_ed_map(ed);
 	if (ed->status != 11 && ed->status > 8 && ed->status < 14)

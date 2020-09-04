@@ -30,6 +30,8 @@ void	load_map(t_level *level, t_player *pl)
 	//level->map.height = 64;
 	//level->map.max = 4096;//level->map.width * level->map.height;
 	//int map[64][64];
+	
+	check_segv("maps/map1");
 	SDL_RWops *rw = SDL_RWFromFile("maps/map1", "rb");
 	if(rw != NULL) 
 	{

@@ -12,42 +12,17 @@
 
 #include "wolf.h"
 
-void	draw_map_editor(t_game *game, t_editor *ed)
-{
-	int i;
-	int j;
-	int y_index;
-	int index;
-
-	j = ed->offset.y < 0 ? -1 : ed->offset.y - 1;
-	while (++j < 64)
-	{
-		y_index = (j - ed->offset.y) * ed->scale;
-		if (y_index >= ed->panel.y)
-			continue;
-		y_index *= S_W;
-		i = ed->offset.x < 0 ? -1 : ed->offset.x - 1;
-		while (++i < 64)
-		{
-			index = (i - ed->offset.x) * ed->scale;
-			if (index >= ed->panel.x)
-				continue;
-			draw_box(game, index + y_index, ed->map.elem[j][i].number,
-			ed);
-		}
-	}
-}
-
-void	draw_cursor(t_game *game, t_editor *ed)
+void	draw_col_frame(t_game *game, t_editor *ed, SDL_Point pos, Uint32 color)
 {
 	int index;
 	int x;
 	int y;
 	int	y_index;
 
-	index = ((ed->cursor.pos.y - ed->offset.y) * S_W +
-		(ed->cursor.pos.x - ed->offset.x)) * ed->scale;
-	draw_box(game, index, ed->cursor.en->it[ed->cursor.en->cur], ed);
+	index = ((pos.y - ed->offset.y) * S_W +
+		(pos.x - ed->offset.x)) * ed->scale;
+	//draw_cursor_info(game, ed);
+	//draw_box(game, index, ed->cursor.en->it[ed->cursor.en->cur], ed);
 	y = -1;
 	while (++y < ed->scale)
 	{
@@ -57,9 +32,41 @@ void	draw_cursor(t_game *game, t_editor *ed)
 		{
 			if (x == 0 || x == (ed->scale - 1) ||
 				y == 0 || y == (ed->scale - 1))
-				game->data[index + y_index + x] = 0xFFFF0000;
+				game->data[index + y_index + x] = color;
 		}
 	}
+}
+
+void	draw_map_editor(t_game *game, t_editor *ed)
+{
+	SDL_Point	p;
+	int			y_index;
+	int			index;
+
+	p.y = ed->offset.y < 0 ? -1 : ed->offset.y - 1;
+	while (++p.y < 64)
+	{
+		y_index = (p.y - ed->offset.y) * ed->scale;
+		if (y_index >= ed->panel.y)
+			continue;
+		y_index *= S_W;
+		p.x = ed->offset.x < 0 ? -1 : ed->offset.x - 1;
+		while (++p.x < 64)
+		{
+			index = (p.x - ed->offset.x) * ed->scale;
+			if (index >= ed->panel.x)
+				continue;
+			draw_box(game, index + y_index, ed->map.elem[p.y][p.x].number,
+			ed);
+			if (ed->type_map[p.y][p.x] == WALL && ed->map.elem[p.y][p.x].modify)
+				draw_col_frame(game, ed, p, 0xFF0000FF);
+		}
+	}
+}
+
+void	draw_cursor(t_game *game, t_editor *ed)
+{
+	draw_col_frame(game, ed, ed->cursor.pos, 0xFFFF0000);
 }
 
 void	status_selector(t_game *game, t_editor *ed)
@@ -78,13 +85,15 @@ void	status_selector(t_game *game, t_editor *ed)
 		draw_editor_select(game, ed);
 	else if (ed->status == 11)
 	{
-		if (ed->cursor.en->type == WALL && ed->cursor.en->cur > 0)
+		if (ed->cursor.en->type == WALL && ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number >= 0)
 			draw_editor_modify_wall(game, ed);
 		else
 			ed->status = 0;
 	}
 	else if (ed->status == 14)
 		draw_editor_help(game);
+	else if (ed->status >= 15 && ed->status <= 18)
+		draw_editor_side_wall(game, ed, ed->status - 15);
 }
 
 void	map_editor(t_game *game)

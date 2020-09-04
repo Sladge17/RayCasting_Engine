@@ -32,6 +32,8 @@ void	draw_sprite(t_game *game, t_sprt *sprite)
 
 void	def_spriteparam(t_game *game, t_sprt *sprite)
 {
+	int	dist;
+
 	sprite->dist2[0] = sprite->pos.x - game->player.obj.pos.x;
 	sprite->dist2[1] = sprite->pos.y - game->player.obj.pos.y;
 	sprite->rot = atan2(sprite->dist2[0], sprite->dist2[1]);
@@ -39,9 +41,11 @@ void	def_spriteparam(t_game *game, t_sprt *sprite)
 		sprite->rot -= 2 * M_PI;
 	while (sprite->rot - (game->player.obj.rot * M_PI / 180) < -M_PI)
 		sprite->rot += 2 * M_PI;
+	dist = sprite->dist2[0] * sprite->dist2[0] + sprite->dist2[1] * sprite->dist2[1];
+	
 	sprite->dir = sprite->rot - (game->player.obj.rot * M_PI / 180);
-	sprite->dist = sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
-	sprite->size = (int)(S_H / sprite->dist);
+	sprite->dist = sqrt(dist);// + dist.y;//sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
+	sprite->size = (int)(S_H * 2 / sprite->dist);
 	if (sprite->size > S_H * 4)
 		sprite->size = S_H * 4;
 	sprite->offset[0] = S_W / 2 - sprite->size / 2 -

@@ -59,36 +59,44 @@ int		check_cell(t_editor *ed)
 
 void	change_cell(t_editor *ed)
 {
-	int		cursor;
-	t_type	*cell;
+	int			cursor;
+	t_map_elem	*cell;
+	t_type		*c_type;
 
-	cell = &ed->type_map[ed->cursor.pos.y][ed->cursor.pos.x];
+	cell = &ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x];
+	c_type = &ed->type_map[ed->cursor.pos.y][ed->cursor.pos.x];
 	cursor = ed->cursor.en->it[ed->cursor.en->cur];
-	if (*cell != PLAYER)
+	if (*c_type != PLAYER)
 	{
-		if (*cell == ENEMY)
+		if (*c_type == ENEMY)
 			ed->enemies -= 1;
-		else if (*cell == BARIER)
+		else if (*c_type == BARIER)
 			ed->bariers -= 1;
-		else if (*cell == ACHIV)
+		else if (*c_type == ACHIV)
 			ed->achivs -= 1;
-		else if (*cell == ENTOURAGE)
+		else if (*c_type == ENTOURAGE)
 			ed->entours -= 1;
-		ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = cursor;
+		ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = cursor;		
 		if (cursor == -1)
-			*cell = NONE;
+			*c_type = NONE;
 		else
-			*cell = ed->cursor.en->type;
+		{
+			*c_type = ed->cursor.en->type;
+			cell->side[0] = cursor;
+			cell->side[2] = cursor;
+			cell->side[1] = cursor + 1;
+			cell->side[3] = cursor + 1;
+		}
 	}
 }
 
 void	editor_set_cell(t_editor *ed)
 {
-	t_type	cur_type;
-	int		cursor;
-	t_type	*cell;
+	t_type		cur_type;
+	int			cursor;
+//	t_map_elem	*cell;
 
-	cell = &ed->type_map[ed->cursor.pos.y][ed->cursor.pos.x];
+//	cell = &ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x];
 	cursor = ed->cursor.en->it[ed->cursor.en->cur];
 	cur_type = ed->cursor.en->type;
 	if (cur_type == PLAYER)
