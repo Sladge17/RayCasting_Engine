@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 18:27:47 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/05 17:44:19 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,22 @@ void		draw_player(t_game *game, int d)
 	dir.x = game->player.obj.pos.x + game->player.obj.dir.x;
 	dir.y = game->player.obj.pos.y + game->player.obj.dir.y;
 	draw_dot(game, &(game->player.obj.pos), d, 0xffff00ff);
-	//draw_dot(game, &(dir), d, 0xffffffff);
 	draw_line(game, &(game->player.obj.pos), &(dir), d);
 }
 
 void		draw_map(t_game *game)
 {
 	int d;
-	int y_index;
 	int max;
 	SDL_Point p;
 
 	d = 10;
 	max = game->surf->w * game->surf->h;
 	p.y = -1;
-	while (++p.y < 64)//game->level.map.height)
+	while (++p.y < 64)
 	{
-		//y_index = p.y * game->level.map.width;
 		p.x = -1;
-		while (++p.x < 64)//game->level.map.width)
+		while (++p.x < 64)
 		{
 			if (game->level.map.elem[p.y][p.x].lock == 1)
 				draw_rect(game, p, d, 

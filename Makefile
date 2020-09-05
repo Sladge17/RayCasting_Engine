@@ -6,7 +6,7 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/08/25 23:27:37 by vkaron           ###   ########.fr        #
+#    Updated: 2020/09/05 19:43:53 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 PROGRAM_NAME = wolf3d
 
-FLAGS =	-Wall -Wextra #-Werror -Ofast -g
+FLAGS =	-Wall -Wextra -g#-Werror -Ofast -g
 #FLAGS =		-g
 
 FILES =		act_sdl \

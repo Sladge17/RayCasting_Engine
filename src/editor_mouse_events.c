@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/25 23:12:25 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/05 17:45:54 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 	//printf("ed-status=%d\n", ed->status);
 }
 
-void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
+void	mouse_dbl_editor(t_editor *ed)
 {
 	if (ed->mouse_pos.x >= S_W - 320 && ed->mouse_pos.y <= ed->panel.y)
 	{
@@ -125,7 +125,6 @@ void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 		load_ed_map(ed);
 	if (ed->status != 11 && ed->status > 8 && ed->status < 14)
 		ed->status = 0;
-	printf("ed-status=%d\n", ed->status);
 }
 
 void	mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed)
@@ -138,7 +137,7 @@ void	mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 		cur_time = SDL_GetTicks();
 		if (cur_time - ed->click_time <= 250)
 		{
-			mouse_dbl_editor(e, ed);
+			mouse_dbl_editor(ed);
 			return ;
 		}
 		ed->click_time = cur_time;

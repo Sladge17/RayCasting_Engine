@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/17 19:41:09 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/05 18:06:57 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,13 @@ void	check_keyboard(t_game *game, float d_time)
 void	redraw(t_game *game, int *fps)
 {
 	unsigned int	cur_time;
+	int				i;
 
 	cur_time = SDL_GetTicks();
 	if (cur_time > game->last_time + game->f_time)
 	{
-		for (int i = 0; i < S_W * S_H; i++)
+		i = -1;
+		while (++i < S_W * S_H)
 			game->z_buffer[i] = 100;
 		draw_game(game);
 		SDL_UpdateWindowSurface(game->win);
@@ -88,32 +90,28 @@ void	redraw(t_game *game, int *fps)
 
 void	sdl_cycle(t_game *game)
 {
-	int			quit;
-	SDL_Event	e;
-	int			repaint;
-	int			first;
-	int			fps;
-	int			lastTime;
-	int			curTime;
+	SDL_Rect	flags;
+	SDL_Rect	time;
 	float		d_time;
+	SDL_Event	e;
 
-	quit = 0;
-	first = 1;
-	fps = 0;
-	lastTime = SDL_GetTicks();
-	while (!quit)
+	flags.x = 0;
+	flags.h = 1;
+	time.x = 0;
+	time.y = SDL_GetTicks();
+	while (!(flags.x))
 	{
-		d_time = (float)(SDL_GetTicks() - curTime)/1000.0;
-		curTime = SDL_GetTicks();
-		if (curTime > lastTime + 1000) {
-			lastTime = curTime;
-			fps = 0;
+		d_time = (float)(SDL_GetTicks() - time.h) / 1000.0;
+		if ((time.h = SDL_GetTicks()) > (time.y + 1000))
+		{
+			time.y = time.h;
+			time.x = 0;
 		}
-		repaint = 0;
+		flags.y = 0;
 		check_keyboard(game, d_time);
-		redraw(game, &fps);
-		if (SDL_PollEvent(&e) != 0 || repaint)
-			sld_events(game, e, &quit, &repaint);
+		redraw(game, &(time.x));
+		if (SDL_PollEvent(&e) != 0 || flags.y)
+			sld_events(game, e, &(flags.x), &(flags.y));
 		SDL_Delay(10);
 	}
 	game->status = 3;

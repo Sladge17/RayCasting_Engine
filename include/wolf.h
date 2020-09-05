@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/25 23:26:15 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/05 20:42:01 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define H_W 700
 # define H_H 350
 # define RATIO 1.78f
-# define THREADS 16
+# define THREADS 1
 # define PI2 6.283185307179586
 
 # define OK 1
