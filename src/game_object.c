@@ -113,36 +113,42 @@ void	move_right(t_game_obj *obj, t_map *map, float koeff)
 
 void	turn_left(t_game_obj *obj, float koeff)
 {
-	float rad;
+	//float rad;
 
 	obj->rot += obj->rot_speed * koeff;
-	rad = obj->rot * M_PI / 180;
-	obj->dir.x = sin(rad);
-	obj->dir.y = cos(rad);
+	while (obj->rot > PI2)
+		obj->rot -= PI2;
+	//rad = obj->rot * M_PI / 180;
+	obj->dir.x = sin(obj->rot);
+	obj->dir.y = cos(obj->rot);
+	//printf("rot=%f\n",obj->rot);
 }
 
 void	turn_right(t_game_obj *obj, float koeff)
 {
-	float rad;
+	//float rad;
 
 	obj->rot -= obj->rot_speed * koeff;
-	rad = obj->rot * M_PI / 180;
-	obj->dir.x = sin(rad);
-	obj->dir.y = cos(rad);
+	while (obj->rot < 0)
+		obj->rot += PI2;
+	//rad = obj->rot * M_PI / 180;
+	obj->dir.x = sin(obj->rot);
+	obj->dir.y = cos(obj->rot);
+	//printf("rot=%f\n",obj->rot);
 }
 
-void	init_object(t_game_obj *obj,  t_vec2 pos, int rot, float speed,
-	int rot_speed)
+void	init_object(t_game_obj *obj,  t_vec2 pos, float rot, float speed,
+	float rot_speed)
 {
-	float rad;
+	//float rad;
 
-	rad = rot * M_PI / 180;
+	//rad = rot * M_PI / 180;
 	obj->pos.x = pos.x;
 	obj->pos.y = pos.y;
 	obj->rot = rot;
-	obj->dir.x = sin(rad);
-	obj->dir.y = cos(rad);
-	obj->border = 0.4;
+	obj->dir.x = sin(rot);
+	obj->dir.y = cos(rot);
+	obj->border = 0.49;
 	//printf("init dir rad=%f x=%f, y=%f\n", rad, obj->dir.x, obj->dir.y);
 	
 	obj->rot_speed = rot_speed;

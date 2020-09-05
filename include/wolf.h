@@ -19,6 +19,7 @@
 # define H_H 350
 # define RATIO 1.78f
 # define THREADS 16
+# define PI2 6.283185307179586
 
 # define OK 1
 # define ERROR 0
@@ -81,7 +82,7 @@ typedef struct		s_game_obj
 	t_vec2			dir;
 	float			rot;
 	float			speed;
-	int				rot_speed;
+	float			rot_speed;
 	float			border;
 	int				status;
 }					t_game_obj;
@@ -106,28 +107,35 @@ typedef struct		s_sprt
 typedef struct		s_enm
 {
 	t_game_obj		obj;
-	t_sprt			*sprt;
+	t_sprt			sprt;
+	int				status;
 }					t_enm;
+
+typedef struct		s_dr
+{
+	t_game_obj		obj;
+	t_sprt			sprt;
+	int				status;
+}					t_dr;
 
 typedef struct		s_ach
 {
 	t_vec2			pos;
 	float			border;
-	t_sprt			*sprt;
+	t_sprt			sprt;
 }					t_ach;
 
 typedef struct		s_bar
 {
-	t_vec2			pos;
-	float			border;
-	t_sprt			*sprt;
+	t_sprt			sprt;
+	int				status;
 }					t_bar;
 
-typedef struct		s_antrg
+typedef struct		s_ant
 {
 	t_vec2			pos;
-	t_sprt			*sprt;
-}					t_acntrg;
+	t_sprt			sprt;
+}					t_ant;
 
 typedef	struct		s_map_elem
 {
@@ -135,7 +143,6 @@ typedef	struct		s_map_elem
 	int				lock;
 	int				number;
 	int				modify;
-	//t_type			type;
 }					t_map_elem;
 
 typedef struct		s_map
@@ -144,6 +151,9 @@ typedef struct		s_map
 	Uint32			roof;
 	t_map_elem		elem[64][64];
 	t_enm			enm[128];
+	t_ach			ach[64];
+	t_bar			bar[64];
+	t_ant			ant[64];
 	t_game_obj		player;
 }					t_map;
 
@@ -157,8 +167,6 @@ typedef struct		s_sector
 {
 	float			fov;
 	float			ang_step;
-	t_vec2			l_ang;
-	t_vec2			r_ang;
 }					t_sector;
 
 typedef struct		s_player
@@ -169,7 +177,7 @@ typedef struct		s_player
 
 typedef struct		s_message
 {
-	char *			text;
+	char			*text;
 	SDL_Color		color;
 	int				size;
 }					t_message;
@@ -271,8 +279,8 @@ void		move_left(t_game_obj *obj, t_map *map, float koeff);
 void		move_right(t_game_obj *obj, t_map *map, float koeff);
 void		turn_left(t_game_obj *obj, float koeff);
 void		turn_right(t_game_obj *obj, float koeff);
-void		init_object(t_game_obj *obj, t_vec2 pos, int rot, float speed,
-		int rot_speed);
+void		init_object(t_game_obj *obj, t_vec2 pos, float rot,
+				float speed, float rot_speed);
 		
 //map
 void		load_map(t_level *level, t_player *pl);

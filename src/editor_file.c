@@ -95,7 +95,7 @@ void	save_ed_map(t_editor *ed, char number)
 {
 	char 		file[11];
 	int			fd;
-	char		*buf;
+//	char		*buf;
 
 	ft_strcpy(file, "maps/map00");
 	file[8] = number / 10 + '0';
@@ -126,7 +126,7 @@ int		hex_to_int(char sym)
 
 int		read_base_color(t_map *map, char *data)
 {
-	int tmp;
+//	int tmp;
 	int i;
 	int	cmp[16];
 	
@@ -143,7 +143,7 @@ int		read_base_color(t_map *map, char *data)
 
 int		read_map(t_editor *ed, char *data, int cell)
 {
-	int			tmp;
+	int			s;
 	int			i;
 	int			cmp[16];
 	SDL_Point	p;
@@ -151,18 +151,19 @@ int		read_map(t_editor *ed, char *data, int cell)
 	if (cell == -1)
 		return (read_base_color(&ed->map, data));
 	i = -1;
-	while (++i < 16)
+	while (++i < 17)
 		if ((cmp[i] = hex_to_int(data[i])) == -1)
 			return (0);
 	p.y = cell / 64;
 	p.x = cell - p.y * 64;
-	if (ed->type_map[p.y][p.x] = cmp[0])
+	if ((ed->type_map[p.y][p.x] = cmp[0]))
 	{
 		ed->map.elem[p.y][p.x].number = (cmp[1] << 8) | (cmp[2] << 4) | cmp[3];
-		ed->map.elem[p.y][p.x].modify = ed->type_map[p.y][p.x] = cmp[4];
+		ed->map.elem[p.y][p.x].modify = cmp[4];
 		i = 2;
+		s = 0;
 		while ((i += 3) < 15)
-			ed->map.elem[p.y][p.x].side[0] = (cmp[i] << 8) | (cmp[i + 1] << 4) | cmp[ i + 2];
+			ed->map.elem[p.y][p.x].side[s++] = (cmp[i] << 8) | (cmp[i + 1] << 4) | cmp[i + 2];
 	}
 	else
 		ed->map.elem[p.y][p.x].number = -1;
@@ -192,7 +193,7 @@ void	load_ed_map(t_editor *ed)
 	//	ft_exit("Not valid map!!!");
 	//}
 	cell = -2;
-	while (n = read(fd, buf, 18))
+	while ((n = read(fd, buf, 18)))
 	{
 		++cell;
 		if (cell == 4096 || n != 18 || buf[17] != '\n' || !read_map(ed, buf, cell))

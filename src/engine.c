@@ -102,10 +102,10 @@ void	engine(t_game *game, t_isec *isec, int x)
 	t_vec2	check_pos;
 	SDL_Point index;
 
-	ang = (game->player.obj.rot + game->player.sec.ang_step * x) * M_PI / 180;
+	ang = (game->player.obj.rot + game->player.sec.ang_step * x);// * M_PI / 180;
 	target.x = sin(ang);
 	target.y = cos(ang);
-	ang = (game->player.sec.ang_step * x) * M_PI / 180;
+	ang = (game->player.sec.ang_step * x);// * M_PI / 180;
 	step = 0;
 	isec->height = 1;
 	isec->number = 0;
@@ -119,7 +119,7 @@ void	engine(t_game *game, t_isec *isec, int x)
 		index.x = (int)check_pos.x;
 		if (index.x >= 0 && index.x < 64 && index.y >= 0 && index.y < 64)
 		{		
-			if (game->level.map.elem[index.y][index.x].lock) {
+			if (game->level.map.elem[index.y][index.x].number >= 0) {
 				isec->dist = step;
 				isec->height = H_W / (isec->dist * cos(ang));
 				set_col_num(&check_pos, isec, game, index);

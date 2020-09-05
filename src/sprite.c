@@ -37,19 +37,19 @@ void	def_spriteparam(t_game *game, t_sprt *sprite)
 	sprite->dist2[0] = sprite->pos.x - game->player.obj.pos.x;
 	sprite->dist2[1] = sprite->pos.y - game->player.obj.pos.y;
 	sprite->rot = atan2(sprite->dist2[0], sprite->dist2[1]);
-	while (sprite->rot - (game->player.obj.rot * M_PI / 180) > M_PI)
-		sprite->rot -= 2 * M_PI;
-	while (sprite->rot - (game->player.obj.rot * M_PI / 180) < -M_PI)
-		sprite->rot += 2 * M_PI;
+	while (sprite->rot - game->player.obj.rot > M_PI)
+		sprite->rot -= PI2;
+	while (sprite->rot - game->player.obj.rot < -M_PI)
+		sprite->rot += PI2;
 	dist = sprite->dist2[0] * sprite->dist2[0] + sprite->dist2[1] * sprite->dist2[1];
 	
-	sprite->dir = sprite->rot - (game->player.obj.rot * M_PI / 180);
+	sprite->dir = sprite->rot - game->player.obj.rot;
 	sprite->dist = sqrt(dist);// + dist.y;//sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
 	sprite->size = (int)(S_H * 2 / sprite->dist);
 	if (sprite->size > S_H * 4)
 		sprite->size = S_H * 4;
 	sprite->offset[0] = S_W / 2 - sprite->size / 2 -
-		(sprite->dir * (S_W) / (game->player.sec.fov * M_PI / 180));
+		(sprite->dir * (S_W) / (game->player.sec.fov));
 	sprite->offset[1] = S_H / 2 - sprite->size / 2;
 	sprite->tile = 65 * (sprite->numb % 16 + sprite->numb / 16 * 1039);
 }
@@ -83,8 +83,17 @@ void	draw_vertline(t_game *game, t_sprt *sprite)
 
 void	draw_sprites(t_game *game)
 {
-	t_sprt s;
+	t_sprt	s;
+	int		i;
 
+	i = -1;
+	while (++i < 128)
+	{
+		if (game->level.map.enm[i].status)
+			draw_sprite(game, &game->level.map.enm[i].sprt);
+		if (game->level.map.bar[i].status)
+			draw_sprite(game, &game->level.map.bar[i].sprt);
+	}
 	s.numb = 156;
 	s.pos.x = 8.5;
 	s.pos.y = 9.5;
