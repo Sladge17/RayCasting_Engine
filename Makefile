@@ -6,13 +6,13 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/08/13 19:25:00 by vkaron           ###   ########.fr        #
+#    Updated: 2020/09/08 15:53:29 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all, clean, fclean, re, libr
 
-PROGRAM_NAME = WOLF
+PROGRAM_NAME = wolf3d
 
 FLAGS =	-Wall -Wextra #-Werror -Ofast -g
 #FLAGS =		-g
@@ -33,15 +33,25 @@ FILES =		act_sdl \
 			player \
 			service_stuff \
 			editor \
-			editor_file \
+			editor_file_load \
+			editor_file_save \
 			editor_mouse_events \
 			editor_events \
 			editor_draw_select_color \
 			editor_service \
 			editor_draw_menu \
+			editor_draw_info \
 			editor_init \
 			editor_check_frame \
-			sprite
+			editor_pick_map \
+			editor_help \
+			editor_select \
+			sprite \
+			calc_quads \
+			draw_room \
+			menu \
+			menu_events \
+			
 
 S_DIR =		src
 

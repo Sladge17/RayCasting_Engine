@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/08 18:27:47 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:36:09 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void		draw_map(t_game *game)
 	int max;
 	SDL_Point p;
 
-	d = 10;
+	d = 30;
 	max = game->surf->w * game->surf->h;
 	p.y = -1;
 	while (++p.y < 64)//game->level.map.height)

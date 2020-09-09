@@ -3,51 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   editor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 15:26:37 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/09 12:55:59 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	draw_map_editor(t_game *game, t_editor *ed)
-{
-	int i;
-	int j;
-	int y_index;
-	int index;
-
-	j = ed->offset.y < 0 ? -1 : ed->offset.y - 1;
-	while (++j < 64)
-	{
-		y_index = (j - ed->offset.y) * ed->scale;
-		if (y_index >= ed->panel.y)
-			continue;
-		y_index *= S_W;
-		i = ed->offset.x < 0 ? -1 : ed->offset.x - 1;
-		while (++i < 64)
-		{
-			index = (i - ed->offset.x) * ed->scale;
-			if (index >= ed->panel.x)
-				continue;
-			draw_box(game, index + y_index, ed->map.elem[j][i].number,
-			ed);
-		}
-	}
-}
-
-void	draw_cursor(t_game *game, t_editor *ed)
+void	draw_col_frame(t_game *game, t_editor *ed, SDL_Point pos, Uint32 color)
 {
 	int index;
 	int x;
 	int y;
 	int	y_index;
 
-	index = ((ed->cursor.pos.y - ed->offset.y) * S_W +
-		(ed->cursor.pos.x - ed->offset.x)) * ed->scale;
-	draw_box(game, index, ed->cursor.en->it[ed->cursor.en->cur], ed);
+	index = ((pos.y - ed->offset.y) * S_W +
+		(pos.x - ed->offset.x)) * ed->scale;
 	y = -1;
 	while (++y < ed->scale)
 	{
@@ -57,7 +30,34 @@ void	draw_cursor(t_game *game, t_editor *ed)
 		{
 			if (x == 0 || x == (ed->scale - 1) ||
 				y == 0 || y == (ed->scale - 1))
-				game->data[index + y_index + x] = 0xFFFF0000;
+				game->data[index + y_index + x] = color;
+		}
+	}
+}
+
+void	draw_map_editor(t_game *game, t_editor *ed)
+{
+	SDL_Point	p;
+	int			y_index;
+	int			index;
+
+	p.y = ed->offset.y < 0 ? -1 : ed->offset.y - 1;
+	while (++p.y < 64)
+	{
+		y_index = (p.y - ed->offset.y) * ed->scale;
+		if (y_index >= ed->panel.y)
+			continue;
+		y_index *= S_W;
+		p.x = ed->offset.x < 0 ? -1 : ed->offset.x - 1;
+		while (++p.x < 64)
+		{
+			index = (p.x - ed->offset.x) * ed->scale;
+			if (index >= ed->panel.x)
+				continue;
+			draw_box(game, index + y_index, ed->map.elem[p.y][p.x].number,
+			ed);
+			if (ed->type_map[p.y][p.x] == WALL && ed->map.elem[p.y][p.x].modify)
+				draw_col_frame(game, ed, p, 0xFF0000FF);
 		}
 	}
 }
@@ -74,32 +74,46 @@ void	status_selector(t_game *game, t_editor *ed)
 		ed->sel_col = ed->map.floor;
 		draw_select_col(game, ed);
 	}
+	else if (ed->status > 2 && ed->status < 9)
+		draw_editor_select(game, ed);
+	else if (ed->status == 11)
+	{
+		if (ed->cursor.en->type == WALL &&
+			ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number >= 0)
+			draw_editor_modify_wall(game, ed);
+		else
+			ed->status = 0;
+	}
+	else if (ed->status == 14)
+		draw_editor_help(game);
+	else if (ed->status >= 15 && ed->status <= 18)
+		draw_editor_side_wall(game, ed, ed->status - 15);
 }
 
 void	map_editor(t_game *game)
 {
 	SDL_Point	flags;
 	SDL_Event	e;
-	t_editor	editor;
+	t_editor	ed;
 
 	flags.x = 0;
 	flags.y = 1;
-	init_editor(&editor);
+	init_editor(&ed);
 	while (!flags.x)
 	{
 		if (SDL_PollEvent(&e) != 0)
-			sld_events_editor(game, &editor, e, &flags);
+			sld_events_editor(game, &ed, e, &flags);
 		if (flags.y)
 		{
-			SDL_FillRect(game->surf, NULL, editor.map.roof);
-			draw_map_editor(game, &editor);
-			draw_cursor(game, &editor);
-			draw_menu(game, &editor);
-			status_selector(game, &editor);
+			SDL_FillRect(game->surf, NULL, ed.map.roof);
+			draw_map_editor(game, &ed);
+			draw_col_frame(game, &ed, ed.cursor.pos, 0xFFFF0000);
+			draw_editor_menu(game, &ed);
+			status_selector(game, &ed);
 			SDL_UpdateWindowSurface(game->win);
 			flags.y = 0;
 		}
 		SDL_Delay(5);
 	}
-	game->status = 3;
+	game->status = 1;
 }

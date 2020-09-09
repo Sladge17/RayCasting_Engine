@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
-/*   Updated: 2020/08/13 20:29:50 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/09 16:05:06 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,24 @@ void	draw_sprite(t_game *game, t_sprt *sprite)
 
 void	def_spriteparam(t_game *game, t_sprt *sprite)
 {
+	int	dist;
+
 	sprite->dist2[0] = sprite->pos.x - game->player.obj.pos.x;
 	sprite->dist2[1] = sprite->pos.y - game->player.obj.pos.y;
 	sprite->rot = atan2(sprite->dist2[0], sprite->dist2[1]);
-	while (sprite->rot - (game->player.obj.rot * M_PI / 180) > M_PI)
-		sprite->rot -= 2 * M_PI;
-	while (sprite->rot - (game->player.obj.rot * M_PI / 180) < -M_PI)
-		sprite->rot += 2 * M_PI;
-	sprite->dir = sprite->rot - (game->player.obj.rot * M_PI / 180);
-	sprite->dist = sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
-	sprite->size = (int)(S_H / sprite->dist);
+	while (sprite->rot - game->player.obj.rot > M_PI)
+		sprite->rot -= PI2;
+	while (sprite->rot - game->player.obj.rot < -M_PI)
+		sprite->rot += PI2;
+	dist = sprite->dist2[0] * sprite->dist2[0] + sprite->dist2[1] * sprite->dist2[1];
+	
+	sprite->dir = sprite->rot - game->player.obj.rot;
+	sprite->dist = sqrt(dist);// + dist.y;//sqrt(pow(sprite->dist2[0], 2) + pow(sprite->dist2[1], 2));
+	sprite->size = (int)(S_H * 2 / sprite->dist);
 	if (sprite->size > S_H * 4)
 		sprite->size = S_H * 4;
 	sprite->offset[0] = S_W / 2 - sprite->size / 2 -
-		(sprite->dir * (S_W) / (game->player.sec.fov * M_PI / 180));
+		(sprite->dir * (S_W) / (game->player.sec.fov));
 	sprite->offset[1] = S_H / 2 - sprite->size / 2;
 	sprite->tile = 65 * (sprite->numb % 16 + sprite->numb / 16 * 1039);
 }
@@ -79,18 +83,15 @@ void	draw_vertline(t_game *game, t_sprt *sprite)
 
 void	draw_sprites(t_game *game)
 {
-	t_sprt s;
+	t_sprt	s;
+	int		i;
 
-	s.numb = 156;
-	s.pos.x = 8.5;
-	s.pos.y = 9.5;
-	draw_sprite(game, &s);
-	s.numb = 115;
-	s.pos.x = 10.5;
-	s.pos.y = 10.5;
-	draw_sprite(game, &s);
-	s.numb = 116;
-	s.pos.x = 15.5;
-	s.pos.y = 12.5;
-	draw_sprite(game, &s);
+	i = -1;
+	while (++i < 128)
+	{
+		if (i < game->level.map.enms)
+			draw_sprite(game, &game->level.map.enm[i].sprt);
+		if (i < game->level.map.bars)
+			draw_sprite(game, &game->level.map.bar[i].sprt);
+	}
 }

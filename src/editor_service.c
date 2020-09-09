@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/11 16:30:59 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/08 16:03:37 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	draw_box(t_game *game, int index, int number, t_editor *ed)
 			if (col == 0x980088)
 				col = ed->map.floor;
 			game->data[index + y_index + ofs.x] = col;
-			
 		}
 	}
 }
