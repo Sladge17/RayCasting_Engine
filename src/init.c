@@ -34,27 +34,31 @@ void		reformat(int *data_img, SDL_Surface *image, SDL_PixelFormat *fmt)
 	}
 }
 
-void	load_s_image(t_game *game, const char *file, SDL_Surface *im)
+SDL_Surface	*load_s_image(t_game *game, const char *file)
 {
 	SDL_Rect	screen;
 	SDL_Rect	image;
 	SDL_Surface	*s;
+	SDL_Surface	*im;
 
 	screen.x = 0;
 	screen.y = 0;
 	screen.w = game->surf->w;
 	screen.h = game->surf->h;
-
 	s = IMG_Load(file);
+	if (!s)
+		return (0);
 	image.x = 0;
 	image.y = 0;
 	image.w = s->w;
 	image.h = s->h;
-
-	im = SDL_CreateRGBSurface(s->flags, screen.w, screen.h, s->format->BitsPerPixel,
-        s->format->Rmask, s->format->Gmask, s->format->Bmask, s->format->Amask);
-	SDL_BlitScaled(s, &image, im, &screen);
+	im = SDL_CreateRGBSurface(s->flags, screen.w, screen.h,
+		s->format->BitsPerPixel, s->format->Rmask, s->format->Gmask,
+		s->format->Bmask, s->format->Amask);
+	if ((SDL_BlitScaled(s, &image, im, &screen)))
+		return (0);
 	SDL_FreeSurface(s);
+	return (im);
 }
 
 int		init_sdl(t_game *game)
@@ -79,16 +83,19 @@ int		init_sdl(t_game *game)
 	game->last_time = SDL_GetTicks();
 	game->athlas = IMG_Load("res/athlas2.png");
 	
-	if (!game->athlas)
+	if (!game->athlas ||
+	!(game->menu = load_s_image(game, "res/main_screen.png")) ||
+	!(game->n_level = load_s_image(game, "res/next_level.png")) ||
+	!(game->s_win = load_s_image(game, "res/win.png")))
 		return (ERROR);
 	game->data_img = (int *)game->athlas->pixels;
-	load_s_image(game, "res/main_screen.png", game->menu);
-	load_s_image(game, "res/next_level.png", game->n_level);
-	load_s_image(game, "res/win.jpg", game->win);
 	game->data_menu = (int *)game->menu->pixels;
-
 	game->data_n_level = (int *)game->n_level->pixels;
 	game->data_win = (int *)game->s_win->pixels;
-	reformat(game->data_img, game->athlas, game->athlas->format);	
+	
+	reformat(game->data_img, game->athlas, game->athlas->format);
+	reformat(game->data_menu, game->menu, game->menu->format);
+	reformat(game->data_n_level, game->n_level, game->n_level->format);
+	reformat(game->data_win, game->s_win, game->s_win->format);
 	return (OK);
 }

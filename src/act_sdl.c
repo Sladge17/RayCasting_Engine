@@ -29,6 +29,8 @@ void	draw_im(t_game *game, int *im_data)
 			game->data[index + pos.x] = im_data[index + pos.x];
 		}
 	}
+	SDL_UpdateWindowSurface(game->win);
+	SDL_Delay(4000);
 }
 
 void	check_start(t_game *game)
@@ -144,7 +146,8 @@ void	check_keyboard(t_game *game, float d_time, int *quit)
 				draw_im(game, game->data_win);
 			}
 			else
-				draw_im(game, game->data_win);
+				draw_im(game, game->data_n_level);
+			
 		}
 }
 
@@ -168,6 +171,7 @@ void	sdl_cycle(t_game *game)
 	first = 1;
 	fps = 0;
 	check_start(game);
+	
 	//lastTime = SDL_GetTicks();
 	while (!quit)
 	{

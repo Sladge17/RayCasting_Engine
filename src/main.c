@@ -31,10 +31,7 @@ void		main_selector(t_game *game)
 		else if (game->status == 3)
 			main_menu(game);
 		else if (game->status == 4)
-		{
-			printf("U WIN!!!\n");
-			break ;
-		}
+			game->status = 3;
 	}
 	
 	if (z_buffer)
@@ -62,10 +59,13 @@ int			main(int ac, char *av[])
 	if (!(game = (t_game*)ft_memalloc(sizeof(t_game))))
 		ft_exit("Memory was not allocated!");
 	init_player(game);
+	
 	//load_map(&game->level, &game->player);
 	if (!init_sdl(game))
 		return (free_init_sdl(game));
+	write(1, "OK\n", 3);
 	game->status = status;
+	
 	main_selector(game);
 	
 	close_sdl(game);

@@ -22,10 +22,12 @@ void	close_sdl(t_game *game)
 	//if (game->athlas)
 	//	SDL_FreeSurface(game->athlas);
 	//write(1,"OK2\n", 4);
-	game->athlas = 0;
 	if (game->menu)
 		SDL_FreeSurface(game->menu);
-	game->menu = 0;
+	if (game->n_level)
+		SDL_FreeSurface(game->n_level);
+	if (game->s_win)
+		SDL_FreeSurface(game->s_win);
 	if (game->win)
 		SDL_DestroyWindow(game->win);
 	game->win = 0;

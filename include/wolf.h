@@ -13,10 +13,10 @@
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 2000
-# define S_H 1000
-# define H_W 1000
-# define H_H 500
+# define S_W 640
+# define S_H 480
+# define H_W 320
+# define H_H 240
 # define RATIO 1.78f
 # define THREADS 1
 # define PI2 6.283185307179586
