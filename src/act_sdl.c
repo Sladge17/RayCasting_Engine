@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   act_sdl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 16:29:32 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 19:07:28 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check_start(t_game *game)
 {
 	if (game->comeback == 0)
 	{
-		load_map(&game->level, &game->player);
+		load_map(&game->level, &game->player, &game->map);
 		game->delay = 10;
 	}
 }

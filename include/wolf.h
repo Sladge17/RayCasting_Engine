@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 16:21:56 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 19:30:10 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,7 @@ typedef struct		s_game
 	t_level			level;
 	t_player		player;
 	//t_drawer		drawer;
+	char			*map[11];
 	
 }					t_game;
 
@@ -331,7 +332,7 @@ void		init_object(t_game_obj *obj, t_vec2 pos, double rot, double speed,
 		double rot_speed);
 		
 //map
-void		load_map(t_level *level, t_player *pl);
+void		load_map(t_level *level, t_player *pl, char *map);
 
 //player
 void		init_player(t_game *game);
@@ -355,6 +356,8 @@ void		draw_gui(t_game *game);
 void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+
+void		draw_uitext(t_game *game);
 
 
 //color

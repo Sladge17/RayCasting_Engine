@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 10:09:46 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 19:18:29 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static int		read_map(t_map *map, char *data, int cell, t_player *pl)
 	return (1);
 }
 //*
-void	load_map(t_level *level, t_player *pl)
+void	load_map(t_level *level, t_player *pl, char *map)
 {
 	char 		file[11];
 	int			fd;
@@ -142,6 +142,9 @@ void	load_map(t_level *level, t_player *pl)
 	ft_strcpy(file, "maps/map00");
 	file[8] = level->num / 10 + '0';
 	file[9] = level->num % 10 + '0';
+	ft_strcpy(map, "level 00");
+	map[6] = level->num / 10 + '0';
+	map[7] = level->num % 10 + '0';
 	printf("open file=%s\n",file);
 	check_segv(file);	
 	if ((fd = open(file, 0x0000)) < 0)
