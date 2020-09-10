@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   calc_quads.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 15:42:21 by jthuy             #+#    #+#             */
-/*   Updated: 2020/09/04 19:51:37 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/10 11:00:13 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-
 
 void	calc_firstquad(t_map *map, t_player *player, t_drawer *drawer)
 {

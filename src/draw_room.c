@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:10:28 by jthuy             #+#    #+#             */
-/*   Updated: 2020/09/10 09:50:09 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 15:15:52 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	def_raylen(t_map *map, t_player *player, t_drawer *drawer)
 {
-	drawer->ray_angle = ((drawer->cursor_x / (double)S_W) * player->sec.fov)
+	drawer->ray_angle = ((drawer->cursor[0] / (double)S_W) * player->sec.fov)
 		+ (player->obj.rot - player->sec.fov / 2.0);
 	drawer->ray_tan[0] = tan(drawer->ray_angle);
 	drawer->ray_tan[1] = tan(drawer->ray_angle - M_PI_2);

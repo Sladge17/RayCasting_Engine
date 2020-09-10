@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/08 14:58:47 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 11:27:45 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		hex_to_int(char sym)
 
 int		read_base_color(t_map *map, char *data)
 {
-	int tmp;
 	int i;
 	int	cmp[16];
 

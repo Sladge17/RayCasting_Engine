@@ -6,7 +6,7 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/09/08 15:53:29 by vkaron           ###   ########.fr        #
+#    Updated: 2020/09/10 10:44:21 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ FLAGS =	-Wall -Wextra #-Werror -Ofast -g
 #FLAGS =		-g
 
 FILES =		act_sdl \
+			check_keyboard \
 			color \
 			draw_3d \
 			draw_gui \

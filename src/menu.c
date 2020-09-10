@@ -6,17 +6,42 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/09 10:25:10 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 16:19:55 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
+void	print_wolf(SDL_Surface *sdest, const char *text,
+	SDL_Rect *dest)
+{
+	SDL_Color	col;
+	TTF_Font	*fnt;
+	SDL_Surface	*stext;
+	const char	*f = "prgres/wf.otf";
+
+	col = (SDL_Color){171, 32, 46, 255};
+	fnt = NULL;
+	fnt = TTF_OpenFont(f, H_H / 5);
+	if (!fnt)
+	{
+		write(1, "Not open font!\n", 15);
+		exit(0);
+	}
+	stext = TTF_RenderText_Blended(fnt, text, col);
+	SDL_BlitSurface(stext, NULL, sdest, dest);
+	SDL_FreeSurface(stext);
+	TTF_CloseFont(fnt);
+	dest->y += H_H / 5;
+}
+
 void	draw_menu(t_game *game)
 {
 	SDL_Point	pos;
 	int			index;
-
+	SDL_Rect	r;
+	int flag = 1;
+	
 	pos.y = -1;
 	while (++pos.y < S_H)
 	{
@@ -27,6 +52,15 @@ void	draw_menu(t_game *game)
 			game->data[index + pos.x] = game->data_menu[index + pos.x];
 		}
 	}
+	r = (SDL_Rect){H_W + H_W / 2, H_H - 20, 0, 0};
+	if (flag)
+		print_wolf(game->surf, "Continue", &r);
+	else
+		print_wolf(game->surf, "", &r);
+	print_wolf(game->surf, "New game", &r);
+	print_wolf(game->surf, "Settings", &r);
+	print_wolf(game->surf, "Editor", &r);
+	print_wolf(game->surf, "Exit", &r);
 }
 
 void	main_menu(t_game *game)

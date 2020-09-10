@@ -6,19 +6,19 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 09:56:25 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 16:21:56 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 2400
-# define S_H 1000
-# define H_W 1200
-# define H_H 500
+# define S_W 1920
+# define S_H 1080
+# define H_W 960
+# define H_H 540
 # define RATIO 1.78f
-# define THREADS 32
+# define THREADS 16
 # define PI2 6.283185307179586
 
 # define OK 1
@@ -33,6 +33,7 @@
 # define U 300
 
 # define GAME 1
+# define GUN_SCALE 200
 
 # include <pthread.h>
 # include <math.h>
@@ -56,6 +57,14 @@ typedef struct		s_vec2
 	double			x;
 	double			y;
 }					t_vec2;
+
+typedef struct		s_ivec4
+{
+	int				a;
+	int				b;
+	int				c;
+	int				d;
+}					t_ivec4;
 
 typedef struct		s_isec
 {
@@ -207,23 +216,8 @@ typedef struct		s_cursor
 
 typedef struct	s_drawer
 {
-	int			cursor_x;
-	int			cursor_y;
+	int			cursor[2];
 	double		ray_angle;
-	double		ray_sin;
-	double		ray_cos;
-	
-	double		raylen_tmp;
-	double		ray_len;
-	
-	double		barrier_x_f;
-	double		barrier_y_f;
-	double		barrier_x_f_tmp;
-	double		barrier_y_f_tmp;
-	int			barrier_x_d;
-	int			barrier_y_d;
-	
-	// for export to project
 	double		ray_tan[2];
 	double		raylen[2];
 	double		barrier_f[2][2];
@@ -231,15 +225,11 @@ typedef struct	s_drawer
 	double		texel[2];
 	int			mapid;
 	int			wall_tile;
-
-	double		texel_x;
-	double		texel_y;
-
 	int			tex_u;
 	char		wall_part;
-	char		wall_color;
 	int			wall_len;
-	
+	int			tex_d[2];
+	int			pix_img;
 }				t_drawer;
 
 typedef struct		s_editor
@@ -295,10 +285,9 @@ typedef struct		s_game
 	int				max_level;
 	int				cheat;
 	int				dummy;
-//	int				thread;
 	t_level			level;
 	t_player		player;
-	t_drawer		drawer;
+	//t_drawer		drawer;
 	
 }					t_game;
 
@@ -326,6 +315,8 @@ void		close_sdl(t_game *game);
 int			free_init_sdl(t_game *game);
 
 //run
+void		check_keyboard(t_game *game, float d_time, int *quit);
+void		redraw(t_game *game);
 void		sdl_cycle(t_game *game);
 void		draw_game(t_game *game);
 
@@ -360,16 +351,15 @@ void		draw_map(t_game *game);
 /*
 ** draw_gui.c
 */
-void	draw_gui(t_game *game);
-void	draw_back(t_game *game, int tile_u, int tile_v);
-void	draw_face(t_game *game, int tile_u, int tile_v);
-void	draw_gun(t_game *game, int tile_u, int tile_v);
+void		draw_gui(t_game *game);
+void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 
 
 //color
 void 		set_color(SDL_Color *col, int r, int g, int b);
 int			clamp_col(int col);
-void		set_col_by_num(SDL_Color *col, int number);
 
 //map editor
 void		map_editor(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 09:55:11 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 11:16:24 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void		*draw_block_3d(void *g)
 	while (++x <= max_x)
 	{
 		engine(t->game, &isec, x);
-		set_col_by_num(&(isec.col), isec.number);
+		//set_col_by_num(&(isec.col), isec.number);
 		x_index =  (H_W - x);
 		draw_roof(t->game, -H_H, x_index, -isec.height);
 		draw_floor(t->game, isec.height, x_index, H_H - 65);

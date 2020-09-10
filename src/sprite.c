@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
-/*   Updated: 2020/09/09 16:05:06 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 11:27:31 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	draw_vertline(t_game *game, t_sprt *sprite)
 
 void	draw_sprites(t_game *game)
 {
-	t_sprt	s;
 	int		i;
 
 	i = -1;
