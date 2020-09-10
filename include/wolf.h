@@ -6,19 +6,19 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/09 16:59:30 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 09:56:25 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 640
-# define S_H 480
-# define H_W 320
-# define H_H 240
+# define S_W 2400
+# define S_H 1000
+# define H_W 1200
+# define H_H 500
 # define RATIO 1.78f
-# define THREADS 1
+# define THREADS 32
 # define PI2 6.283185307179586
 
 # define OK 1

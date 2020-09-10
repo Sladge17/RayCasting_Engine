@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/09 14:28:13 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 09:55:11 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,14 @@ void		draw_roof(t_game *game, int y, int x, int max_y)
 {
 	y = y - 1;
 	while (++y <= max_y)
-	{
 		game->data[(H_H + y) * S_W + x] = game->level.map.roof;
-	}
 }
 
 void		draw_floor(t_game *game, int y, int x, int max_y)
 {
 	y = y - 1;
 	while (++y <= max_y)
-	{
 		game->data[(H_H + y) * S_W + x] = game->level.map.floor;
-	}
 }
 
 void		draw_walls(t_game *game, int x, t_isec *isec)
@@ -68,14 +64,14 @@ void		draw_walls(t_game *game, int x, t_isec *isec)
 
 void		*draw_block_3d(void *g)
 {
-	t_isec	isec;
-	int		x;
-	int		x_index;
-	int		max_x;
+	t_isec		isec;
+	int			x;
+	int			x_index;
+	int			max_x;
 	t_thread	*t;
 
 	t = (t_thread*)g;
-	x = -H_W + t->thread * S_W / THREADS - 1;
+	x = -H_W + t->thread * S_W / THREADS;
 	max_x = -H_W + (t->thread + 1) * S_W / THREADS;
 	while (++x <= max_x)
 	{
@@ -110,7 +106,7 @@ void		draw_game(t_game *game)
 	pthread_attr_destroy(&attr);
 	thread = -1;
 	while (++thread < THREADS)
-		pthread_join(threads[thread], &status);
+			pthread_join(threads[thread], &status);
 	draw_sprites(game);
 	if (game->draw_map)
 		draw_map(game);

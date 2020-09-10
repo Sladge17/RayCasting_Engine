@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/08 15:32:55 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 09:49:13 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,28 @@ void	def_wallparams(t_player *player, t_drawer *drawer)
 
 void	engine(t_game *game, t_isec *isec, int x)
 {
-	t_drawer	*dr;
+	t_drawer	dr;
 	t_player	*player;
 	t_map		*map;
 	int			side;
 
-	dr = &(game->drawer);
+	isec->height = 1;
 	player = &(game->player);
 	map = &(game->level.map);
-	dr->cursor_x = x + H_W;
-	def_raylen(map, player, dr);
-	def_walltile(map, dr);
-	def_walltile_u(dr);
-	def_wallparams(player, dr);
-	isec->dist = dr->raylen[0];
-	isec->height = dr->wall_len / 2;
-	if (dr->wall_part)
-		side = player->obj.pos.y < dr->barrier_d[1] ? 0 : 2;
+	dr.cursor_x = x + H_W;
+	def_raylen(map, player, &dr);
+	def_walltile(map, &dr);
+	def_walltile_u(&dr);
+	def_wallparams(player, &dr);
+	isec->dist = dr.raylen[0];
+	isec->height = dr.wall_len / 2;
+	if (dr.wall_part)
+		side = player->obj.pos.y < dr.barrier_d[1] ? 0 : 2;
 	else
-		side = player->obj.pos.x < dr->barrier_d[0] ? 3 : 1;
+		side = player->obj.pos.x < dr.barrier_d[0] ? 3 : 1;
 	isec->number =
-		game->level.map.elem[dr->barrier_d[1]][dr->barrier_d[0]].side[side];
-	isec->colum = dr->tex_u;
+		game->level.map.elem[dr.barrier_d[1]][dr.barrier_d[0]].side[side];
+	isec->colum = dr.tex_u;
 	if (side < 2)
-		isec->colum = 63 - dr->tex_u;
+		isec->colum = 63 - dr.tex_u;
 }
