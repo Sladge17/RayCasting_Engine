@@ -6,7 +6,7 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/09/05 19:43:53 by vkaron           ###   ########.fr        #
+#    Updated: 2020/09/10 10:44:21 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,11 @@
 
 PROGRAM_NAME = wolf3d
 
-FLAGS =	-Wall -Wextra -g#-Werror -Ofast -g
+FLAGS =	-Wall -Wextra #-Werror -Ofast -g
 #FLAGS =		-g
 
 FILES =		act_sdl \
+			check_keyboard \
 			color \
 			draw_3d \
 			draw_gui \
@@ -33,18 +34,24 @@ FILES =		act_sdl \
 			player \
 			service_stuff \
 			editor \
-			editor_file \
+			editor_file_load \
+			editor_file_save \
 			editor_mouse_events \
 			editor_events \
 			editor_draw_select_color \
 			editor_service \
 			editor_draw_menu \
+			editor_draw_info \
 			editor_init \
 			editor_check_frame \
 			editor_pick_map \
 			editor_help \
 			editor_select \
 			sprite \
+			calc_quads \
+			draw_room \
+			menu \
+			menu_events \
 			
 
 S_DIR =		src

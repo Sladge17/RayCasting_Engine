@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/13 20:20:38 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 10:09:46 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,39 +45,39 @@ static int		read_base_color(t_map *map, char *data)
 
 void			add_enm(t_map * map, SDL_Point pos, int num)
 {
-	static int number = 0;
 	t_vec2 p;
 	
-	if (number > 127)
+	if (map->enms > 127)
 		return ;
-	map->enm[number].status = 1;
+	map->enm[map->enms].status = 1;
 	p.x = pos.x + 0.5;
 	p.y = pos.y + 0.5;
-	map->enm[number].obj.pos = p;
-	map->enm[number].sprt.pos = p;
-	map->enm[number++].sprt.numb = num;
+	map->enm[map->enms].obj.pos = p;
+	map->enm[map->enms].sprt.pos = p;
+	map->enm[(map->enms)++].sprt.numb = num;
 }
 
 void			add_bar(t_map * map, SDL_Point pos, int num)
 {
-	static int number = 0;
 	t_vec2 p;
 	
-	if (number > 63)
+	if (map->bars > 63)
 		return ;
-	map->bar[number].status = 1;
+	map->bar[map->bars].status = 1;
 	p.x = pos.x + 0.5;
 	p.y = pos.y + 0.5;
 	//map->bar[number].obj.pos = p;
-	map->bar[number].sprt.pos = p;
-	map->bar[number++].sprt.numb = num;
+	map->bar[map->bars].sprt.pos = p;
+	map->bar[(map->bars)++].sprt.numb = num;
 	map->elem[pos.y][pos.x].lock = 1;
 }
 
+//static void		check_map
+
 static int		read_map(t_map *map, char *data, int cell, t_player *pl)
 {
-	int			s;
-	int			i;
+	int			s; //x
+	int			i; //y
 	int			cmp[16];
 	SDL_Point	p;
 	t_type		t;
@@ -91,7 +91,7 @@ static int		read_map(t_map *map, char *data, int cell, t_player *pl)
 	p.y = cell / 64;
 	p.x = cell - p.y * 64;
 	t = (t_type)cmp[0];
-	if (t == WALL)
+	if (t == WALL || t == DOOR)
 	{
 		map->elem[p.y][p.x].number = (cmp[1] << 8) | (cmp[2] << 4) | cmp[3];
 		map->elem[p.y][p.x].modify = cmp[4];
@@ -119,33 +119,36 @@ static int		read_map(t_map *map, char *data, int cell, t_player *pl)
 		{
 			pl->obj.pos.x = p.x + 0.5;
 			pl->obj.pos.y = p.y + 0.5;
+			pl->obj.rot = 0;
+			pl->obj.dir.x = 0;
+			pl->obj.dir.y = 1;
 		}
 		else if (t == ENEMY)
 			add_enm(map, p,  (cmp[1] << 8) | (cmp[2] << 4) | cmp[3]);
 		else if (t == BARIER)
 			add_bar(map, p,  (cmp[1] << 8) | (cmp[2] << 4) | cmp[3]);
-	}
+	}		
 	return (1);
 }
 //*
 void	load_map(t_level *level, t_player *pl)
 {
-	int			number;
 	char 		file[11];
 	int			fd;
 	char		buf[18];
 	int			n;
 	int 		cell;
 
-	number = 1;
 	ft_strcpy(file, "maps/map00");
-	file[8] = number / 10 + '0';
-	file[9] = number % 10 + '0';
-	check_segv(file);
-
+	file[8] = level->num / 10 + '0';
+	file[9] = level->num % 10 + '0';
+	printf("open file=%s\n",file);
+	check_segv(file);	
 	if ((fd = open(file, 0x0000)) < 0)
 		ft_exit("Hey man! It is are not a map!!!");
 	cell = -2;
+	level->map.enms = 0;
+	level->map.bars = 0;
 	while ((n = read(fd, buf, 18)))
 	{
 		++cell;

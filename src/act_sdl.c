@@ -6,34 +6,24 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/05 18:06:57 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 10:57:38 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	close_sdl(t_game *game)
+void	check_start(t_game *game)
 {
-	SDL_FreeSurface(game->surf);
-	game->surf = 0;
-	SDL_DestroyWindow(game->win);
-	game->win = 0;
-	TTF_Quit();
-	SDL_Quit();
+	if (game->comeback == 0)
+	{
+		load_map(&game->level, &game->player);
+		game->delay = 10;
+	}
 }
 
-void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
+void	sld_events2(t_game *game, SDL_Event e, int *repaint)
 {
-	if (e.type == SDL_QUIT)
-		*quit = 1;
-	else if (e.type == SDL_KEYDOWN)
-	{
-		if (e.key.keysym.sym == SDLK_ESCAPE)
-			*quit = 1;
-		else
-			key_press(e.key.keysym.sym, game);
-	}
-	else if (e.type == SDL_MOUSEBUTTONDOWN)
+	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
 		mouse_press(&(e.button), game);
 		*repaint = 1;
@@ -51,68 +41,62 @@ void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
 	}
 }
 
-void	check_keyboard(t_game *game, float d_time)
+void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
 {
-	const	Uint8 *state = SDL_GetKeyboardState(NULL);
-
-	if (state[SDL_SCANCODE_UP] || state[SDL_SCANCODE_W])
-		move_forward(&(game->player.obj), &game->level.map, d_time);
-	else if (state[SDL_SCANCODE_DOWN] || state[SDL_SCANCODE_S])
-		move_back(&(game->player.obj), &game->level.map, d_time);
-	if (state[SDL_SCANCODE_LEFT])
-		turn_left(&(game->player.obj), d_time);
-	else if (state[SDL_SCANCODE_RIGHT])
-		turn_right(&(game->player.obj), d_time);
-	if (state[SDL_SCANCODE_A])
-		move_left(&(game->player.obj), &game->level.map, d_time);
-	else if (state[SDL_SCANCODE_D])
-		move_right(&(game->player.obj), &game->level.map, d_time);
+	if (e.type == SDL_QUIT)
+	{
+		*quit = 1;
+		game->status = 0;
+	}
+	else if (e.type == SDL_KEYDOWN)
+	{
+		if (e.key.keysym.sym == SDLK_ESCAPE)
+			*quit = 1;
+		else
+			key_press(e.key.keysym.sym, game);
+	}
+	else
+		sld_events2(game, e, repaint);
 }
 
-void	redraw(t_game *game, int *fps)
+void	redraw(t_game *game)
 {
 	unsigned int	cur_time;
 	int				i;
 
-	cur_time = SDL_GetTicks();
-	if (cur_time > game->last_time + game->f_time)
-	{
-		i = -1;
-		while (++i < S_W * S_H)
-			game->z_buffer[i] = 100;
-		draw_game(game);
-		SDL_UpdateWindowSurface(game->win);
-		SDL_FlushEvent(SDL_KEYDOWN);
-		game->last_time = cur_time;
-		*fps += 1;
-	}
+	i = -1;
+	while (++i < S_W * S_H)
+		game->z_buffer[i] = 100;
+	draw_game(game);
+	SDL_UpdateWindowSurface(game->win);
+	SDL_FlushEvent(SDL_KEYDOWN);
 }
 
 void	sdl_cycle(t_game *game)
 {
-	SDL_Rect	flags;
-	SDL_Rect	time;
-	float		d_time;
 	SDL_Event	e;
+	SDL_Point	flags;
+	int			first;
 
 	flags.x = 0;
-	flags.h = 1;
-	time.x = 0;
-	time.y = SDL_GetTicks();
-	while (!(flags.x))
+	first = 1;
+	check_start(game);
+	while (!flags.x)
 	{
-		d_time = (float)(SDL_GetTicks() - time.h) / 1000.0;
-		if ((time.h = SDL_GetTicks()) > (time.y + 1000))
-		{
-			time.y = time.h;
-			time.x = 0;
-		}
 		flags.y = 0;
-		check_keyboard(game, d_time);
-		redraw(game, &(time.x));
+		check_keyboard(game, 0.3, &(flags.x));
+		redraw(game);
 		if (SDL_PollEvent(&e) != 0 || flags.y)
 			sld_events(game, e, &(flags.x), &(flags.y));
-		SDL_Delay(10);
+		if (flags.x)
+			break ;
+		if (game->delay != 10)
+		{
+			SDL_Delay(game->delay);
+			game->delay = 10;
+			check_start(game);
+		}
 	}
-	game->status = 3;
+	if (game->status != 0 && game->status != 4)
+		game->status = 3;
 }

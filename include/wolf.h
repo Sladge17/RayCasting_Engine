@@ -6,19 +6,19 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/05 20:42:01 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 11:46:58 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 1400
-# define S_H 700
-# define H_W 700
-# define H_H 350
+# define S_W 2400
+# define S_H 1000
+# define H_W 1200
+# define H_H 500
 # define RATIO 1.78f
-# define THREADS 1
+# define THREADS 16
 # define PI2 6.283185307179586
 
 # define OK 1
@@ -29,6 +29,8 @@
 # define MIN_OFFSET 0.01f
 # define RECURCE_DEPTH 3
 # define REFR_DEPTH 10
+
+# define U 300
 
 # define GAME 1
 
@@ -51,14 +53,22 @@
 
 typedef struct		s_vec2
 {
-	float			x;
-	float			y;
+	double			x;
+	double			y;
 }					t_vec2;
+
+typedef struct		s_ivec4
+{
+	int				a;
+	int				b;
+	int				c;
+	int				d;
+}					t_ivec4;
 
 typedef struct		s_isec
 {
 	SDL_Color		col;
-	float			dist;
+	double			dist;
 	int				height;
 	int				number;
 	int				colum;
@@ -80,10 +90,10 @@ typedef struct		s_game_obj
 {
 	t_vec2			pos;
 	t_vec2			dir;
-	float			rot;
-	float			speed;
-	float			rot_speed;
-	float			border;
+	double			rot;
+	double			speed;
+	double			rot_speed;
+	double			border;
 	int				status;
 }					t_game_obj;
 
@@ -154,25 +164,32 @@ typedef struct		s_map
 	t_ach			ach[64];
 	t_bar			bar[64];
 	t_ant			ant[64];
+	int				enms;
+	int				achs;
+	int				bars;
+	int				ants;
 	t_game_obj		player;
 }					t_map;
 
 typedef struct		s_level
 {
-	int				number;
+	int				num;
 	t_map			map;
 }					t_level;
 
 typedef struct		s_sector
 {
-	float			fov;
-	float			ang_step;
+	int				fov;
+	double			ang_step;
+	t_vec2			l_ang;
+	t_vec2			r_ang;
 }					t_sector;
 
 typedef struct		s_player
 {
 	t_game_obj		obj;
 	t_sector		sec;
+	int				ray_depth;
 }					t_player;
 
 typedef struct		s_message
@@ -196,6 +213,43 @@ typedef struct		s_cursor
 	t_entity		*en;
 }					t_cursor;
 
+typedef struct	s_drawer
+{
+	int			cursor_x;
+	int			cursor_y;
+	double		ray_angle;
+	double		ray_sin;
+	double		ray_cos;
+	
+	double		raylen_tmp;
+	double		ray_len;
+	
+	double		barrier_x_f;
+	double		barrier_y_f;
+	double		barrier_x_f_tmp;
+	double		barrier_y_f_tmp;
+	int			barrier_x_d;
+	int			barrier_y_d;
+	
+	// for export to project
+	double		ray_tan[2];
+	double		raylen[2];
+	double		barrier_f[2][2];
+	int			barrier_d[2];
+	double		texel[2];
+	int			mapid;
+	int			wall_tile;
+
+	double		texel_x;
+	double		texel_y;
+
+	int			tex_u;
+	char		wall_part;
+	char		wall_color;
+	int			wall_len;
+	
+}				t_drawer;
+
 typedef struct		s_editor
 {
 	SDL_Point		offset;
@@ -216,7 +270,7 @@ typedef struct		s_editor
 	Uint8			entours;		
 	int				put;
 	int				scale;
-	SDL_Point		mouse_pos;
+	SDL_Point		m_pos;
 	int				click_time;
 	int				press_l;
 	int				press_r;
@@ -230,19 +284,29 @@ typedef struct		s_game
 	SDL_Window		*win;
 	SDL_Surface		*surf;
 	SDL_Surface		*athlas;
+	SDL_Surface		*menu;
+	SDL_Surface		*n_level;
+	SDL_Surface		*s_win;
 	int				*data;
 	int				*data_img;
+	int				*data_menu;
+	int				*data_n_level;
+	int				*data_win;
 	double			*z_buffer;//[S_W * S_H];
 	int				status;
 	int				draw_map;
 	int				fps;
 	unsigned int	f_time;
 	unsigned int	last_time;
+	int				comeback;
+	Uint32			delay;
+	int				max_level;
 	int				cheat;
 	int				dummy;
-//	int				thread;
 	t_level			level;
 	t_player		player;
+	//t_drawer		drawer;
+	
 }					t_game;
 
 typedef struct		s_thread
@@ -269,18 +333,20 @@ void		close_sdl(t_game *game);
 int			free_init_sdl(t_game *game);
 
 //run
+void		check_keyboard(t_game *game, float d_time, int *quit);
+void		redraw(t_game *game);
 void		sdl_cycle(t_game *game);
 void		draw_game(t_game *game);
 
 //game object
-void		move_forward(t_game_obj *obj, t_map *map, float koeff);
-void		move_back(t_game_obj *obj, t_map *map, float koeff);
-void		move_left(t_game_obj *obj, t_map *map, float koeff);
-void		move_right(t_game_obj *obj, t_map *map, float koeff);
-void		turn_left(t_game_obj *obj, float koeff);
-void		turn_right(t_game_obj *obj, float koeff);
-void		init_object(t_game_obj *obj, t_vec2 pos, float rot,
-				float speed, float rot_speed);
+void		move_forward(t_game_obj *obj, t_map *map, double koeff);
+void		move_back(t_game_obj *obj, t_map *map, double koeff);
+void		move_left(t_game_obj *obj, t_map *map, double koeff);
+void		move_right(t_game_obj *obj, t_map *map, double koeff);
+void		turn_left(t_game_obj *obj, double koeff);
+void		turn_right(t_game_obj *obj, double koeff);
+void		init_object(t_game_obj *obj, t_vec2 pos, double rot, double speed,
+		double rot_speed);
 		
 //map
 void		load_map(t_level *level, t_player *pl);
@@ -300,13 +366,18 @@ void		load_music(t_game *game);
 //draw map
 void		draw_map(t_game *game);
 
-//draw GUI
+/*
+** draw_gui.c
+*/
 void		draw_gui(t_game *game);
+void		draw_back(t_game *game, int tile_u, int tile_v);
+void		draw_face(t_game *game, int tile_u, int tile_v);
+void		draw_gun(t_game *game, int tile_u, int tile_v);
+
 
 //color
 void 		set_color(SDL_Color *col, int r, int g, int b);
 int			clamp_col(int col);
-void		set_col_by_num(SDL_Color *col, int number);
 
 //map editor
 void		map_editor(t_game *game);
@@ -323,7 +394,7 @@ Uint32		get_img_color(t_game *game, int x, int y, int number);
 void		draw_box(t_game *game, int index, int number, t_editor *ed);
 void		init_editor(t_editor *ed);
 void		draw_frame(t_game *game, const char *message);
-void		draw_menu(t_game *game, t_editor *ed);
+void		draw_editor_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 void		select_cursor_sprite(t_editor *ed);
 void		editor_set_cell(t_editor *ed);
@@ -331,10 +402,34 @@ void		draw_editor_help(t_game *game);
 void		draw_editor_select(t_game *game, t_editor *ed);
 void		draw_editor_modify_wall(t_game *game, t_editor *ed);
 void		draw_editor_side_wall(t_game *game, t_editor *ed, int side);
+void		draw_cursor_info(t_game *game, t_editor *ed);
 
 //draw sprites
 void		draw_sprites(t_game *game);
 void		def_spriteparam(t_game *game, t_sprt *sprite);
 void		draw_vertline(t_game *game, t_sprt *sprite);
+
+//new engine
+/*
+** door_sprite.c
+*/
+void	def_raylen(t_map *map, t_player *player, t_drawer *drawer);
+char	check_barrier(t_map *map, t_player *player, t_drawer *drawer);
+double	calc_raylen(t_player *player, t_drawer *drawer, char index);
+void	def_barrierparam(t_player *player, t_drawer *drawer, char n_quad);
+void	def_walltile(t_map *map, t_drawer *drawer);
+void	def_walltile_u(t_drawer *drawer);
+
+/*
+** calc_quads.c
+*/
+void	calc_firstquad(t_map *map, t_player *player, t_drawer *drawer);
+void	calc_secondquad(t_map *map, t_player *player, t_drawer *drawer);
+void	calc_thirdquad(t_map *map, t_player *player, t_drawer *drawer);
+void	calc_fourthquad(t_map *map, t_player *player, t_drawer *drawer);
+
+//main menu
+void	main_menu(t_game *game);
+void	sld_events_menu(t_game *game, SDL_Event e, SDL_Point *flags);
 
 #endif

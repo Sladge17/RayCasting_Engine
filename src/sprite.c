@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
-/*   Updated: 2020/08/13 20:29:50 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 11:27:31 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,27 +83,14 @@ void	draw_vertline(t_game *game, t_sprt *sprite)
 
 void	draw_sprites(t_game *game)
 {
-	t_sprt	s;
 	int		i;
 
 	i = -1;
 	while (++i < 128)
 	{
-		if (game->level.map.enm[i].status)
+		if (i < game->level.map.enms)
 			draw_sprite(game, &game->level.map.enm[i].sprt);
-		if (game->level.map.bar[i].status)
+		if (i < game->level.map.bars)
 			draw_sprite(game, &game->level.map.bar[i].sprt);
 	}
-	s.numb = 156;
-	s.pos.x = 8.5;
-	s.pos.y = 9.5;
-	draw_sprite(game, &s);
-	s.numb = 115;
-	s.pos.x = 10.5;
-	s.pos.y = 10.5;
-	draw_sprite(game, &s);
-	s.numb = 116;
-	s.pos.x = 15.5;
-	s.pos.y = 12.5;
-	draw_sprite(game, &s);
 }

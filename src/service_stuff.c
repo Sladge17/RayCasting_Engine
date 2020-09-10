@@ -6,11 +6,35 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/07/20 19:29:09 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/09 12:20:58 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+void	close_sdl(t_game *game)
+{
+	//write(1,"OK\n", 3);
+	if (game->surf)
+		SDL_FreeSurface(game->surf);
+	
+	game->surf = 0;
+	//if (game->athlas)
+	//	SDL_FreeSurface(game->athlas);
+	//write(1,"OK2\n", 4);
+	if (game->menu)
+		SDL_FreeSurface(game->menu);
+	if (game->n_level)
+		SDL_FreeSurface(game->n_level);
+	if (game->s_win)
+		SDL_FreeSurface(game->s_win);
+	if (game->win)
+		SDL_DestroyWindow(game->win);
+	game->win = 0;
+	TTF_Quit();
+	SDL_Quit();
+	
+}
 
 void	check_segv(char *file)
 {
@@ -28,24 +52,26 @@ void	check_segv(char *file)
 
 void	ft_exit(char *line)
 {
+	//close_sdl(t_game *game);
 	ft_putstr(line);
 	ft_putchar('\n');
 	exit(-1);
 }
 
-void	free_l(t_game *game)
-{
-	free(game);
-}
+//void	free_l(t_game *game)
+//{
+//	free(game);
+//}
 
 int		free_init_sdl(t_game *game)
 {
 	close_sdl(game);
-	free_l(game);
+	//free_l(game);
 	ft_exit("BAD THINGS HAPPENING TO SDL");
 	return (-1);
 }
 
+/*
 int		free_word_line(char **line, char **word)
 {
 	int i;
@@ -72,4 +98,4 @@ int		free_word_line(char **line, char **word)
 	}
 	return (i);
 }
-
+//*/
