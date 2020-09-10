@@ -6,12 +6,12 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/08 10:44:14 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 14:38:37 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
+/*
 void	set_grad(t_game *game, int index, SDL_Rect tmp, SDL_Color *col)
 {
 	if (tmp.x > 512)
@@ -72,7 +72,7 @@ void	draw_grad(t_game *game, int px, int py)
 		++tmp.y;
 	}
 }
-
+//*/
 void	draw_select_col(t_game *game, t_editor *ed)
 {
 	SDL_Rect rect;

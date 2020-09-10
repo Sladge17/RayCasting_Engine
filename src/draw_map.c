@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 12:35:52 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 14:35:22 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 void		draw_rect(t_game *game, t_ivec4 p, int d, int n)
 {
 	int			y_index;
-	int			ind[2];
+	SDL_Point	ind;
 
-	ind[1] = p.b * d - p.d - 1;
-	while (++ind[1] < (p.b + 1) * d - p.d - 1)
+	ind.y = p.b * d - p.d - 1;
+	while (++ind.y < (p.b + 1) * d - p.d - 1)
 	{
-		if (ind[1] >= H_H || ind[1] < 0)
+		if (ind.y >= H_H || ind.y < 0)
 			continue ;
-		y_index = ind[1] * game->surf->w;
-		ind[0] = p.a * d - 1 - p.c;
-		while (++ind[0] < (p.a + 1) * d - p.c - 1)
+		y_index = ind.y * game->surf->w;
+		ind.x = p.a * d - 1 - p.c;
+		while (++ind.x < (p.a + 1) * d - p.c - 1)
 		{
-			if (ind[0] >= H_W || ind[0] < 0)
+			if (ind.x >= H_W || ind.x < 0)
 				continue ;
-			game->data[y_index + ind[0]] =
-				game->data_img[(n / 16 + 1) * game->athlas->w + (n % 16) + 1];
+			game->data[y_index + ind.x] =
+				game->data_img[(((n / 16) * 65) + 1) * game->athlas->w + (n % 16) * 65 + 1];
 		}
 	}
 }
@@ -42,14 +42,14 @@ void		draw_dot(t_game *game, t_vec2 *pos, int scale, t_ivec4 p)
 	int rad;
 
 	rad = 2;
-	max = game->surf->w * game->surf->h;
+	max = S_W * S_H;
 	j = (int)((pos->y) * scale) - rad - 1 - p.d;
 	while (++j <= (int)((pos->y) * scale) + rad - p.d)
 	{
 		i = (int)((pos->x) * scale) - rad - 1 - p.c;
 		while (++i <= (int)((pos->x) * scale) + rad - p.c)
 		{
-			if (j * game->surf->w + i < max)
+			if ((j * game->surf->w + i) < max)
 				game->data[j * game->surf->w + i] = 0xffff00ff;
 		}
 	}
@@ -86,11 +86,28 @@ void		draw_line(t_game *game, t_vec2 *start, int scale, t_ivec4 p)
 	}
 }
 
-void		draw_player(t_game *game, int scale, t_ivec4 p)
+void		draw_fon(t_game *game)
 {
-	
-	draw_dot(game, &(game->player.obj.pos), scale, p);
-	draw_line(game, &(game->player.obj.pos), scale, p);
+	SDL_Point	pos;
+	int			y_index;
+	Uint32		col;
+	SDL_Color	sc;
+		
+
+	pos.y = -1;
+	while (++pos.y < H_H)
+	{
+		y_index = pos.y * S_W;
+		pos.x = -1;
+		while (++pos.x < H_W)
+		{
+			col = game->data[y_index + pos.x];
+			sc.r = ((col & 0xFF0000) >> 16) / 2;
+			sc.g = ((col & 0xFF00) >> 8) / 2;
+			sc.b = (col & 0xFF) / 2;
+			game->data[y_index + pos.x] = (sc.r << 16) | (sc.g << 8) | sc.b;
+		}
+	}
 }
 
 void		draw_map(t_game *game)
@@ -98,11 +115,14 @@ void		draw_map(t_game *game)
 	int		scale;
 	t_ivec4	p;
 
-	scale = 30;
+	scale = 20;
+	p.c = 0;
+	p.d = 0;
+	draw_fon(game);
 	p.b = -1;
-	if (game->player.obj.pos.x * scale > H_W - scale * 2)
+	if ((int)(game->player.obj.pos.x * scale) > (H_W - scale * 2))
 		p.c = game->player.obj.pos.x * scale - H_W + scale * 2;
-	if (game->player.obj.pos.y * scale > H_H - scale * 2)
+	if ((int)(game->player.obj.pos.y * scale) > (H_H - scale * 2))
 		p.d = game->player.obj.pos.y * scale - H_H + scale * 2;
 	while (++p.b < 64)
 	{
@@ -114,5 +134,6 @@ void		draw_map(t_game *game)
 					game->level.map.elem[p.b][p.a].number);
 		}
 	}
-	draw_player(game, scale, p);
+	draw_dot(game, &(game->player.obj.pos), scale, p);
+	draw_line(game, &(game->player.obj.pos), scale, p);
 }
