@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 19:47:28 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 17:15:12 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,42 +69,37 @@ void	draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 	}
 }
 
-void	draw_uitext(t_game *game)
+void	draw_uitext(t_game *game, SDL_Rect *pos)
 {
-	SDL_Rect	pos;
 	char 		level[9];
 	
-	pos.x = H_W + 40;
-	pos.y = S_H - 60;
-	print_ttf(game->surf, "WASD/Arrow - move, turn", 16, &pos);
-	pos.y += 20;
-	print_ttf(game->surf, "     Enter - action", 16, &pos);
-	pos.y += 20;
-	print_ttf(game->surf, "         M - on/off map", 16, &pos);
-	pos.x = 50;
-	pos.y = S_H - 64;
+	pos->x = H_W + 40;
+	pos->y = S_H - 60;
+	print_ttf(game->surf, "WASD/Arrow - move/turn", 16, pos);
+	pos->y += 20;
+	print_ttf(game->surf, "     Enter - action", 16, pos);
+	pos->y += 20;
+	print_ttf(game->surf, "         M - on/off map", 16, pos);
+	pos->x = 50;
+	pos->y = S_H - 64;
 	ft_strcpy(level, "level 00");
 	level[6] = game->level.num / 10 + '0';
 	level[7] = game->level.num % 10 + '0';
-	print_wolf(game->surf, level, &pos, 54);
+	print_wolf(game->surf, level, pos, 54);
 }
 
 void	draw_gui(t_game *game)
 {
-	static int	counter = 0;
-	static char	shift = 0;
-	t_drawer	dr;
-	SDL_Rect	pos;
+	t_drawer		dr;
+	SDL_Rect		pos;
 
 	draw_gun(game, &dr, 0, 33);
 	draw_back(game, &dr, 0, 1);
-	draw_face(game, &dr, 3 + shift, 42);
-	draw_uitext(game);
-	if (counter == 40)
-	{
-		shift ^= 1;
-		counter = 0;
-		return ;
-	}
-	counter += 1;
+	if (((SDL_GetTicks() / 1000) % 4))
+		draw_face(game, &dr, 4, 42);
+	else
+		draw_face(game, &dr, 3, 42);
+	draw_uitext(game, &pos);
+	pos.x = 50;
+	pos.y = S_H - 40;
 }

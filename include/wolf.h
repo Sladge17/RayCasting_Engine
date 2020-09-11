@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 12:47:47 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 17:15:56 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # define S_H 1080
 # define H_W 960
 # define H_H 540
+// # define S_W 640
+// # define S_H 480
+// # define H_W 320
+// # define H_H 240
 # define THREADS 16
 # define PI2 6.283185307179586
 
@@ -351,7 +355,7 @@ void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 
-void		draw_uitext(t_game *game);
+void	draw_uitext(t_game *game, SDL_Rect *pos);
 
 
 //color
