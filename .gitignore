@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 *.obj
 .DS_Store
 /obj
+=======
+.DS_Store
+*.o
+>>>>>>> 34473305d73d5a232b414adcc911cb72d7cf2ec2
 wolf3d
+*.a
