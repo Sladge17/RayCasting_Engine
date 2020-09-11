@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 12:47:47 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 15:23:59 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,7 +357,8 @@ void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 
-void		draw_uitext(t_game *game);
+// void		draw_uitext(t_game *game);
+void	draw_uitext(t_game *game, SDL_Rect* pos);
 
 
 //color

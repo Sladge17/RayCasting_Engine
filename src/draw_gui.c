@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 19:47:28 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 15:19:56 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,52 +69,44 @@ void	draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 	}
 }
 
-void	draw_uitext(t_game *game)
+void	draw_uitext(t_game *game, SDL_Rect* pos)
 {
-	SDL_Rect	pos;
-	
-	pos.x = S_W / 2 + 100;
-	pos.y = S_H - 55;
-	print_ttf(game->surf, "w - move forward", 18, &pos);
-	pos.y += 25;
-	print_ttf(game->surf, "s - move back", 18, &pos);
-	pos.x += 220;
-	pos.y -= 25;
-	print_ttf(game->surf, "a - move left", 18, &pos);
-	pos.y += 25;
-	print_ttf(game->surf, "d - move right", 18, &pos);
-	pos.x += 200;
-	pos.y -= 25;
-	print_ttf(game->surf, "q - rot left", 18, &pos);
-	pos.y += 25;
-	print_ttf(game->surf, "e - rot right", 18, &pos);
-	pos.x += 190;
-	pos.y -= 25;
-	print_ttf(game->surf, "m - on/off map", 18, &pos);
-	pos.y += 25;
-	print_ttf(game->surf, "enter - action", 18, &pos);
+	pos->x = S_W / 2 + 100;
+	pos->y = S_H - 55;
+	print_ttf(game->surf, "w - move forward", 18, pos);
+	pos->y += 25;
+	print_ttf(game->surf, "s - move back", 18, pos);
+	pos->x += 220;
+	pos->y -= 25;
+	print_ttf(game->surf, "a - move left", 18, pos);
+	pos->y += 25;
+	print_ttf(game->surf, "d - move right", 18, pos);
+	pos->x += 200;
+	pos->y -= 25;
+	print_ttf(game->surf, "q - rot left", 18, pos);
+	pos->y += 25;
+	print_ttf(game->surf, "e - rot right", 18, pos);
+	pos->x += 190;
+	pos->y -= 25;
+	print_ttf(game->surf, "m - on/off map", 18, pos);
+	pos->y += 25;
+	print_ttf(game->surf, "enter - action", 18, pos);
 }
 
 void	draw_gui(t_game *game)
 {
-	static int	counter = 0;
-	static char	shift = 0;
-	t_drawer	dr;
-	SDL_Rect	pos;
+	t_drawer		dr;
+	SDL_Rect		pos;
 
 	draw_gun(game, &dr, 0, 33);
 	draw_back(game, &dr, 0, 1);
-	draw_face(game, &dr, 3 + shift, 42);
+	if (((SDL_GetTicks() / 1000) % 4))
+		draw_face(game, &dr, 4, 42);
+	else
+		draw_face(game, &dr, 3, 42);
 	if (S_W == 1920)
-		draw_uitext(game);
+		draw_uitext(game, &pos);
 	pos.x = 50;
 	pos.y = S_H - 40;
 	print_ttf(game->surf, game->map, 30, &pos);
-	if (counter == 40)
-	{
-		shift ^= 1;
-		counter = 0;
-		return ;
-	}
-	counter += 1;
 }

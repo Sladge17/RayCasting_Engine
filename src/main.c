@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 15:52:54 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/11 14:13:42 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			main(int ac, char *av[])
 	if (!init_sdl(game))
 		return (free_init_sdl(game));
 	game->status = status;
-	def_icon(game, 3, 42);
+	def_icon(game, 4, 42);
 	main_selector(game);
 	
 	close_sdl(game);
