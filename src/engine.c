@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 09:49:13 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 15:15:26 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	def_wallparams(t_player *player, t_drawer *drawer)
 {
 	double alpha;
 
-	alpha = (player->sec.fov * (S_W / 2 - drawer->cursor_x)) / (double)S_W;
+	alpha = (player->sec.fov * (S_W / 2 - drawer->cursor[0])) / (double)S_W;
 	drawer->wall_len = (S_W / (drawer->raylen[0] * cos(alpha)));
 }
 
@@ -30,7 +30,7 @@ void	engine(t_game *game, t_isec *isec, int x)
 	isec->height = 1;
 	player = &(game->player);
 	map = &(game->level.map);
-	dr.cursor_x = x + H_W;
+	dr.cursor[0] = x + H_W;
 	def_raylen(map, player, &dr);
 	def_walltile(map, &dr);
 	def_walltile_u(&dr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/09 17:01:04 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 17:51:32 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		init_sdl(t_game *game)
 	if (TTF_Init() == -1)
 		return (ERROR);
 	game->win = 0;
-	game->win = SDL_CreateWindow("WOLF", SDL_WINDOWPOS_UNDEFINED,
+	game->win = SDL_CreateWindow("wolf3d", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, S_W, S_H, SDL_WINDOW_SHOWN);
 	if (!game->win)
 		return (ERROR);

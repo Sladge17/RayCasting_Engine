@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   act_sdl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 10:57:38 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 19:07:28 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,20 @@ void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
 
 void	redraw(t_game *game)
 {
-	unsigned int	cur_time;
+	//unsigned int	cur_time;
 	int				i;
 
-	i = -1;
-	while (++i < S_W * S_H)
-		game->z_buffer[i] = 100;
-	draw_game(game);
-	SDL_UpdateWindowSurface(game->win);
-	SDL_FlushEvent(SDL_KEYDOWN);
+	//cur_time = SDL_GetTicks();
+	////if (cur_time > game->last_time + game->f_time)
+	//{
+		i = -1;
+		while (++i < S_W * S_H)
+			game->z_buffer[i] = 100;
+		draw_game(game);
+		SDL_UpdateWindowSurface(game->win);
+		SDL_FlushEvent(SDL_KEYDOWN);
+	//	game->last_time = SDL_GetTicks();
+	//}
 }
 
 void	sdl_cycle(t_game *game)
@@ -81,6 +86,7 @@ void	sdl_cycle(t_game *game)
 	flags.x = 0;
 	first = 1;
 	check_start(game);
+	//game->f_time = 100;
 	while (!flags.x)
 	{
 		flags.y = 0;

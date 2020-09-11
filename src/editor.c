@@ -115,5 +115,7 @@ void	map_editor(t_game *game)
 		}
 		SDL_Delay(5);
 	}
-	game->status = 1;
+	game->status = 3;
+	if (flags.x == 2)
+		game->status = 0;
 }

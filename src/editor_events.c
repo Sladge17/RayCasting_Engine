@@ -73,7 +73,7 @@ void	sld_events_editor(t_game *game, t_editor *ed, SDL_Event e,
 {
 	if (e.type == SDL_QUIT)
 	{
-		flags->x = 1;
+		flags->x = 2;
 		game->status = 0;
 	}
 	else if (e.type == SDL_KEYDOWN)

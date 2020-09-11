@@ -3,36 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 11:46:58 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/11 12:47:47 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 2400
-# define S_H 1000
-# define H_W 1200
-# define H_H 500
-# define RATIO 1.78f
+# define S_W 1920
+# define S_H 1080
+# define H_W 960
+# define H_H 540
 # define THREADS 16
 # define PI2 6.283185307179586
 
 # define OK 1
 # define ERROR 0
 
-# define INFINITY 1e99
-# define INFY 1e99
-# define MIN_OFFSET 0.01f
-# define RECURCE_DEPTH 3
-# define REFR_DEPTH 10
+
 
 # define U 300
 
 # define GAME 1
+# define GUN_SCALE 200
 
 # include <pthread.h>
 # include <math.h>
@@ -101,15 +97,15 @@ typedef struct		s_sprt
 {
 	t_vec2			pos;
 	int				numb;
-	double			dist2[2];
+	t_vec2			dist2;
 	double			rot;
 	double			dist;
-	int				size;
+	double			size;
 	double 			dir;
-	int				offset[2];
-	int				cursor[2];
+	SDL_Point		offset;
+	SDL_Point		cursor;
 	int				tile;
-	int				pix_pos[2];
+	SDL_Point		pix_pos;
 	int				pix_win;
 	int				pix_img;
 }					t_sprt;
@@ -215,23 +211,8 @@ typedef struct		s_cursor
 
 typedef struct	s_drawer
 {
-	int			cursor_x;
-	int			cursor_y;
+	int			cursor[2];
 	double		ray_angle;
-	double		ray_sin;
-	double		ray_cos;
-	
-	double		raylen_tmp;
-	double		ray_len;
-	
-	double		barrier_x_f;
-	double		barrier_y_f;
-	double		barrier_x_f_tmp;
-	double		barrier_y_f_tmp;
-	int			barrier_x_d;
-	int			barrier_y_d;
-	
-	// for export to project
 	double		ray_tan[2];
 	double		raylen[2];
 	double		barrier_f[2][2];
@@ -239,15 +220,11 @@ typedef struct	s_drawer
 	double		texel[2];
 	int			mapid;
 	int			wall_tile;
-
-	double		texel_x;
-	double		texel_y;
-
 	int			tex_u;
 	char		wall_part;
-	char		wall_color;
 	int			wall_len;
-	
+	int			tex_d[2];
+	int			pix_img;
 }				t_drawer;
 
 typedef struct		s_editor
@@ -292,7 +269,7 @@ typedef struct		s_game
 	int				*data_menu;
 	int				*data_n_level;
 	int				*data_win;
-	double			*z_buffer;//[S_W * S_H];
+	double			*z_buffer;
 	int				status;
 	int				draw_map;
 	int				fps;
@@ -305,8 +282,8 @@ typedef struct		s_game
 	int				dummy;
 	t_level			level;
 	t_player		player;
-	//t_drawer		drawer;
-	
+	int				menu_flag;
+	int				menu_item;
 }					t_game;
 
 typedef struct		s_thread
@@ -349,7 +326,7 @@ void		init_object(t_game_obj *obj, t_vec2 pos, double rot, double speed,
 		double rot_speed);
 		
 //map
-void		load_map(t_level *level, t_player *pl);
+void		load_map(t_level *level, t_player *pl);//, char *map);
 
 //player
 void		init_player(t_game *game);
@@ -370,9 +347,11 @@ void		draw_map(t_game *game);
 ** draw_gui.c
 */
 void		draw_gui(t_game *game);
-void		draw_back(t_game *game, int tile_u, int tile_v);
-void		draw_face(t_game *game, int tile_u, int tile_v);
-void		draw_gun(t_game *game, int tile_u, int tile_v);
+void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+
+void		draw_uitext(t_game *game);
 
 
 //color
@@ -431,5 +410,6 @@ void	calc_fourthquad(t_map *map, t_player *player, t_drawer *drawer);
 //main menu
 void	main_menu(t_game *game);
 void	sld_events_menu(t_game *game, SDL_Event e, SDL_Point *flags);
-
+void	print_wolf(SDL_Surface *sdest, const char *text, SDL_Rect *dest, int f_size);
+	
 #endif

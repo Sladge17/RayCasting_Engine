@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 10:09:46 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/10 19:18:29 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	load_map(t_level *level, t_player *pl)
 	ft_strcpy(file, "maps/map00");
 	file[8] = level->num / 10 + '0';
 	file[9] = level->num % 10 + '0';
-	printf("open file=%s\n",file);
+	//printf("open file=%s\n",file);
 	check_segv(file);	
 	if ((fd = open(file, 0x0000)) < 0)
 		ft_exit("Hey man! It is are not a map!!!");
