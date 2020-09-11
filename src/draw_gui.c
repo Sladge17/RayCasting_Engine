@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 19:43:21 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/10 19:47:28 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 					1039 * (dr->cursor[1] + 65 * tile_v)];
 	}
 }
-
 
 void	draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 {

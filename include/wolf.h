@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 19:30:10 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 12:47:47 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ typedef struct		s_game
 	t_level			level;
 	t_player		player;
 	//t_drawer		drawer;
-	char			*map[11];
+	char			map[11];
 	
 }					t_game;
 
