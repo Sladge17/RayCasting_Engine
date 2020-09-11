@@ -6,7 +6,11 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/09/11 17:15:56 by jthuy            ###   ########.fr       */
+=======
+/*   Updated: 2020/09/11 15:23:59 by jthuy            ###   ########.fr       */
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +21,14 @@
 # define S_H 1080
 # define H_W 960
 # define H_H 540
+<<<<<<< HEAD
 // # define S_W 640
 // # define S_H 480
 // # define H_W 320
 // # define H_H 240
+=======
+# define RATIO 1.78f
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 # define THREADS 16
 # define PI2 6.283185307179586
 
@@ -28,7 +36,10 @@
 # define ERROR 0
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 # define U 300
 
 # define GAME 1
@@ -101,6 +112,7 @@ typedef struct		s_sprt
 {
 	t_vec2			pos;
 	int				numb;
+<<<<<<< HEAD
 	t_vec2			dist2;
 	double			rot;
 	double			dist;
@@ -110,6 +122,17 @@ typedef struct		s_sprt
 	SDL_Point		cursor;
 	int				tile;
 	SDL_Point		pix_pos;
+=======
+	double			dist2[2];
+	double			rot;
+	double			dist;
+	int				size;
+	double 			dir;
+	int				offset[2];
+	int				cursor[2];
+	int				tile;
+	int				pix_pos[2];
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 	int				pix_win;
 	int				pix_img;
 }					t_sprt;
@@ -273,7 +296,11 @@ typedef struct		s_game
 	int				*data_menu;
 	int				*data_n_level;
 	int				*data_win;
+<<<<<<< HEAD
 	double			*z_buffer;
+=======
+	double			*z_buffer;//[S_W * S_H];
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 	int				status;
 	int				draw_map;
 	int				fps;
@@ -286,8 +313,14 @@ typedef struct		s_game
 	int				dummy;
 	t_level			level;
 	t_player		player;
+<<<<<<< HEAD
 	int				menu_flag;
 	int				menu_item;
+=======
+	//t_drawer		drawer;
+	char			map[11];
+	
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 }					t_game;
 
 typedef struct		s_thread
@@ -330,7 +363,11 @@ void		init_object(t_game_obj *obj, t_vec2 pos, double rot, double speed,
 		double rot_speed);
 		
 //map
+<<<<<<< HEAD
 void		load_map(t_level *level, t_player *pl);//, char *map);
+=======
+void		load_map(t_level *level, t_player *pl, char *map);
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 
 //player
 void		init_player(t_game *game);
@@ -343,6 +380,7 @@ void 		set_color(SDL_Color *col, int r, int g, int b);
 
 //music
 void		load_music(t_game *game);
+<<<<<<< HEAD
 
 //draw map
 void		draw_map(t_game *game);
@@ -416,4 +454,79 @@ void	main_menu(t_game *game);
 void	sld_events_menu(t_game *game, SDL_Event e, SDL_Point *flags);
 void	print_wolf(SDL_Surface *sdest, const char *text, SDL_Rect *dest, int f_size);
 	
+=======
+
+//draw map
+void		draw_map(t_game *game);
+
+/*
+** draw_gui.c
+*/
+void		draw_gui(t_game *game);
+void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
+
+// void		draw_uitext(t_game *game);
+void	draw_uitext(t_game *game, SDL_Rect* pos);
+
+
+//color
+void 		set_color(SDL_Color *col, int r, int g, int b);
+int			clamp_col(int col);
+
+//map editor
+void		map_editor(t_game *game);
+void		save_ed_map(t_editor *ed, char number);
+void		load_ed_map(t_editor *ed);
+void		mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed);
+void		mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
+void		mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed);
+void		mouse_weel_editor(Sint32 y, t_editor *ed);
+void		sld_events_editor(t_game *game, t_editor *ed, SDL_Event e, SDL_Point *flags);
+void		draw_select_col(t_game *game, t_editor *ed);
+void		print_ttf(SDL_Surface *sdest, const char *text, int size, SDL_Rect *dest);
+Uint32		get_img_color(t_game *game, int x, int y, int number);
+void		draw_box(t_game *game, int index, int number, t_editor *ed);
+void		init_editor(t_editor *ed);
+void		draw_frame(t_game *game, const char *message);
+void		draw_editor_menu(t_game *game, t_editor *ed);
+int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
+void		select_cursor_sprite(t_editor *ed);
+void		editor_set_cell(t_editor *ed);
+void		draw_editor_help(t_game *game);
+void		draw_editor_select(t_game *game, t_editor *ed);
+void		draw_editor_modify_wall(t_game *game, t_editor *ed);
+void		draw_editor_side_wall(t_game *game, t_editor *ed, int side);
+void		draw_cursor_info(t_game *game, t_editor *ed);
+
+//draw sprites
+void		draw_sprites(t_game *game);
+void		def_spriteparam(t_game *game, t_sprt *sprite);
+void		draw_vertline(t_game *game, t_sprt *sprite);
+
+//new engine
+/*
+** door_sprite.c
+*/
+void	def_raylen(t_map *map, t_player *player, t_drawer *drawer);
+char	check_barrier(t_map *map, t_player *player, t_drawer *drawer);
+double	calc_raylen(t_player *player, t_drawer *drawer, char index);
+void	def_barrierparam(t_player *player, t_drawer *drawer, char n_quad);
+void	def_walltile(t_map *map, t_drawer *drawer);
+void	def_walltile_u(t_drawer *drawer);
+
+/*
+** calc_quads.c
+*/
+void	calc_firstquad(t_map *map, t_player *player, t_drawer *drawer);
+void	calc_secondquad(t_map *map, t_player *player, t_drawer *drawer);
+void	calc_thirdquad(t_map *map, t_player *player, t_drawer *drawer);
+void	calc_fourthquad(t_map *map, t_player *player, t_drawer *drawer);
+
+//main menu
+void	main_menu(t_game *game);
+void	sld_events_menu(t_game *game, SDL_Event e, SDL_Point *flags);
+
+>>>>>>> 2b8ac0963defce8d9326fe5af2be6e5d5f7b8951
 #endif
