@@ -131,7 +131,7 @@ static int		read_map(t_map *map, char *data, int cell, t_player *pl)
 	return (1);
 }
 //*
-void	load_map(t_level *level, t_player *pl, char *map)
+void	load_map(t_level *level, t_player *pl)
 {
 	char 		file[11];
 	int			fd;
@@ -142,10 +142,7 @@ void	load_map(t_level *level, t_player *pl, char *map)
 	ft_strcpy(file, "maps/map00");
 	file[8] = level->num / 10 + '0';
 	file[9] = level->num % 10 + '0';
-	ft_strcpy(map, "level 00");
-	map[6] = level->num / 10 + '0';
-	map[7] = level->num % 10 + '0';
-	printf("open file=%s\n",file);
+	//printf("open file=%s\n",file);
 	check_segv(file);	
 	if ((fd = open(file, 0x0000)) < 0)
 		ft_exit("Hey man! It is are not a map!!!");

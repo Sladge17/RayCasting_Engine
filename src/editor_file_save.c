@@ -80,8 +80,8 @@ void	save_ed_map(t_editor *ed, char number)
 	int			fd;
 
 	ft_strcpy(file, "maps/map00");
-	file[8] = number / 10 + '0';
-	file[9] = number % 10 + '0';
+	file[8] = ed->level / 10 + '0';
+	file[9] = ed->level % 10 + '0';
 	if ((fd = open(file, O_WRONLY)) == -1)
 		close(fd);
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC);

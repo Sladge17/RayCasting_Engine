@@ -16,7 +16,10 @@ void	check_start(t_game *game)
 {
 	if (game->comeback == 0)
 	{
-		load_map(&game->level, &game->player, &game->map);
+		if (game->level.num > game->max_level || game->level.num <= 0)
+			game->level.num = 1;
+		printf("level = %d\n", game->level.num);
+		load_map(&game->level, &game->player);
 		game->delay = 10;
 	}
 }

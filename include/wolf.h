@@ -6,29 +6,24 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 15:23:59 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 18:01:00 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 1920
-# define S_H 1080
-# define H_W 960
-# define H_H 540
-# define RATIO 1.78f
+# define S_W 960
+# define S_H 720
+# define H_W 480
+# define H_H 360
 # define THREADS 16
 # define PI2 6.283185307179586
 
 # define OK 1
 # define ERROR 0
 
-# define INFINITY 1e99
-# define INFY 1e99
-# define MIN_OFFSET 0.01f
-# define RECURCE_DEPTH 3
-# define REFR_DEPTH 10
+
 
 # define U 300
 
@@ -102,15 +97,15 @@ typedef struct		s_sprt
 {
 	t_vec2			pos;
 	int				numb;
-	double			dist2[2];
+	t_vec2			dist2;
 	double			rot;
 	double			dist;
-	int				size;
+	double			size;
 	double 			dir;
-	int				offset[2];
-	int				cursor[2];
+	SDL_Point		offset;
+	SDL_Point		cursor;
 	int				tile;
-	int				pix_pos[2];
+	SDL_Point		pix_pos;
 	int				pix_win;
 	int				pix_img;
 }					t_sprt;
@@ -259,6 +254,7 @@ typedef struct		s_editor
 	Uint32			sel_col;
 	int				status;
 	int				cur_elem;
+	int				level;
 }					t_editor;
 
 typedef struct		s_game
@@ -274,7 +270,7 @@ typedef struct		s_game
 	int				*data_menu;
 	int				*data_n_level;
 	int				*data_win;
-	double			*z_buffer;//[S_W * S_H];
+	double			*z_buffer;
 	int				status;
 	int				draw_map;
 	int				fps;
@@ -287,9 +283,8 @@ typedef struct		s_game
 	int				dummy;
 	t_level			level;
 	t_player		player;
-	//t_drawer		drawer;
-	char			map[11];
-	
+	int				menu_flag;
+	int				menu_item;
 }					t_game;
 
 typedef struct		s_thread
@@ -332,7 +327,7 @@ void		init_object(t_game_obj *obj, t_vec2 pos, double rot, double speed,
 		double rot_speed);
 		
 //map
-void		load_map(t_level *level, t_player *pl, char *map);
+void		load_map(t_level *level, t_player *pl);//, char *map);
 
 //player
 void		init_player(t_game *game);
@@ -417,5 +412,6 @@ void	calc_fourthquad(t_map *map, t_player *player, t_drawer *drawer);
 //main menu
 void	main_menu(t_game *game);
 void	sld_events_menu(t_game *game, SDL_Event e, SDL_Point *flags);
-
+void	print_wolf(SDL_Surface *sdest, const char *text, SDL_Rect *dest, int f_size);
+	
 #endif

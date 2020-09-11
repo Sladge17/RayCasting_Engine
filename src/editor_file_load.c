@@ -92,15 +92,13 @@ void	read_file(int fd, t_editor *ed, int *cell)
 
 void	load_ed_map(t_editor *ed)
 {
-	char		number;
 	char		file[11];
 	int			fd;
 	int			cell;
 
-	number = 1;
 	ft_strcpy(file, "maps/map00");
-	file[8] = number / 10 + '0';
-	file[9] = number % 10 + '0';
+	file[8] = ed->level / 10 + '0';
+	file[9] = ed->level % 10 + '0';
 	check_segv(file);
 	if ((fd = open(file, 0x0000)) < 0)
 		ft_exit("Hey man! It is are not a map!!!");

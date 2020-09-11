@@ -45,6 +45,9 @@ void	draw_box(t_game *game, int index, int number, t_editor *ed)
 			if (col == 0x980088)
 				col = ed->map.floor;
 			game->data[index + y_index + ofs.x] = col;
+			
+			//else
+			//	game->data[index + y_index + ofs.x] = ed->map.floor;
 		}
 	}
 }

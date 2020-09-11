@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 14:13:42 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/10 15:52:54 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void		main_selector(t_game *game)
 	game->z_buffer = z_buffer;
 	while (game->status > 0) {
 		if (game->status == 1)
-		{
-			//load_music(game);
 			sdl_cycle(game);
-		}
 		else if (game->status == 2)
 			map_editor(game);
 		else if (game->status == 3)
@@ -33,12 +30,9 @@ void		main_selector(t_game *game)
 		else if (game->status == 4)
 			game->status = 3;
 	}
-	
 	if (z_buffer)
 		free(z_buffer);
-	
 	game->z_buffer = 0;
-	
 }
 
 void	def_icon(t_game *game, int shift_x, int shift_y)
@@ -64,35 +58,36 @@ void	def_icon(t_game *game, int shift_x, int shift_y)
 	SDL_FreeSurface(icon);
 }
 
+void		set_cheat(t_game *game, char *av[])
+{
+	if (!ft_strcmp(av[1], "editor"))
+		game->status = 2;
+	if (!ft_strcmp(av[1], "cheat"))
+		game->status = 1;
+	game->level.num = ft_atoi(av[2]);
+	if (game->level.num > game->max_level || game->level.num <= 0)
+		game->level.num = 1;
+}
+
 int			main(int ac, char *av[])
 {
 	t_game		*game;
-	int			cheat;
-	int			status;
-	
-	status = 3;
+
 	if (S_W < 640 || S_H < 480)
 		ft_exit("Bad resolution! Use from 640x480 to 1200x800!");
-	if (ac == 2) {
-		cheat = ft_strcmp(av[1], "cheat");
-		if (!ft_strcmp(av[1], "editor"))
-			status = 2;
-	}
 	if (!(game = (t_game*)ft_memalloc(sizeof(t_game))))
 		ft_exit("Memory was not allocated!");
 	init_player(game);
 	if (!init_sdl(game))
 		return (free_init_sdl(game));
-	game->status = status;
-	def_icon(game, 4, 42);
+	game->status = 3;
+	def_icon(game, 3, 42);
+	if (ac == 3)
+		set_cheat(game, av);
 	main_selector(game);
-	
 	close_sdl(game);
-	
 	if (game)
 		free(game);
-	
-	
 	return (0);
 }
 

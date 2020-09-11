@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 15:19:56 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/11 18:01:50 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,21 @@ void	draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 
 void	draw_uitext(t_game *game, SDL_Rect* pos)
 {
-	pos->x = S_W / 2 + 100;
-	pos->y = S_H - 55;
-	print_ttf(game->surf, "w - move forward", 18, pos);
-	pos->y += 25;
-	print_ttf(game->surf, "s - move back", 18, pos);
-	pos->x += 220;
-	pos->y -= 25;
-	print_ttf(game->surf, "a - move left", 18, pos);
-	pos->y += 25;
-	print_ttf(game->surf, "d - move right", 18, pos);
-	pos->x += 200;
-	pos->y -= 25;
-	print_ttf(game->surf, "q - rot left", 18, pos);
-	pos->y += 25;
-	print_ttf(game->surf, "e - rot right", 18, pos);
-	pos->x += 190;
-	pos->y -= 25;
-	print_ttf(game->surf, "m - on/off map", 18, pos);
-	pos->y += 25;
-	print_ttf(game->surf, "enter - action", 18, pos);
+	char 		level[9];
+	
+	pos->x = H_W + 40;
+	pos->y = S_H - 60;
+	print_ttf(game->surf, "WASD/Arrow - move/turn", 16, pos);
+	pos->y += 20;
+	print_ttf(game->surf, "     Enter - action", 16, pos);
+	pos->y += 20;
+	print_ttf(game->surf, "         M - on/off map", 16, pos);
+	pos->x = 50;
+	pos->y = S_H - 64;
+	ft_strcpy(level, "level 00");
+	level[6] = game->level.num / 10 + '0';
+	level[7] = game->level.num % 10 + '0';
+	print_wolf(game->surf, level, pos, 54);
 }
 
 void	draw_gui(t_game *game)
@@ -104,9 +99,7 @@ void	draw_gui(t_game *game)
 		draw_face(game, &dr, 4, 42);
 	else
 		draw_face(game, &dr, 3, 42);
-	if (S_W == 1920)
-		draw_uitext(game, &pos);
+	draw_uitext(game, &pos);
 	pos.x = 50;
 	pos.y = S_H - 40;
-	print_ttf(game->surf, game->map, 30, &pos);
 }

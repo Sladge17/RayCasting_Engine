@@ -13,7 +13,7 @@
 #include "wolf.h"
 
 void	print_wolf(SDL_Surface *sdest, const char *text,
-	SDL_Rect *dest)
+	SDL_Rect *dest, int f_size)
 {
 	const char	*f = "prgres/wf.otf";
 	SDL_Color	col;
@@ -22,7 +22,7 @@ void	print_wolf(SDL_Surface *sdest, const char *text,
 
 	col = (SDL_Color){171, 32, 46, 255};
 	fnt = NULL;
-	fnt = TTF_OpenFont(f, H_H / 5);
+	fnt = TTF_OpenFont(f, f_size);
 	if (!fnt)
 	{
 		write(1, "Not open font!\n", 15);
@@ -32,7 +32,29 @@ void	print_wolf(SDL_Surface *sdest, const char *text,
 	SDL_BlitSurface(stext, NULL, sdest, dest);
 	SDL_FreeSurface(stext);
 	TTF_CloseFont(fnt);
-	dest->y += H_H / 5;
+	dest->y += f_size;
+}
+
+void	draw_s_rect(t_game *game)
+{
+	SDL_Point	pos;
+	SDL_Point	ind;
+	Uint32		col;
+
+	pos.y = H_H - 20 + H_H * game->menu_item / 5 - 1;
+	while (++pos.y < H_H - 20 + H_H * (game->menu_item + 1) / 5)
+	{
+		ind.y = pos.y * S_W;
+		pos.x = H_W + H_W / 2 - 10;
+		while (++pos.x < S_W - 10)
+		{
+			ind.x = ind.y + pos.x;
+			col = game->data[ind.x];
+			game->data[ind.x] = (((col & 0xFF0000) >> 1) & 0xFF0000) |
+				(((col & 0xFF00) >> 1) & 0xFF00) |
+				(((col & 0xFF) >> 1) & 0xFF);
+		} 
+	}	
 }
 
 void	draw_menu(t_game *game)
@@ -40,6 +62,7 @@ void	draw_menu(t_game *game)
 	SDL_Point	pos;
 	int			index;
 	SDL_Rect	r;
+	int			f_size;
 
 	pos.y = -1;
 	while (++pos.y < S_H)
@@ -52,25 +75,31 @@ void	draw_menu(t_game *game)
 		}
 	}
 	r = (SDL_Rect){H_W + H_W / 2, H_H - 20, 0, 0};
-	print_wolf(game->surf, "Continue", &r);
-	print_wolf(game->surf, "New game", &r);
-	print_wolf(game->surf, "Settings", &r);
-	print_wolf(game->surf, "Editor", &r);
-	print_wolf(game->surf, "Exit", &r);
+	f_size = H_H / 5;
+	if (game->menu_flag)
+		draw_s_rect(game);
+	if (game->comeback)
+		print_wolf(game->surf, "Continue", &r, f_size);
+	else
+		r.y += f_size;
+	print_wolf(game->surf, "New game", &r, f_size);
+	print_wolf(game->surf, "Settings", &r, f_size);
+	print_wolf(game->surf, "Editor", &r, f_size);
+	print_wolf(game->surf, "Exit", &r, f_size);
 }
 
 void	main_menu(t_game *game)
 {
 	SDL_Point	flags;
 	SDL_Event	e;
-	SDL_Rect	r;
+	//SDL_Rect	r;
 
 	flags.x = 0;
 	flags.y = 1;
-	r.h = 100;
-	r.w = 100;
-	r.x = 0;
-	r.y = 0;
+	//r.h = 100;
+	//r.w = 100;
+	//r.x = 0;
+	//r.y = 0;
 	while (!flags.x)
 	{
 		if (SDL_PollEvent(&e) != 0)

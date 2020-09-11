@@ -96,8 +96,8 @@ void	map_editor(t_game *game)
 	SDL_Event	e;
 	t_editor	ed;
 
-	flags.x = 0;
-	flags.y = 1;
+	flags = (SDL_Point){0, 1};
+	ed.level = game->level.num;
 	init_editor(&ed);
 	while (!flags.x)
 	{
@@ -115,5 +115,7 @@ void	map_editor(t_game *game)
 		}
 		SDL_Delay(5);
 	}
-	game->status = 1;
+	game->status = 3;
+	if (flags.x == 2)
+		game->status = 0;
 }
