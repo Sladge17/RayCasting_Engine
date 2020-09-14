@@ -72,7 +72,7 @@ int		read_map(t_editor *ed, char *data, int cell)
 	return (1);
 }
 
-void	read_file(int fd, t_editor *ed, int *cell)
+int		read_file(int fd, t_editor *ed, int *cell)
 {
 	int			n;
 	char		buf[18];
@@ -85,12 +85,13 @@ void	read_file(int fd, t_editor *ed, int *cell)
 			*cell))
 		{
 			close(fd);
-			ft_exit("not valid map!");
+			return (0);
 		}
 	}
+	return (1);
 }
 
-void	load_ed_map(t_editor *ed)
+int		load_ed_map(t_editor *ed)
 {
 	char		file[11];
 	int			fd;
@@ -99,11 +100,10 @@ void	load_ed_map(t_editor *ed)
 	ft_strcpy(file, "maps/map00");
 	file[8] = ed->level / 10 + '0';
 	file[9] = ed->level % 10 + '0';
-	check_segv(file);
-	if ((fd = open(file, 0x0000)) < 0)
-		ft_exit("Hey man! It is are not a map!!!");
-	read_file(fd, ed, &cell);
+	if (check_segv(file) || ((fd = open(file, 0x0000)) < 0) || !read_file(fd, ed, &cell))
+		return (0);
 	close(fd);
 	if (cell < 4095)
-		ft_exit("not valid map!");
+		return (0);
+	return (1);
 }

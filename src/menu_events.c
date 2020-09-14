@@ -14,14 +14,11 @@
 
 void	mouse_move_menu(SDL_MouseMotionEvent *e, t_game *game)
 {
-	SDL_Point pos;
-
 	game->menu_flag = 0;
-	
 	if (e->x > H_W + H_W / 2 -10 && e->x < S_W - 10 && e->y > H_H - 20 && e->y < S_H)
 	{
 		game->menu_flag = 1;
-		game->menu_item = ((e->y - H_W + H_W / 2) * 5 / H_H) - 1; 
+		game->menu_item = ((e->y - H_H + H_H / 2) * 5 / H_H) - 2; 
 	}
 	if ((game->comeback == 0 && game->menu_item == 0) || game->menu_item > 4 || game->menu_item < 0)
 		game->menu_flag = 0;
@@ -40,6 +37,8 @@ void	mouse_up_menu(SDL_MouseButtonEvent *e, t_game *game, SDL_Point *flags)
 			game->comeback = 0;
 			game->status = 1;
 		}
+		else if (game->menu_item == 2)
+			check_play_music(game);
 		else if (game->menu_item == 3)
 		{
 			game->level.num = 1;

@@ -112,7 +112,7 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 	//printf("ed-status=%d\n", ed->status);
 }
 
-void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
+void	mouse_dbl_editor(t_editor *ed)
 {
 	if (ed->m_pos.x >= S_W - 320 && ed->m_pos.y <= ed->panel.y)
 	{
@@ -120,7 +120,9 @@ void	mouse_dbl_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 		check_button_menu(ed);
 	}
 	if (ed->status == 12)
-		save_ed_map(ed, 1);
+		save_ed_map(ed);
+	else if (ed->status == 10)
+		init_editor(ed);
 	else if (ed->status == 13)
 		load_ed_map(ed);
 	if (ed->status != 11 && ed->status > 8 && ed->status < 14)
@@ -138,7 +140,7 @@ void	mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed)
 		cur_time = SDL_GetTicks();
 		if (cur_time - ed->click_time <= 250)
 		{
-			mouse_dbl_editor(e, ed);
+			mouse_dbl_editor(ed);
 			return ;
 		}
 		ed->click_time = cur_time;

@@ -93,11 +93,11 @@ void	change_cell(t_editor *ed)
 void	editor_set_cell(t_editor *ed)
 {
 	t_type		cur_type;
-	int			cursor;
+//	int			cursor;
 //	t_map_elem	*cell;
 
 //	cell = &ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x];
-	cursor = ed->cursor.en->it[ed->cursor.en->cur];
+//	cursor = ed->cursor.en->it[ed->cursor.en->cur];
 	cur_type = ed->cursor.en->type;
 	if (cur_type == PLAYER)
 		check_player(ed);

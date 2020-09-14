@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   act_sdl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 19:07:28 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/14 16:51:16 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	check_start(t_game *game)
+int		check_start(t_game *game)
 {
 	if (game->comeback == 0)
 	{
-		if (game->level.num > game->max_level || game->level.num <= 0)
+		if (game->level.num > MAX_LEVEL || game->level.num <= 0)
 			game->level.num = 1;
-		printf("level = %d\n", game->level.num);
-		load_map(&game->level, &game->player);
+		if (!load_map(&game->level, &game->player))
+		{
+			ft_putstr("Not valid map!\n");
+			return (0);
+		}
 		game->delay = 10;
 	}
+	return (1);
 }
 
 void	sld_events2(t_game *game, SDL_Event e, int *repaint)
@@ -64,46 +68,63 @@ void	sld_events(t_game *game, SDL_Event e, int *quit, int *repaint)
 
 void	redraw(t_game *game)
 {
-	//unsigned int	cur_time;
-	int				i;
+	int	i;
 
-	//cur_time = SDL_GetTicks();
-	////if (cur_time > game->last_time + game->f_time)
-	//{
-		i = -1;
-		while (++i < S_W * S_H)
-			game->z_buffer[i] = 100;
-		draw_game(game);
-		SDL_UpdateWindowSurface(game->win);
-		SDL_FlushEvent(SDL_KEYDOWN);
-	//	game->last_time = SDL_GetTicks();
-	//}
+	i = -1;
+	while (++i < S_W * S_H)
+		game->z_buffer[i] = 100;
+	draw_game(game);
+	SDL_UpdateWindowSurface(game->win);
+	SDL_FlushEvent(SDL_KEYDOWN);
+}
+
+int		game_update(t_game *game, SDL_Point *flags)
+{
+	SDL_Event	e;
+
+	check_keyboard(game, 0.3, &(flags->x));
+	redraw(game);
+	if (SDL_PollEvent(&e) != 0 || flags->y)
+		sld_events(game, e, &(flags->x), &(flags->y));
+	if (flags->x)
+		return (OK);
+	if (game->delay != 10)
+	{
+		SDL_Delay(game->delay);
+		game->delay = 10;
+		if (!check_start(game))
+		{
+			game->status = 0;
+			return (ERROR);
+		}
+	}
+	return (OK);
 }
 
 void	sdl_cycle(t_game *game)
 {
-	SDL_Event	e;
+
 	SDL_Point	flags;
-	int			first;
+	Uint32		cur;
+	Uint32		last;
+	int			res;
 
 	flags.x = 0;
-	first = 1;
-	check_start(game);
-	//game->f_time = 100;
+	if (!check_start(game))
+	{
+		game->status = 0;
+		return ;
+	}
+	last = SDL_GetTicks();
 	while (!flags.x)
 	{
 		flags.y = 0;
-		check_keyboard(game, 0.3, &(flags.x));
-		redraw(game);
-		if (SDL_PollEvent(&e) != 0 || flags.y)
-			sld_events(game, e, &(flags.x), &(flags.y));
-		if (flags.x)
-			break ;
-		if (game->delay != 10)
+		cur = SDL_GetTicks();
+		if (cur - last > 30)
 		{
-			SDL_Delay(game->delay);
-			game->delay = 10;
-			check_start(game);
+			if (!(res = game_update(game, &flags)))
+				return ;			
+			last = cur;
 		}
 	}
 	if (game->status != 0 && game->status != 4)

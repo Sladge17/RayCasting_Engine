@@ -82,7 +82,9 @@ int		init_sdl(t_game *game)
 	game->f_time = 1000 / game->fps;
 	game->last_time = SDL_GetTicks();
 	game->athlas = IMG_Load("res/athlas2.png");
-	
+	game->level.num = 1;
+	game->cheat = 0;
+	load_music(game);
 	if (!game->athlas ||
 	!(game->menu = load_s_image(game, "res/main_screen.png")) ||
 	!(game->n_level = load_s_image(game, "res/next_level.png")) ||

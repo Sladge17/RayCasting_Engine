@@ -92,5 +92,9 @@ void	draw_sprites(t_game *game)
 			draw_sprite(game, &game->level.map.enm[i].sprt);
 		if (i < game->level.map.bars)
 			draw_sprite(game, &game->level.map.bar[i].sprt);
+		if (i < game->level.map.achs)
+			draw_sprite(game, &game->level.map.ach[i].sprt);
+		if (i < game->level.map.ants)
+			draw_sprite(game, &game->level.map.ant[i].sprt);
 	}
 }

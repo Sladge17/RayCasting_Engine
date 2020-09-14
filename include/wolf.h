@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 18:01:00 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/14 16:13:45 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WOLF_H
 # define WOLF_H
 
-# define S_W 960
-# define S_H 720
-# define H_W 480
-# define H_H 360
+# define S_W 1400
+# define S_H 780
+# define H_W 700
+# define H_H 390
 # define THREADS 16
 # define PI2 6.283185307179586
 
@@ -29,6 +29,8 @@
 
 # define GAME 1
 # define GUN_SCALE 200
+
+# define MAX_LEVEL 3
 
 # include <pthread.h>
 # include <math.h>
@@ -257,6 +259,12 @@ typedef struct		s_editor
 	int				level;
 }					t_editor;
 
+typedef struct		s_music
+{
+	Mix_Music		*music;
+	int				play;
+}					t_music;
+
 typedef struct		s_game
 {
 	SDL_Window		*win;
@@ -278,20 +286,21 @@ typedef struct		s_game
 	unsigned int	last_time;
 	int				comeback;
 	Uint32			delay;
-	int				max_level;
 	int				cheat;
 	int				dummy;
 	t_level			level;
 	t_player		player;
 	int				menu_flag;
 	int				menu_item;
+	int				level_edit;
+	t_music			music;
 }					t_game;
 
-typedef struct		s_thread
+typedef struct		s_flow
 {
 	t_game			*game;
-	int				thread;
-}					t_thread;
+	int				flow;
+}					t_flow;
 
 //events
 int			key_press(SDL_Keycode key, t_game *game);
@@ -302,8 +311,9 @@ void		mouse_press(SDL_MouseButtonEvent *e, t_game *game);
 
 //init
 int			init_sdl(t_game *game);
-void		check_segv(char *file);
+int			check_segv(char *file);
 int			free_word_line(char **line, char **word);
+int			check_res(void);
 
 //exit
 void		ft_exit(char *line);
@@ -327,7 +337,7 @@ void		init_object(t_game_obj *obj, t_vec2 pos, double rot, double speed,
 		double rot_speed);
 		
 //map
-void		load_map(t_level *level, t_player *pl);//, char *map);
+int			load_map(t_level *level, t_player *pl);
 
 //player
 void		init_player(t_game *game);
@@ -340,6 +350,8 @@ void 		set_color(SDL_Color *col, int r, int g, int b);
 
 //music
 void		load_music(t_game *game);
+void		close_music(t_game *game);
+void		check_play_music(t_game *game);
 
 //draw map
 void		draw_map(t_game *game);
@@ -362,8 +374,8 @@ int			clamp_col(int col);
 
 //map editor
 void		map_editor(t_game *game);
-void		save_ed_map(t_editor *ed, char number);
-void		load_ed_map(t_editor *ed);
+void		save_ed_map(t_editor *ed);
+int			load_ed_map(t_editor *ed);
 void		mouse_up_editor(SDL_MouseButtonEvent *e, t_editor *ed);
 void		mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
 void		mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed);
@@ -395,7 +407,7 @@ void		draw_vertline(t_game *game, t_sprt *sprite);
 ** door_sprite.c
 */
 void	def_raylen(t_map *map, t_player *player, t_drawer *drawer);
-char	check_barrier(t_map *map, t_player *player, t_drawer *drawer);
+char	check_barrier(t_map *map, t_drawer *drawer);
 double	calc_raylen(t_player *player, t_drawer *drawer, char index);
 void	def_barrierparam(t_player *player, t_drawer *drawer, char n_quad);
 void	def_walltile(t_map *map, t_drawer *drawer);

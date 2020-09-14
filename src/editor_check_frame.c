@@ -85,7 +85,7 @@ void	check_modify_wall(SDL_MouseButtonEvent *e, t_editor *ed)
 	}
 }
 
-void	check_color(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed,
+void	check_color(SDL_MouseButtonEvent *e, t_game *game,
 	Uint32 *col)
 {
 	if (e->x >= H_W - 280 && e->x < H_W + 70 && e->y >= H_H - 190 &&
@@ -99,9 +99,9 @@ int		check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 		&& ed->m_pos.y > H_H - 240 && ed->m_pos.y < H_H + 240)
 	{
 		if (ed->status == 1)
-			check_color(e, game, ed, &ed->map.roof);
+			check_color(e, game, &ed->map.roof);
 		if (ed->status == 2)
-			check_color(e, game, ed, &ed->map.floor);
+			check_color(e, game, &ed->map.floor);
 		if (ed->status > 2 && ed->status < 9)
 			check_entity(e, ed);
 		if (ed->status == 11)

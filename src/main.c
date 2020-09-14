@@ -61,12 +61,20 @@ void	def_icon(t_game *game, int shift_x, int shift_y)
 void		set_cheat(t_game *game, char *av[])
 {
 	if (!ft_strcmp(av[1], "editor"))
+	{
 		game->status = 2;
+		game->level_edit = ft_atoi(av[2]);
+		if (game->level_edit > 99 || game->level_edit <= 0)
+			game->level_edit = 1;
+		game->cheat = 1;
+	}
 	if (!ft_strcmp(av[1], "cheat"))
+	{
 		game->status = 1;
-	game->level.num = ft_atoi(av[2]);
-	if (game->level.num > game->max_level || game->level.num <= 0)
-		game->level.num = 1;
+		game->level.num = ft_atoi(av[2]);
+		if (game->level.num > MAX_LEVEL || game->level.num <= 0)
+			game->level.num = 1;
+	}
 }
 
 int			main(int ac, char *av[])
@@ -75,6 +83,8 @@ int			main(int ac, char *av[])
 
 	if (S_W < 640 || S_H < 480)
 		ft_exit("Bad resolution! Use from 640x480 to 1200x800!");
+	if (!check_res())
+		exit(0);
 	if (!(game = (t_game*)ft_memalloc(sizeof(t_game))))
 		ft_exit("Memory was not allocated!");
 	init_player(game);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_keyboard.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 10:59:36 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 13:18:02 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		draw_im(t_game *game, int *im_data)
 static void		check_door_block(t_game *game)
 {
 	SDL_Point	p;
-	int			i;
+//	int			i;
 
 	p.x = (int)(game->player.obj.pos.x + game->player.obj.dir.x);
 	p.y = (int)(game->player.obj.pos.y + game->player.obj.dir.y);
@@ -85,7 +85,7 @@ static void		check_map_block(t_game *game, int *quit)
 		game->delay = 11;
 		game->comeback = 0;
 		++game->level.num;
-		if (game->level.num > game->max_level)
+		if (game->level.num > MAX_LEVEL)
 		{
 			*quit = 1;
 			game->status = 4;
@@ -113,6 +113,6 @@ void			check_keyboard(t_game *game, float d_time, int *quit)
 		move_left(&(game->player.obj), &game->level.map, d_time);
 	else if (state[SDL_SCANCODE_D])
 		move_right(&(game->player.obj), &game->level.map, d_time);
-	else if (state[SDL_SCANCODE_RETURN])
+	else if (state[SDL_SCANCODE_SPACE])
 		check_map_block(game, quit);
 }

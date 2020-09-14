@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_gui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/11 18:01:50 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/14 16:52:10 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,21 @@ void	draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 
 void	draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v)
 {
+	SDL_Point	p;
+	SDL_Point	m;
+
 	dr->cursor[0] = -1;
+	m.x = S_H * S_W;
+	m.y = game->athlas->w * game->athlas->h;
 	while (++dr->cursor[0] < S_W)
 	{
 		dr->cursor[1] = -1;
 		while (++dr->cursor[1] < 65)
 		{
-			game->data[dr->cursor[0] +
-				S_W * (dr->cursor[1] + S_H - 64)] =
-				game->data_img[dr->cursor[0] % 64 + 65 * tile_u +
-				1039 * (dr->cursor[1] + 64 * tile_v)];
+			p.x = dr->cursor[0] + S_W * (dr->cursor[1] + S_H - 64);
+			p.y = dr->cursor[0] % 64 + 65 * tile_u + 1039 * (dr->cursor[1] + 64 * tile_v);
+			if (p.x >= 0 && p.x < m.x && p.y >=0 && p.y < m.y)
+				game->data[p.x] = game->data_img[p.y];
 		}
 	}
 }
@@ -77,7 +82,7 @@ void	draw_uitext(t_game *game, SDL_Rect* pos)
 	pos->y = S_H - 60;
 	print_ttf(game->surf, "WASD/Arrow - move/turn", 16, pos);
 	pos->y += 20;
-	print_ttf(game->surf, "     Enter - action", 16, pos);
+	print_ttf(game->surf, "     Space - action", 16, pos);
 	pos->y += 20;
 	print_ttf(game->surf, "         M - on/off map", 16, pos);
 	pos->x = 50;
@@ -88,12 +93,34 @@ void	draw_uitext(t_game *game, SDL_Rect* pos)
 	print_wolf(game->surf, level, pos, 54);
 }
 
+// void	draw_gui(t_game *game)
+// {
+// 	static int	counter = 0;
+// 	static char	shift = 0;
+// 	t_drawer	dr;
+// //	SDL_Rect	pos;
+
+// 	draw_gun(game, &dr, 0, 33);
+// 	draw_back(game, &dr, 0, 1);
+// 	draw_face(game, &dr, 3 + shift, 42);
+// 	draw_uitext(game);
+// 	if (counter == 40)
+// 	{
+// 		shift ^= 1;
+// 		counter = 0;
+// 		return ;
+// 	}
+// 	counter += 1;
+// }
+
 void	draw_gui(t_game *game)
 {
 	t_drawer		dr;
 	SDL_Rect		pos;
 
+	
 	draw_gun(game, &dr, 0, 33);
+	
 	draw_back(game, &dr, 0, 1);
 	if (((SDL_GetTicks() / 1000) % 4))
 		draw_face(game, &dr, 4, 42);

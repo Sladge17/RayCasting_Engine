@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 11:16:24 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 16:51:59 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ void		*draw_block_3d(void *g)
 	int			x;
 	int			x_index;
 	int			max_x;
-	t_thread	*t;
+	t_flow		*t;
 
-	t = (t_thread*)g;
-	x = -H_W + t->thread * S_W / THREADS;
-	max_x = -H_W + (t->thread + 1) * S_W / THREADS;
+	t = (t_flow*)g;
+	x = -H_W + t->flow* S_W / THREADS;
+	max_x = -H_W + (t->flow + 1) * S_W / THREADS;
 	while (++x <= max_x)
 	{
 		engine(t->game, &isec, x);
@@ -87,29 +87,29 @@ void		*draw_block_3d(void *g)
 
 void		draw_game(t_game *game)
 {
-	t_thread		data[THREADS];
+	t_flow			data[THREADS];
 	pthread_t		threads[THREADS];
 	pthread_attr_t	attr;
-	int				thread;
+	int				c_flow;
 	void			*status;
 
+	status = 0;
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-	thread= -1;
-	while (++thread < THREADS)
+	c_flow= -1;
+	while (++c_flow < THREADS)
 	{
-		data[thread].game = game;
-		data[thread].thread = thread;
-		pthread_create(&threads[thread],
-			NULL, draw_block_3d, (void *)(&data[thread]));
+		data[c_flow].game = game;
+		data[c_flow].flow = c_flow;
+		pthread_create(&threads[c_flow],
+			NULL, draw_block_3d, (void *)(&data[c_flow]));
 	}
 	pthread_attr_destroy(&attr);
-	thread = -1;
-	while (++thread < THREADS)
-			pthread_join(threads[thread], &status);
+	c_flow = -1;
+	while (++c_flow < THREADS)
+			pthread_join(threads[c_flow], &status);
 	draw_sprites(game);
 	if (game->draw_map)
 		draw_map(game);
 	draw_gui(game);
 }
-

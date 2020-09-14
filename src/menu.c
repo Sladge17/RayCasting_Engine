@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 16:39:08 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 14:53:17 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_wolf(SDL_Surface *sdest, const char *text,
 	SDL_BlitSurface(stext, NULL, sdest, dest);
 	SDL_FreeSurface(stext);
 	TTF_CloseFont(fnt);
-	dest->y += f_size;
+	dest->y += H_H / 5;
 }
 
 void	draw_s_rect(t_game *game)
@@ -75,15 +75,18 @@ void	draw_menu(t_game *game)
 		}
 	}
 	r = (SDL_Rect){H_W + H_W / 2, H_H - 20, 0, 0};
-	f_size = H_H / 5;
+	f_size = H_H / 6;
 	if (game->menu_flag)
 		draw_s_rect(game);
 	if (game->comeback)
 		print_wolf(game->surf, "Continue", &r, f_size);
 	else
-		r.y += f_size;
+		r.y += H_H / 5;
 	print_wolf(game->surf, "New game", &r, f_size);
-	print_wolf(game->surf, "Settings", &r, f_size);
+	if (game->music.play)
+		print_wolf(game->surf, "Music pause", &r, f_size);
+	else
+		print_wolf(game->surf, "Music resume", &r, f_size);
 	print_wolf(game->surf, "Editor", &r, f_size);
 	print_wolf(game->surf, "Exit", &r, f_size);
 }
@@ -100,6 +103,7 @@ void	main_menu(t_game *game)
 	//r.w = 100;
 	//r.x = 0;
 	//r.y = 0;
+	
 	while (!flags.x)
 	{
 		if (SDL_PollEvent(&e) != 0)
@@ -110,7 +114,7 @@ void	main_menu(t_game *game)
 			SDL_UpdateWindowSurface(game->win);
 			flags.y = 0;
 		}
-		SDL_Delay(5);
+		SDL_Delay(10);
 	}
 	if (flags.x == 1)
 		game->status = 0;

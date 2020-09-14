@@ -62,7 +62,7 @@ int		key_press_editor(SDL_Keycode key, t_editor *ed)
 			ed->put = 0;
 	}
 	else if (key == SDLK_6)
-		save_ed_map(ed, 1);
+		save_ed_map(ed);
 	else if (key == SDLK_4)
 		load_ed_map(ed);
 	return (1);

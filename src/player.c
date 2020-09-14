@@ -24,5 +24,4 @@ void	init_player(t_game *game)
 	game->player.ray_depth = 91;
 	game->comeback = 0;
 	game->level.num = 1;
-	game->max_level = 2;
 }

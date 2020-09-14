@@ -36,7 +36,7 @@ void	close_sdl(t_game *game)
 	
 }
 
-void	check_segv(char *file)
+int		check_segv(char *file)
 {
 	int		fd;
 	int		ret;
@@ -44,10 +44,17 @@ void	check_segv(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (!fd)
-		ft_exit("U TRYINA SEGV ME?");
+	{
+		//ft_putstr("U TRYINA SEGV ME?\n");
+		return (1);
+	}
 	ret = read(fd, buff, 5);
 	if (!ret || ret < 0)
-		ft_exit("U GIVING BAD FILES ARENT YA");
+	{
+		//ft_putstr("U GIVING BAD FILES ARENT YA?\n");
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_exit(char *line)
@@ -69,6 +76,25 @@ int		free_init_sdl(t_game *game)
 	//free_l(game);
 	ft_exit("BAD THINGS HAPPENING TO SDL");
 	return (-1);
+}
+
+int		check_res(void)
+{
+	static char	*res[7] = {"res/athlas2.png", "res/main_screen.png", "res/music.mp3", "res/next_level.png", "res/win.png", "prgres/courier.ttf", "prgres/wf.otf"};
+	int			i;
+
+	i = -1;
+	while (++i < 7)
+	{
+		if (check_segv(res[i]))
+		{
+			ft_putstr("Resource \"");
+			ft_putstr(res[i]);
+			ft_putstr("\" are not available!\n");
+			return (ERROR);
+		}
+	}
+	return (OK);
 }
 
 /*

@@ -74,7 +74,7 @@ void	write_map(int fd, t_editor *ed)
 	}
 }
 
-void	save_ed_map(t_editor *ed, char number)
+void	save_ed_map(t_editor *ed)
 {
 	char		file[11];
 	int			fd;

@@ -75,7 +75,7 @@ void	status_selector(t_game *game, t_editor *ed)
 		draw_select_col(game, ed);
 	}
 	else if (ed->status > 2 && ed->status < 9)
-		draw_editor_select(game, ed);
+		draw_editor_select(game, ed);	
 	else if (ed->status == 11)
 	{
 		if (ed->cursor.en->type == WALL &&
@@ -99,6 +99,10 @@ void	map_editor(t_game *game)
 	flags = (SDL_Point){0, 1};
 	ed.level = game->level.num;
 	init_editor(&ed);
+	if (game->cheat)
+		ed.level = game->level_edit;
+	if (!load_ed_map(&ed))
+		init_editor(&ed);
 	while (!flags.x)
 	{
 		if (SDL_PollEvent(&e) != 0)
