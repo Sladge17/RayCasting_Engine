@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/14 16:51:16 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 16:58:30 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int		game_update(t_game *game, SDL_Point *flags)
 
 void	sdl_cycle(t_game *game)
 {
-
 	SDL_Point	flags;
 	Uint32		cur;
 	Uint32		last;
@@ -123,7 +122,7 @@ void	sdl_cycle(t_game *game)
 		if (cur - last > 30)
 		{
 			if (!(res = game_update(game, &flags)))
-				return ;			
+				return ;
 			last = cur;
 		}
 	}

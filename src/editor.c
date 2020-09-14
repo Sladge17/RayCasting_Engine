@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/09 12:55:59 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/14 17:07:36 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	status_selector(t_game *game, t_editor *ed)
 		draw_select_col(game, ed);
 	}
 	else if (ed->status > 2 && ed->status < 9)
-		draw_editor_select(game, ed);	
+		draw_editor_select(game, ed);
 	else if (ed->status == 11)
 	{
 		if (ed->cursor.en->type == WALL &&

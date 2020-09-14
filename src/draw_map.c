@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 14:35:22 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 17:05:32 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void		draw_rect(t_game *game, t_ivec4 p, int d, int n)
 			if (ind.x >= H_W || ind.x < 0)
 				continue ;
 			game->data[y_index + ind.x] =
-				game->data_img[(((n / 16) * 65) + 1) * game->athlas->w + (n % 16) * 65 + 1];
+				game->data_img[(((n / 16) * 65) + 1) * game->athlas->w +
+					(n % 16) * 65 + 1];
 		}
 	}
 }
@@ -57,18 +58,16 @@ void		draw_dot(t_game *game, t_vec2 *pos, int scale, t_ivec4 p)
 
 void		draw_line(t_game *game, t_vec2 *start, int scale, t_ivec4 p)
 {
-	
-	t_vec2 len;
-	int steps;
-	int max;
-	int index;
-	int i;
-	t_vec2	end;
+	t_vec2		len;
+	int			steps;
+	int			max;
+	int			index;
+	int			i;
+	t_vec2		end;
 	SDL_Point	pos;
 
 	end.x = game->player.obj.pos.x + game->player.obj.dir.x;
 	end.y = game->player.obj.pos.y + game->player.obj.dir.y;
-
 	max = game->surf->w * game->surf->h;
 	len.x = (end.x - start->x) * scale;
 	len.y = (end.y - start->y) * scale;
@@ -92,7 +91,6 @@ void		draw_fon(t_game *game)
 	int			y_index;
 	Uint32		col;
 	SDL_Color	sc;
-		
 
 	pos.y = -1;
 	while (++pos.y < H_H)

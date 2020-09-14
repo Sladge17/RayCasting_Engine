@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:10:28 by jthuy             #+#    #+#             */
-/*   Updated: 2020/09/10 15:15:52 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 17:07:06 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	def_raylen(t_map *map, t_player *player, t_drawer *drawer)
 }
 
 char	check_barrier(t_map *map, t_drawer *drawer)
-{	
+{
 	if (drawer->barrier_d[0] < 0 || drawer->barrier_d[0] >= 64 ||
 		drawer->barrier_d[1] < 0 || drawer->barrier_d[1] >= 64)
 		return (1);
@@ -71,16 +71,19 @@ double	calc_raylen(t_player *player, t_drawer *drawer, char index)
 {
 	double	ray_len;
 
-	ray_len = sqrt(pow(drawer->barrier_f[(int)index][0] - player->obj.pos.x, 2) +
-		pow(drawer->barrier_f[(int)index][1] - player->obj.pos.y, 2));
+	ray_len = sqrt(pow(drawer->barrier_f[(int)index][0] - player->obj.pos.x,
+		2) + pow(drawer->barrier_f[(int)index][1] - player->obj.pos.y, 2));
 	return (ray_len);
 }
 
 void	def_walltile(t_map *map, t_drawer *drawer)
 {
+	int	n;
+
 	drawer->barrier_d[0] = drawer->barrier_f[0][0];
 	drawer->barrier_d[1] = drawer->barrier_f[0][1];
-	drawer->wall_tile = map->elem[drawer->barrier_d[1]][drawer->barrier_d[0]].number;
+	n = map->elem[drawer->barrier_d[1]][drawer->barrier_d[0]].number;
+	drawer->wall_tile = n;
 }
 
 void	def_walltile_u(t_drawer *drawer)
