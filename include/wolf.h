@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wolf.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/14 16:13:45 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/14 19:13:01 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,10 @@ int			load_map(t_level *level, t_player *pl);
 //player
 void		init_player(t_game *game);
 
-//engine
+/*
+** engine.c
+*/
+void		def_wallparams(t_player *player, t_drawer *drawer);
 void		engine(t_game *game, t_isec *isec, int x);
 
 //create color
@@ -363,12 +366,12 @@ void		draw_gui(t_game *game);
 void		draw_back(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_face(t_game *game, t_drawer *dr, int tile_u, int tile_v);
 void		draw_gun(t_game *game, t_drawer *dr, int tile_u, int tile_v);
-
-// void		draw_uitext(t_game *game);
-void	draw_uitext(t_game *game, SDL_Rect* pos);
+void		draw_uitext(t_game *game, SDL_Rect* pos);
 
 
-//color
+/*
+** color.c
+*/
 void 		set_color(SDL_Color *col, int r, int g, int b);
 int			clamp_col(int col);
 
@@ -385,7 +388,6 @@ void		draw_select_col(t_game *game, t_editor *ed);
 void		print_ttf(SDL_Surface *sdest, const char *text, int size, SDL_Rect *dest);
 Uint32		get_img_color(t_game *game, int x, int y, int number);
 void		draw_box(t_game *game, int index, int number, t_editor *ed);
-void		init_editor(t_editor *ed);
 void		draw_frame(t_game *game, const char *message);
 void		draw_editor_menu(t_game *game, t_editor *ed);
 int			check_frame(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed);
@@ -395,14 +397,61 @@ void		draw_editor_help(t_game *game);
 void		draw_editor_select(t_game *game, t_editor *ed);
 void		draw_editor_modify_wall(t_game *game, t_editor *ed);
 void		draw_editor_side_wall(t_game *game, t_editor *ed, int side);
+
+
+
+/*
+** editor_init.c
+*/
+void		init_editor_map_ent(t_editor *ed);
+void		init_editor_wall_pl_bar(t_editor *ed);
+void		init_editor_enemy_ach_door(t_editor *ed);
+void		init_type_map(t_editor *ed);
+void		init_editor(t_editor *ed);
+
+
+/*
+** editor_draw_info.c
+*/
+void		draw_text(t_game *game, char *str, SDL_Rect *pos);
+void		draw_number(t_game *game, int n, SDL_Rect *pos);
+void		draw_text_number(t_game *game, char *str, int n, SDL_Rect *pos);
+void		draw_cursor_info2(t_game *game, t_editor *ed);
 void		draw_cursor_info(t_game *game, t_editor *ed);
+
+/*
+** editor_draw_menu.c
+*/
+void		draw_preview(t_game *game, t_editor *ed, int i, SDL_Rect rect);
+void		draw_text_menu(t_game *game, t_editor *ed);
+void		draw_editor_menu(t_game *game, t_editor *ed);
+
+/*
+** editor_file_save.c
+*/
+void		write_hex(int fd, char n);
+void		write_char(int fd, int data);
+void		write_fchar(int fd, int data);
+void		write_map(int fd, t_editor *ed);
+void		save_ed_map(t_editor *ed);
+
+/*
+** check_keyboard.c
+*/
+// unuse functions below <-----------
+// static void		draw_im(t_game *game, int *im_data);
+// static void		check_door_block(t_game *game);
+// static int		check_exit_block(t_game *game);
+// static void		check_map_block(t_game *game, int *quit);
+void			check_keyboard(t_game *game, float d_time, int *quit);
+
+
 
 //draw sprites
 void		draw_sprites(t_game *game);
 void		def_spriteparam(t_game *game, t_sprt *sprite);
 void		draw_vertline(t_game *game, t_sprt *sprite);
 
-//new engine
 /*
 ** door_sprite.c
 */
@@ -416,10 +465,12 @@ void	def_walltile_u(t_drawer *drawer);
 /*
 ** calc_quads.c
 */
-void	calc_firstquad(t_map *map, t_player *player, t_drawer *drawer);
-void	calc_secondquad(t_map *map, t_player *player, t_drawer *drawer);
-void	calc_thirdquad(t_map *map, t_player *player, t_drawer *drawer);
-void	calc_fourthquad(t_map *map, t_player *player, t_drawer *drawer);
+void		calc_firstquad(t_map *map, t_player *player, t_drawer *drawer);
+void		calc_secondquad(t_map *map, t_player *player, t_drawer *drawer);
+void		calc_thirdquad(t_map *map, t_player *player, t_drawer *drawer);
+void		calc_fourthquad(t_map *map, t_player *player, t_drawer *drawer);
+
+
 
 //main menu
 void	main_menu(t_game *game);
