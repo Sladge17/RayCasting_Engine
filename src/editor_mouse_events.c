@@ -6,32 +6,11 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/08 11:46:14 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:22:20 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void	mouse_weel_editor(Sint32 y, t_editor *ed)
-{
-	SDL_Point pos;
-
-	if (ed->m_pos.x <= ed->panel.x && ed->m_pos.y <= ed->panel.y)
-	{
-		if (y < 0)
-			ed->scale -= 1;
-		if (y > 0)
-			ed->scale += 1;
-		if (ed->scale < 4)
-			ed->scale = 4;
-		if (ed->scale > 128)
-			ed->scale = 128;
-		pos.x = ed->m_pos.x / ed->scale;
-		pos.y = ed->m_pos.y / ed->scale;
-		ed->offset.x = ed->cursor.pos.x - pos.x;
-		ed->offset.y = ed->cursor.pos.y - pos.y;
-	}
-}
 
 void	mouse_move_editor(SDL_MouseMotionEvent *e, t_editor *ed)
 {
@@ -109,7 +88,6 @@ void	mouse_press_editor(SDL_MouseButtonEvent *e, t_game *game, t_editor *ed)
 		ed->press_l = 1;
 	else if (e->button == SDL_BUTTON_RIGHT)
 		ed->press_r = 1;
-	//printf("ed-status=%d\n", ed->status);
 }
 
 void	mouse_dbl_editor(t_editor *ed)

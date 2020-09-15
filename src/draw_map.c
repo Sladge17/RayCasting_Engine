@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/14 17:05:32 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 08:58:11 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,29 +59,27 @@ void		draw_dot(t_game *game, t_vec2 *pos, int scale, t_ivec4 p)
 void		draw_line(t_game *game, t_vec2 *start, int scale, t_ivec4 p)
 {
 	t_vec2		len;
-	int			steps;
-	int			max;
-	int			index;
-	int			i;
+	SDL_Point	tool;
+	SDL_Point	ind;
 	t_vec2		end;
 	SDL_Point	pos;
 
 	end.x = game->player.obj.pos.x + game->player.obj.dir.x;
 	end.y = game->player.obj.pos.y + game->player.obj.dir.y;
-	max = game->surf->w * game->surf->h;
+	tool.x = game->surf->w * game->surf->h;
 	len.x = (end.x - start->x) * scale;
 	len.y = (end.y - start->y) * scale;
-	steps = fabs(len.x) > fabs(len.y) ? (int)fabs(len.x) : (int)fabs(len.y);
-	i = -1;
-	while (++i < steps)
+	tool.y = fabs(len.x) > fabs(len.y) ? (int)fabs(len.x) : (int)fabs(len.y);
+	ind.x = -1;
+	while (++ind.x < tool.y)
 	{
-		pos.x = (int)(start->x * scale + len.x * (float)i / steps) - p.c;
-		pos.y = (int)(start->y * scale + len.y * (float)i / steps) - p.d;
+		pos.x = (int)(start->x * scale + len.x * (float)ind.x / tool.y) - p.c;
+		pos.y = (int)(start->y * scale + len.y * (float)ind.x / tool.y) - p.d;
 		if (pos.x < 0 || pos.x >= H_W || pos.y < 0 || pos.y >= H_H)
 			continue ;
-		index = pos.y * S_W + pos.x;
-		if (index > 0 && index < max)
-			game->data[index] = 0xff00ffff;
+		ind.y = pos.y * S_W + pos.x;
+		if (ind.y > 0 && ind.y < tool.x)
+			game->data[ind.y] = 0xff00ffff;
 	}
 }
 

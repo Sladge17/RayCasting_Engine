@@ -6,13 +6,13 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/25 23:29:09 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:36:00 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void draw_editor_select(t_game *game, t_editor *ed)
+void	draw_editor_select(t_game *game, t_editor *ed)
 {
 	SDL_Rect	p;
 	SDL_Point	i;
@@ -38,23 +38,13 @@ void draw_editor_select(t_game *game, t_editor *ed)
 			i.x = i.y + (p.y * S_W + p.x) * ed->scale;
 			draw_box(game, i.x, ed->cursor.en->it[p.h], ed);
 		}
-	}	
+	}
 }
 
-void draw_editor_side_wall(t_game *game, t_editor *ed, int side)
+void	draw_editor_side_wall_image(t_game *game, t_editor *ed, SDL_Rect p)
 {
-	SDL_Rect	p;
 	SDL_Point	i;
-	t_map_elem	*el;
 
-	p.w = ed->scale;
-	ed->scale = 50;
-	draw_frame(game, "SELECT WALL SIDE: ");
-	el = &ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x];
-	if (el->modify == 0)
-		draw_box(game, (H_H - 230) * S_W + H_W + 100, el->number + side % 2, ed);
-	else
-		draw_box(game, (H_H - 230) * S_W + H_W + 100, el->side[side], ed);
 	ed->scale = 37;
 	i.y = (H_H - 160) * S_W + (H_W - 280);
 	p.h = -1;
@@ -77,7 +67,24 @@ void draw_editor_side_wall(t_game *game, t_editor *ed, int side)
 	}
 }
 
-void draw_editor_modify_wall(t_game *game, t_editor *ed)
+void	draw_editor_side_wall(t_game *game, t_editor *ed, int side)
+{
+	SDL_Rect	p;
+	t_map_elem	*el;
+
+	p.w = ed->scale;
+	ed->scale = 50;
+	draw_frame(game, "SELECT WALL SIDE: ");
+	el = &ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x];
+	if (el->modify == 0)
+		draw_box(game, (H_H - 230) * S_W + H_W + 100,
+			el->number + side % 2, ed);
+	else
+		draw_box(game, (H_H - 230) * S_W + H_W + 100, el->side[side], ed);
+	draw_editor_side_wall_image(game, ed, p);
+}
+
+void	draw_editor_modify_wall(t_game *game, t_editor *ed)
 {
 	int			scale;
 	t_map_elem	*el;

@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/08 12:09:47 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:21:15 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ void	draw_editor_help(t_game *game)
 	rect.y += offs;
 	print_ttf(game->surf, "-Key \"Q\" for select first element", 18, &rect);
 	rect.y += offs;
-	
 	draw_editor_help2(game, rect, offs);
 }

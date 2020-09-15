@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 17:49:36 by jthuy             #+#    #+#             */
-/*   Updated: 2020/09/10 11:27:31 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 10:40:47 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	def_spriteparam(t_game *game, t_sprt *sprite)
 		sprite->rot -= PI2;
 	while (sprite->rot - game->player.obj.rot < -M_PI)
 		sprite->rot += PI2;
-	dist = sprite->dist2.x * sprite->dist2.x + sprite->dist2.y * sprite->dist2.y;
-	
+	dist = sprite->dist2.x * sprite->dist2.x + sprite->dist2.y *
+		sprite->dist2.y;
 	sprite->dir = sprite->rot - game->player.obj.rot;
 	sprite->dist = sqrt(dist);
 	sprite->size = (S_W / (sprite->dist));
@@ -51,7 +51,8 @@ void	def_spriteparam(t_game *game, t_sprt *sprite)
 	sprite->offset.x = S_W / 2 - sprite->size / 2 -
 		(sprite->dir * (S_W) / (game->player.sec.fov));
 	sprite->offset.y = S_H / 2 - sprite->size / 2;
-	sprite->tile = 65 * (sprite->numb % 16 + sprite->numb / 16 * game->athlas->w);
+	sprite->tile = 65 * (sprite->numb % 16 + sprite->numb / 16 *
+		game->athlas->w);
 }
 
 void	draw_vertline(t_game *game, t_sprt *sprite)

@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/14 14:53:17 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 10:31:42 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,15 @@ void	draw_s_rect(t_game *game)
 			game->data[ind.x] = (((col & 0xFF0000) >> 1) & 0xFF0000) |
 				(((col & 0xFF00) >> 1) & 0xFF00) |
 				(((col & 0xFF) >> 1) & 0xFF);
-		} 
-	}	
+		}
+	}
 }
 
-void	draw_menu(t_game *game)
+void	draw_label_menu(t_game *game)
 {
-	SDL_Point	pos;
-	int			index;
 	SDL_Rect	r;
 	int			f_size;
 
-	pos.y = -1;
-	while (++pos.y < S_H)
-	{
-		index = pos.y * S_W;
-		pos.x = -1;
-		while (++pos.x < S_W)
-		{
-			game->data[index + pos.x] = game->data_menu[index + pos.x];
-		}
-	}
 	r = (SDL_Rect){H_W + H_W / 2, H_H - 20, 0, 0};
 	f_size = H_H / 6;
 	if (game->menu_flag)
@@ -91,19 +79,31 @@ void	draw_menu(t_game *game)
 	print_wolf(game->surf, "Exit", &r, f_size);
 }
 
+void	draw_menu(t_game *game)
+{
+	SDL_Point	pos;
+	int			index;
+
+	pos.y = -1;
+	while (++pos.y < S_H)
+	{
+		index = pos.y * S_W;
+		pos.x = -1;
+		while (++pos.x < S_W)
+		{
+			game->data[index + pos.x] = game->data_menu[index + pos.x];
+		}
+	}
+	draw_label_menu(game);
+}
+
 void	main_menu(t_game *game)
 {
 	SDL_Point	flags;
 	SDL_Event	e;
-	//SDL_Rect	r;
 
 	flags.x = 0;
 	flags.y = 1;
-	//r.h = 100;
-	//r.w = 100;
-	//r.x = 0;
-	//r.y = 0;
-	
 	while (!flags.x)
 	{
 		if (SDL_PollEvent(&e) != 0)

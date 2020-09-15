@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 11:27:45 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:20:45 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,15 @@ int		read_base_color(t_map *map, char *data)
 
 int		read_map(t_editor *ed, char *data, int cell)
 {
-	int			i;
 	int			cmp[16];
 	SDL_Point	p;
-	int			s;
+	SDL_Point	ind;
 
 	if (cell == -1)
 		return (read_base_color(&ed->map, data));
-	i = -1;
-	while (++i < 17)
-		if ((cmp[i] = hex_to_int(data[i])) == -1)
+	ind.x = -1;
+	while (++ind.x < 17)
+		if ((cmp[ind.x] = hex_to_int(data[ind.x])) == -1)
 			return (0);
 	p.y = cell / 64;
 	p.x = cell - p.y * 64;
@@ -61,11 +60,11 @@ int		read_map(t_editor *ed, char *data, int cell)
 	{
 		ed->map.elem[p.y][p.x].number = (cmp[1] << 8) | (cmp[2] << 4) | cmp[3];
 		ed->map.elem[p.y][p.x].modify = cmp[4];
-		i = 2;
-		s = 0;
-		while ((i += 3) < 15)
-			ed->map.elem[p.y][p.x].side[s++] = (cmp[i] << 8) | (cmp[i + 1] << 4) |
-				cmp[i + 2];
+		ind.x = 2;
+		ind.y = 0;
+		while ((ind.x += 3) < 15)
+			ed->map.elem[p.y][p.x].side[ind.y++] = (cmp[ind.x] << 8) |
+				(cmp[ind.x + 1] << 4) | cmp[ind.x + 2];
 	}
 	else
 		ed->map.elem[p.y][p.x].number = -1;
@@ -100,7 +99,8 @@ int		load_ed_map(t_editor *ed)
 	ft_strcpy(file, "maps/map00");
 	file[8] = ed->level / 10 + '0';
 	file[9] = ed->level % 10 + '0';
-	if (check_segv(file) || ((fd = open(file, 0x0000)) < 0) || !read_file(fd, ed, &cell))
+	if (check_segv(file) || ((fd = open(file, 0x0000)) < 0) ||
+		!read_file(fd, ed, &cell))
 		return (0);
 	close(fd);
 	if (cell < 4095)

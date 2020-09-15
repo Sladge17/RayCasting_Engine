@@ -1,81 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   editor_draw_select_color.c                         :+:      :+:    :+:   */
+/*   editor_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 14:38:37 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:29:36 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-/*
-void	set_grad(t_game *game, int index, SDL_Rect tmp, SDL_Color *col)
+
+void	mouse_weel_editor(Sint32 y, t_editor *ed)
 {
-	if (tmp.x > 512)
-		tmp.w = tmp.h;
-	game->data[index] = (clamp_col(col->r + tmp.w) << 16) |
-		(clamp_col(col->g + tmp.w) << 8) | (clamp_col(col->b + tmp.w));
-	if (tmp.x < 85)
-		col->g += 3;
-	else if (tmp.x < 171)
+	SDL_Point pos;
+
+	if (ed->m_pos.x <= ed->panel.x && ed->m_pos.y <= ed->panel.y)
 	{
-		if (col->r > 3)
-			col->r -= 3;
-		else
-			col->r = 0;
-	}
-	else if (tmp.x < 256)
-		col->b += 3;
-	else if (tmp.x < 341)
-		col->g -= 3;
-	else if (tmp.x < 427)
-	{
-		if (col->r < 253)
-			col->r += 3;
-		else
-			col->r = 255;
-	}
-	else if (tmp.x < 512)
-		col->b -= 3;
-	else if (tmp.x < 600)
-	{
-		col->r = 0;
-		col->g = 0;
-		col->b = 0;
+		if (y < 0)
+			ed->scale -= 1;
+		if (y > 0)
+			ed->scale += 1;
+		if (ed->scale < 4)
+			ed->scale = 4;
+		if (ed->scale > 128)
+			ed->scale = 128;
+		pos.x = ed->m_pos.x / ed->scale;
+		pos.y = ed->m_pos.y / ed->scale;
+		ed->offset.x = ed->cursor.pos.x - pos.x;
+		ed->offset.y = ed->cursor.pos.y - pos.y;
 	}
 }
 
-void	draw_grad(t_game *game, int px, int py)
-{
-	SDL_Rect	tmp;
-	SDL_Color	col;
-
-	tmp.w = 256;
-	tmp.h = 256;
-	tmp.y = 0;
-	while (tmp.y < 256)
-	{
-		col.r = 255;
-		col.g = 0;
-		col.b = 0;
-		tmp.x = 0;
-		while (tmp.x < 540)
-		{
-			set_grad(game, (py + tmp.y) * S_W + tmp.x + px, tmp, &col);
-			++tmp.x;
-		}
-		--tmp.h;
-		tmp.w -= 2;
-		++tmp.y;
-	}
-}
-//*/
 void	draw_select_col(t_game *game, t_editor *ed)
 {
-	SDL_Rect rect;
+	SDL_Rect	rect;
 	int			scale;
 
 	if (ed->status == 1)
@@ -91,4 +51,19 @@ void	draw_select_col(t_game *game, t_editor *ed)
 	ed->scale = 350;
 	draw_box(game, (H_H - 190) * S_W + H_W - 280, 687, ed);
 	ed->scale = scale;
+}
+
+void	editor_set_side(t_type *c_type, int cursor, t_editor *ed,
+	t_map_elem *cell)
+{
+	if (cursor == -1)
+		*c_type = NONE;
+	else
+	{
+		*c_type = ed->cursor.en->type;
+		cell->side[0] = cursor;
+		cell->side[2] = cursor;
+		cell->side[1] = cursor + 1;
+		cell->side[3] = cursor + 1;
+	}
 }

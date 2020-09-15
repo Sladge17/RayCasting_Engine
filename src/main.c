@@ -6,21 +6,24 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 15:52:54 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 11:09:21 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		main_selector(t_game *game)
+void	main_selector(t_game *game)
 {
-	double		*z_buffer;//[S_W * S_H];
-	
+	double		*z_buffer;
+	int			size;
+
+	size = sizeof(double);
 	game->z_buffer = 0;
-	if (!(z_buffer = (double*)ft_memalloc(sizeof(double) * S_W * S_H)))
+	if (!(z_buffer = (double*)ft_memalloc(size * S_W * S_H)))
 		return ;
 	game->z_buffer = z_buffer;
-	while (game->status > 0) {
+	while (game->status > 0)
+	{
 		if (game->status == 1)
 			sdl_cycle(game);
 		else if (game->status == 2)
@@ -42,11 +45,12 @@ void	def_icon(t_game *game, int shift_x, int shift_y)
 	int				i;
 	int				pixel;
 
-	if (!(icon = SDL_CreateRGBSurfaceWithFormat(0, 64, 64, 32, SDL_PIXELFORMAT_BGRA32)))
+	if (!(icon = SDL_CreateRGBSurfaceWithFormat(0, 64, 64, 32,
+		SDL_PIXELFORMAT_BGRA32)))
 		ft_exit("Memory was not allocated!");
 	icon_img = (int *)icon->pixels;
 	i = -1;
-	while(++i < 64 * 64)
+	while (++i < 64 * 64)
 	{
 		pixel = i % 64 + (shift_x * 65) + 1039 * (i / 64 + (shift_y * 65));
 		if (game->data_img[pixel] == 0x980088)
@@ -58,7 +62,7 @@ void	def_icon(t_game *game, int shift_x, int shift_y)
 	SDL_FreeSurface(icon);
 }
 
-void		set_cheat(t_game *game, char *av[])
+void	set_cheat(t_game *game, char *av[])
 {
 	if (!ft_strcmp(av[1], "editor"))
 	{
@@ -77,7 +81,7 @@ void		set_cheat(t_game *game, char *av[])
 	}
 }
 
-int			main(int ac, char *av[])
+int		main(int ac, char *av[])
 {
 	t_game		*game;
 
@@ -100,5 +104,3 @@ int			main(int ac, char *av[])
 		free(game);
 	return (0);
 }
-
-

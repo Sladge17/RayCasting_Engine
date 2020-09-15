@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/08/25 16:28:35 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:29:24 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,15 @@ void	change_cell(t_editor *ed)
 			ed->achivs -= 1;
 		else if (*c_type == ENTOURAGE)
 			ed->entours -= 1;
-		ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = cursor;		
-		if (cursor == -1)
-			*c_type = NONE;
-		else
-		{
-			*c_type = ed->cursor.en->type;
-			cell->side[0] = cursor;
-			cell->side[2] = cursor;
-			cell->side[1] = cursor + 1;
-			cell->side[3] = cursor + 1;
-		}
+		ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x].number = cursor;
+		editor_set_side(c_type, cursor, ed, cell);
 	}
 }
 
 void	editor_set_cell(t_editor *ed)
 {
 	t_type		cur_type;
-//	int			cursor;
-//	t_map_elem	*cell;
 
-//	cell = &ed->map.elem[ed->cursor.pos.y][ed->cursor.pos.x];
-//	cursor = ed->cursor.en->it[ed->cursor.en->cur];
 	cur_type = ed->cursor.en->type;
 	if (cur_type == PLAYER)
 		check_player(ed);

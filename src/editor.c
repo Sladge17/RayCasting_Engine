@@ -6,7 +6,7 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/14 17:07:36 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 09:04:11 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,16 @@ void	status_selector(t_game *game, t_editor *ed)
 		draw_editor_side_wall(game, ed, ed->status - 15);
 }
 
+void	update_editor(t_game *game, t_editor *ed)
+{
+	SDL_FillRect(game->surf, NULL, ed->map.roof);
+	draw_map_editor(game, ed);
+	draw_col_frame(game, ed, ed->cursor.pos, 0xFFFF0000);
+	draw_editor_menu(game, ed);
+	status_selector(game, ed);
+	SDL_UpdateWindowSurface(game->win);
+}
+
 void	map_editor(t_game *game)
 {
 	SDL_Point	flags;
@@ -109,12 +119,7 @@ void	map_editor(t_game *game)
 			sld_events_editor(game, &ed, e, &flags);
 		if (flags.y)
 		{
-			SDL_FillRect(game->surf, NULL, ed.map.roof);
-			draw_map_editor(game, &ed);
-			draw_col_frame(game, &ed, ed.cursor.pos, 0xFFFF0000);
-			draw_editor_menu(game, &ed);
-			status_selector(game, &ed);
-			SDL_UpdateWindowSurface(game->win);
+			update_editor(game, &ed);
 			flags.y = 0;
 		}
 		SDL_Delay(5);

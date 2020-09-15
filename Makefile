@@ -6,7 +6,7 @@
 #    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/09/14 15:00:34 by vkaron           ###   ########.fr        #
+#    Updated: 2020/09/15 11:29:57 by vkaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,16 +19,21 @@ FLAGS =	-Wall -Wextra -Werror -g
 
 FILES =		act_sdl \
 			check_keyboard \
-			color \
+			tools \
 			draw_3d \
+			draw_game_fon \
 			draw_gui \
 			draw_map \
 			engine \
-			game_object \
+			game_object_move \
+			game_object_init_turn \
+			game_object_check_corn \
+			game_object_check_side \
 			init \
 			key_events \
 			main \
 			map \
+			map_add_sprite \
 			mouse_events \
 			music \
 			player \
@@ -38,7 +43,7 @@ FILES =		act_sdl \
 			editor_file_save \
 			editor_mouse_events \
 			editor_events \
-			editor_draw_select_color \
+			editor_tools \
 			editor_service \
 			editor_draw_menu \
 			editor_draw_info \
@@ -53,7 +58,6 @@ FILES =		act_sdl \
 			menu \
 			menu_events \
 			
-
 S_DIR =		src
 
 O_DIR =		obj
@@ -67,7 +71,6 @@ H_FILE =	$(H_DIR)/wolf.h
 LIBS = 		-Llibft -lft \
 			-lm \
 			-lpthread
-
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)

@@ -6,27 +6,11 @@
 /*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/14 16:58:30 by vkaron           ###   ########.fr       */
+/*   Updated: 2020/09/15 08:52:39 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-int		check_start(t_game *game)
-{
-	if (game->comeback == 0)
-	{
-		if (game->level.num > MAX_LEVEL || game->level.num <= 0)
-			game->level.num = 1;
-		if (!load_map(&game->level, &game->player))
-		{
-			ft_putstr("Not valid map!\n");
-			return (0);
-		}
-		game->delay = 10;
-	}
-	return (1);
-}
 
 void	sld_events2(t_game *game, SDL_Event e, int *repaint)
 {

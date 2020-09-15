@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/10 17:51:32 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/15 09:55:02 by vkaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void		reformat(int *data_img, SDL_Surface *image, SDL_PixelFormat *fmt)
 {
-	int	i;
-	int	j;
-	int	index;
+	int			i;
+	int			j;
+	int			index;
 	SDL_Color	col;
-	
+
 	j = -1;
 	while (++j < image->h)
 	{
@@ -26,10 +26,11 @@ void		reformat(int *data_img, SDL_Surface *image, SDL_PixelFormat *fmt)
 		while (++i < image->w)
 		{
 			index = j * image->w + i;
-			col.r = (data_img[index] & 0xFF0000)>>16;
-			col.g = (data_img[index] & 0xFF00)>>8;
+			col.r = (data_img[index] & 0xFF0000) >> 16;
+			col.g = (data_img[index] & 0xFF00) >> 8;
 			col.b = (data_img[index] & 0xFF);
-			data_img[index] = (col.b << fmt->Bshift) | (col.g << fmt->Gshift) | (col.r << fmt->Rshift);
+			data_img[index] = (col.b << fmt->Bshift) | (col.g << fmt->Gshift) |
+				(col.r << fmt->Rshift);
 		}
 	}
 }
@@ -61,11 +62,29 @@ SDL_Surface	*load_s_image(t_game *game, const char *file)
 	return (im);
 }
 
-int		init_sdl(t_game *game)
+int			load_res(t_game *game)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) //|SDL_INIT_AUDIO
+	load_music(game);
+	if (!game->athlas ||
+	!(game->menu = load_s_image(game, "res/main_screen.png")) ||
+	!(game->n_level = load_s_image(game, "res/next_level.png")) ||
+	!(game->s_win = load_s_image(game, "res/win.png")))
 		return (ERROR);
-	
+	game->data_img = (int *)game->athlas->pixels;
+	game->data_menu = (int *)game->menu->pixels;
+	game->data_n_level = (int *)game->n_level->pixels;
+	game->data_win = (int *)game->s_win->pixels;
+	reformat(game->data_img, game->athlas, game->athlas->format);
+	reformat(game->data_menu, game->menu, game->menu->format);
+	reformat(game->data_n_level, game->n_level, game->n_level->format);
+	reformat(game->data_win, game->s_win, game->s_win->format);
+	return (OK);
+}
+
+int			init_sdl(t_game *game)
+{
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+		return (ERROR);
 	if (TTF_Init() == -1)
 		return (ERROR);
 	game->win = 0;
@@ -84,20 +103,5 @@ int		init_sdl(t_game *game)
 	game->athlas = IMG_Load("res/athlas2.png");
 	game->level.num = 1;
 	game->cheat = 0;
-	load_music(game);
-	if (!game->athlas ||
-	!(game->menu = load_s_image(game, "res/main_screen.png")) ||
-	!(game->n_level = load_s_image(game, "res/next_level.png")) ||
-	!(game->s_win = load_s_image(game, "res/win.png")))
-		return (ERROR);
-	game->data_img = (int *)game->athlas->pixels;
-	game->data_menu = (int *)game->menu->pixels;
-	game->data_n_level = (int *)game->n_level->pixels;
-	game->data_win = (int *)game->s_win->pixels;
-	
-	reformat(game->data_img, game->athlas, game->athlas->format);
-	reformat(game->data_menu, game->menu, game->menu->format);
-	reformat(game->data_n_level, game->n_level, game->n_level->format);
-	reformat(game->data_win, game->s_win, game->s_win->format);
-	return (OK);
+	return (load_res(game));
 }
