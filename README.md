@@ -41,9 +41,9 @@ make all
 
 запуск игры:
 
-./WOLF
+./wolf3d
 
 
 запуск редактора карт:
 
-./WOLF editor
+./wolf3d editor
