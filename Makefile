@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vkaron <vkaron@student.21-school.ru>       +#+  +:+       +#+         #
+#    By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/09/15 11:29:57 by vkaron           ###   ########.fr        #
+#    Updated: 2020/09/15 12:32:20 by jthuy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@
 PROGRAM_NAME = wolf3d
 
 FLAGS =	-Wall -Wextra -Werror -g
-#FLAGS =		-g
 
 FILES =		act_sdl \
 			check_keyboard \
