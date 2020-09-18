@@ -6,7 +6,7 @@
 /*   By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 14:24:16 by vkaron            #+#    #+#             */
-/*   Updated: 2020/09/15 13:27:11 by jthuy            ###   ########.fr       */
+/*   Updated: 2020/09/18 16:43:59 by jthuy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <unistd.h>
 # include "libft.h"
 # include <fcntl.h>
-# include <stdio.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 

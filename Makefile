@@ -6,7 +6,7 @@
 #    By: jthuy <jthuy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/23 17:12:18 by vkaron            #+#    #+#              #
-#    Updated: 2020/09/15 12:32:20 by jthuy            ###   ########.fr        #
+#    Updated: 2020/09/18 16:44:30 by jthuy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ H_DIR =		include
 
 O_FILES =	$(addprefix $(O_DIR)/, $(addsuffix .o, $(FILES)))
 
-H_FILE =	$(H_DIR)/wolf.h
+H_FILE =	$(H_DIR)/*.h
 
 LIBS = 		-Llibft -lft \
 			-lm \
