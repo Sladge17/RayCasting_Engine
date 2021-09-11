@@ -1,49 +1,12 @@
-# WOLF3D
-Движок 2,5D - воспроизведение движка Wolfinstain3D
+# Main description
+Prototype of real time render engine based on ray casting algorithm
 
-Сборка:
-
-1.
-
-Для линукс утановить библиотеку SDL2:
-  
-  
-  #install sdl2
-  
-  sudo apt install libsdl2-dev libsdl2-2.0-0 -y;
-  
-  
-  #install sdl image(for load images)
-  
-  sudo apt install libjpeg-dev libwebp-dev libtiff5-dev libsdl2-image-dev libsdl2-image-2.0-0 -y;
-
-
-  #install sdl mixer(for load musics)
-  
-  sudo apt install libmikmod-dev libfishsound1-dev libsmpeg-dev liboggz2-dev libflac-dev libfluidsynth-dev libsdl2-mixer-dev libsdl2-mixer-2.0-0 -y;
-
-
-  #install sdl ttf(for load fonts)
-  
-  sudo apt install libfreetype6-dev libsdl2-ttf-dev libsdl2-ttf-2.0-0 -y;
-
-
-Для macos библиотека SDL2 уже собрана в frameworks
-
-
-2.
-
-make all
-
-
-Запуск:
-
-
-запуск игры:
-
-./wolf3d
-
-
-запуск редактора карт:
-
-./wolf3d editor
+# Screenshoots examples
+ Main menu
+ ![alt text](https://github.com/Wolf3D/blob/master/Sceenshoots/MainMenu.png) 
+ 
+ Gameplay
+ ![alt text](https://github.com/Wolf3D/blob/master/Sceenshoots/Gameplay1.png) 
+ ![alt text](https://github.com/Wolf3D/blob/master/Sceenshoots/Gameplay2.png) 
+ ![alt text](https://github.com/Wolf3D/blob/master/Sceenshoots/Gameplay3.png) 
+ ![alt text](https://github.com/Wolf3D/blob/master/Sceenshoots/Gameplay4.png) 
